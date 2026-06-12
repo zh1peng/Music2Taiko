@@ -1,0 +1,4 @@
+interface:
+  display_name: "Taiko Chart Authoring"
+  short_description: "Author playable Taiko drum charts"
+  default_prompt: "Use this skill to create or revise a playable Taiko-style rhythm chart from offset-checked drum-event analysis, pattern design, difficulty curves, constraints, and review notes."

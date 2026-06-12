@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "drum2taiko"
+version = "0.1.0"
+description = "Generate Taiko-style PsyGodot beatmaps from drum-event analysis."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+audio = ["librosa>=0.10", "numpy>=1.24"]
+demucs = ["demucs"]
+
+[project.scripts]
+drum2taiko = "drum2taiko.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["drum2taiko*"]
