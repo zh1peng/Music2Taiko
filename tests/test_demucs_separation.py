@@ -20,6 +20,16 @@ class DemucsSeparationTests(unittest.TestCase):
         self.assertIn("--two-stems=drums", command)
         self.assertEqual(command[-1], "song.mp3")
 
+    def test_build_demucs_command_accepts_gpu_quality_options(self):
+        config = DemucsConfig(model="htdemucs_ft", device="cuda", segment=7)
+
+        command = build_demucs_command(Path("song.mp3"), Path("work/stems"), config)
+
+        self.assertIn("htdemucs_ft", command)
+        self.assertIn("cuda", command)
+        self.assertIn("--segment", command)
+        self.assertIn("7", command)
+
     def test_separate_drums_returns_generated_drums_wav(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

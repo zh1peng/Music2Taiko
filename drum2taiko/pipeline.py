@@ -5,11 +5,11 @@ from typing import Any, Callable
 
 from drum2taiko.analysis.candidates import extract_drum_events
 from drum2taiko.io.psygodot import write_beatmaps
-from drum2taiko.separation.demucs import separate_drums
+from drum2taiko.separation.demucs import DemucsConfig, separate_drums
 
 
 Extractor = Callable[..., list[dict[str, Any]]]
-Separator = Callable[[Path, Path], Path]
+Separator = Callable[..., Path]
 
 
 def generate_beatmaps(
@@ -23,6 +23,9 @@ def generate_beatmaps(
     drum_stem_path: str | Path | None = None,
     use_demucs: bool = False,
     stems_dir: str | Path | None = None,
+    demucs_model: str = "htdemucs",
+    demucs_device: str = "",
+    demucs_segment: int | None = None,
     extractor: Extractor = extract_drum_events,
     separator: Separator = separate_drums,
 ) -> dict[str, Path]:
@@ -32,7 +35,8 @@ def generate_beatmaps(
 
     if use_demucs:
         stem_output = Path(stems_dir) if stems_dir else Path(output_dir) / "stems"
-        resolved_stem = separator(source, stem_output)
+        config = DemucsConfig(model=demucs_model, device=demucs_device, segment=demucs_segment)
+        resolved_stem = separator(source, stem_output, config=config)
         event_source = "demucs_drums"
 
     events = extractor(source, drum_stem_path=resolved_stem)

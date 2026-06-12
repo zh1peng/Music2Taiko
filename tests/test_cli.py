@@ -4,7 +4,10 @@ import sys
 import tempfile
 import unittest
 import wave
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
+from unittest.mock import patch
 
 
 class CliTests(unittest.TestCase):
@@ -48,6 +51,39 @@ class CliTests(unittest.TestCase):
         self.assertEqual(len(paths), 3)
         self.assertEqual(hard["title"], "Impulse Song")
         self.assertTrue(hard["notes"])
+
+    def test_generate_accepts_demucs_model_and_device_options(self):
+        from drum2taiko import cli
+
+        with patch("drum2taiko.cli.generate_beatmaps") as generate:
+            generate.return_value = {
+                "easy": Path("easy.json"),
+                "normal": Path("normal.json"),
+                "hard": Path("hard.json"),
+            }
+
+            with redirect_stdout(StringIO()):
+                exit_code = cli.main(
+                    [
+                        "generate",
+                        "song.mp3",
+                        "--out",
+                        "beatmaps",
+                        "--use-demucs",
+                        "--demucs-model",
+                        "htdemucs_ft",
+                        "--demucs-device",
+                        "cuda",
+                        "--demucs-segment",
+                        "7",
+                    ]
+                )
+
+        self.assertEqual(exit_code, 0)
+        _, kwargs = generate.call_args
+        self.assertEqual(kwargs["demucs_model"], "htdemucs_ft")
+        self.assertEqual(kwargs["demucs_device"], "cuda")
+        self.assertEqual(kwargs["demucs_segment"], 7)
 
 
 if __name__ == "__main__":

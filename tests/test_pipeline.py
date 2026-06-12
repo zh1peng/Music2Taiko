@@ -50,7 +50,10 @@ class PipelineTests(unittest.TestCase):
             audio = root / "song.mp3"
             audio.write_bytes(b"fake audio")
 
-            def fake_separator(source, output_dir):
+            def fake_separator(source, output_dir, *, config=None):
+                self.assertEqual(config.model, "htdemucs_ft")
+                self.assertEqual(config.device, "cuda")
+                self.assertEqual(config.segment, 7)
                 stem = output_dir / "htdemucs" / source.stem / "drums.wav"
                 stem.parent.mkdir(parents=True)
                 stem.write_bytes(b"fake drums")
@@ -65,6 +68,9 @@ class PipelineTests(unittest.TestCase):
                 root / "beatmaps",
                 title="Song",
                 use_demucs=True,
+                demucs_model="htdemucs_ft",
+                demucs_device="cuda",
+                demucs_segment=7,
                 separator=fake_separator,
                 extractor=fake_extractor,
             )

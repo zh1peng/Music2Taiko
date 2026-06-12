@@ -65,6 +65,12 @@ Run Demucs first and analyze its drums stem:
 python -m drum2taiko generate path\to\song.mp3 --out output\beatmaps --use-demucs
 ```
 
+Run Demucs with an explicit GPU device and model:
+
+```powershell
+python -m drum2taiko generate path\to\song.mp3 --out output\beatmaps --use-demucs --demucs-device cuda --demucs-model htdemucs_ft --demucs-segment 7
+```
+
 Use an existing drum stem:
 
 ```powershell
