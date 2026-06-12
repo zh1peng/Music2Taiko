@@ -39,17 +39,7 @@ For package development:
 python -m pip install -e .
 ```
 
-For MP3/WAV analysis with librosa:
-
-```powershell
-python -m pip install -e ".[analysis]"
-```
-
-For optional Demucs separation:
-
-```powershell
-python -m pip install -e ".[analysis,demucs]"
-```
+This installs the required runtime packages: `librosa`, `numpy`, and `demucs`.
 
 ## Usage
 

@@ -4,13 +4,18 @@ from pathlib import Path
 
 
 class PackagingTests(unittest.TestCase):
-    def test_optional_dependency_groups_use_unambiguous_names(self):
+    def test_project_does_not_define_optional_dependency_shortcuts(self):
         metadata = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
-        optional_dependencies = metadata["project"]["optional-dependencies"]
 
-        self.assertNotIn("audio", optional_dependencies)
-        self.assertIn("analysis", optional_dependencies)
-        self.assertEqual(optional_dependencies["analysis"], ["librosa>=0.10", "numpy>=1.24"])
+        self.assertNotIn("optional-dependencies", metadata["project"])
+
+    def test_runtime_dependencies_are_explicit(self):
+        metadata = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            metadata["project"]["dependencies"],
+            ["librosa>=0.10", "numpy>=1.24", "demucs"],
+        )
 
 
 if __name__ == "__main__":
