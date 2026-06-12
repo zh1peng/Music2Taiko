@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from drum2taiko.io.psygodot import write_beatmaps
-from drum2taiko.pipeline import generate_beatmaps
+from drum2taiko.pipeline import build_beatmap_package, generate_beatmaps
 
 
 EVENTS = [
@@ -81,6 +81,40 @@ class PipelineTests(unittest.TestCase):
 
         self.assertEqual(hard["drum_event_source"], "demucs_drums")
         self.assertEqual(hard["notes"][0]["lane"], "don")
+
+    def test_build_beatmap_package_writes_report_and_uses_windows_cuda_defaults(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audio = root / "song.mp3"
+            audio.write_bytes(b"fake audio")
+
+            def fake_separator(source, output_dir, *, config=None):
+                self.assertEqual(config.model, "htdemucs")
+                self.assertEqual(config.device, "cuda")
+                self.assertEqual(config.segment, 7)
+                self.assertEqual(config.output_format, "mp3")
+                stem = output_dir / "htdemucs" / source.stem / "drums.mp3"
+                stem.parent.mkdir(parents=True)
+                stem.write_bytes(b"fake drums")
+                return stem
+
+            def fake_extractor(source, *, drum_stem_path=None):
+                self.assertEqual(Path(drum_stem_path).name, "drums.mp3")
+                return EVENTS
+
+            result = build_beatmap_package(
+                audio,
+                root / "godot_out",
+                title="Song",
+                separator=fake_separator,
+                extractor=fake_extractor,
+            )
+
+            report = json.loads(result["report"].read_text(encoding="utf-8"))
+
+        self.assertEqual(set(result["beatmaps"]), {"easy", "normal", "hard"})
+        self.assertEqual(report["title"], "Song")
+        self.assertEqual(report["difficulties"]["hard"]["notes"], 2)
 
 
 if __name__ == "__main__":

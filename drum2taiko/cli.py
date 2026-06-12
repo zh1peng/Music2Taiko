@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from drum2taiko.pipeline import generate_beatmaps
+from drum2taiko.pipeline import build_beatmap_package, generate_beatmaps
 from drum2taiko.separation.demucs import DemucsConfig, separate_drums
 
 
@@ -34,6 +34,19 @@ def main(argv: list[str] | None = None) -> int:
     generate_parser.add_argument("--demucs-segment", type=int, default=None, help="Demucs segment length in seconds")
     generate_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="wav", help="Demucs stem output format")
 
+    build_parser = subparsers.add_parser("build", help="Run the full MP3/WAV to beatmap draft workflow.")
+    build_parser.add_argument("audio", help="Input MP3/WAV file")
+    build_parser.add_argument("--out", required=True, help="Directory for Godot-ready generated files")
+    build_parser.add_argument("--title", default="", help="Display title; defaults to input filename")
+    build_parser.add_argument("--output-prefix", default="", help="Filename prefix for generated JSON files")
+    build_parser.add_argument("--audio-offset-ms", type=float, default=0.0, help="Metadata for song-level audio offset")
+    build_parser.add_argument("--chart-offset-ms", type=float, default=0.0, help="Shift generated chart note times")
+    build_parser.add_argument("--stems-dir", default="", help="Directory for Demucs output")
+    build_parser.add_argument("--demucs-model", default="htdemucs", help="Demucs model name")
+    build_parser.add_argument("--demucs-device", default="cuda", help="Demucs device, for example cuda or cpu")
+    build_parser.add_argument("--demucs-segment", type=int, default=7, help="Demucs segment length in seconds")
+    build_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="mp3", help="Demucs stem output format")
+
     args = parser.parse_args(argv)
     if args.command == "separate":
         config = DemucsConfig(
@@ -43,6 +56,25 @@ def main(argv: list[str] | None = None) -> int:
             output_format=args.demucs_format,
         )
         print(separate_drums(Path(args.audio), Path(args.out), config=config))
+        return 0
+
+    if args.command == "build":
+        result = build_beatmap_package(
+            Path(args.audio),
+            Path(args.out),
+            title=args.title or None,
+            output_prefix=args.output_prefix or None,
+            audio_offset_ms=args.audio_offset_ms,
+            chart_offset_ms=args.chart_offset_ms,
+            stems_dir=args.stems_dir or None,
+            demucs_model=args.demucs_model,
+            demucs_device=args.demucs_device,
+            demucs_segment=args.demucs_segment,
+            demucs_format=args.demucs_format,
+        )
+        for difficulty in ("easy", "normal", "hard"):
+            print(result["beatmaps"][difficulty])
+        print(result["report"])
         return 0
 
     paths = generate_beatmaps(

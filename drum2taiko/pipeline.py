@@ -5,6 +5,7 @@ from typing import Any, Callable
 
 from drum2taiko.analysis.candidates import extract_drum_events
 from drum2taiko.io.psygodot import write_beatmaps
+from drum2taiko.review import write_review_report
 from drum2taiko.separation.demucs import DemucsConfig, separate_drums
 
 
@@ -56,3 +57,40 @@ def generate_beatmaps(
         chart_offset_ms=chart_offset_ms,
         drum_event_source=event_source,
     )
+
+
+def build_beatmap_package(
+    audio_path: str | Path,
+    output_dir: str | Path,
+    *,
+    title: str | None = None,
+    output_prefix: str | None = None,
+    audio_offset_ms: float = 0.0,
+    chart_offset_ms: float = 0.0,
+    stems_dir: str | Path | None = None,
+    demucs_model: str = "htdemucs",
+    demucs_device: str = "cuda",
+    demucs_segment: int | None = 7,
+    demucs_format: str = "mp3",
+    extractor: Extractor = extract_drum_events,
+    separator: Separator = separate_drums,
+) -> dict[str, Any]:
+    output = Path(output_dir)
+    beatmaps = generate_beatmaps(
+        audio_path,
+        output,
+        title=title,
+        output_prefix=output_prefix,
+        audio_offset_ms=audio_offset_ms,
+        chart_offset_ms=chart_offset_ms,
+        use_demucs=True,
+        stems_dir=stems_dir or output / "stems",
+        demucs_model=demucs_model,
+        demucs_device=demucs_device,
+        demucs_segment=demucs_segment,
+        demucs_format=demucs_format,
+        extractor=extractor,
+        separator=separator,
+    )
+    report = write_review_report(beatmaps, output / "review_report.json")
+    return {"beatmaps": beatmaps, "report": report}

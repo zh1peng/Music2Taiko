@@ -43,6 +43,12 @@ This installs the required runtime packages: `librosa`, `numpy`, and `demucs`.
 
 ## Usage
 
+Run the full workflow for a Godot validation draft:
+
+```powershell
+python -m drum2taiko build path\to\song.mp3 --out godot_out --title "Song"
+```
+
 Generate beatmaps with librosa HPSS fallback:
 
 ```powershell
