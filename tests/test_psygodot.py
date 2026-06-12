@@ -132,6 +132,47 @@ class PsyGodotTests(unittest.TestCase):
         self.assertIn("don", lanes)
         self.assertLessEqual(max_same_lane_run(lanes), 16)
 
+    def test_normal_backfills_long_gaps_from_available_drum_events(self):
+        events = [
+            {
+                "time_sec": time_sec,
+                "quantized_time_sec": time_sec,
+                "strength": 0.9 if index in {0, 6} else 0.52,
+                "subdivision": 0 if index in {0, 6} else 1,
+                "beat_index": index,
+                "drum_class": "kick" if index in {0, 6} else "unknown",
+                "confidence": 0.85 if index in {0, 6} else 0.52,
+                "is_accent": index in {0, 6},
+            }
+            for index, time_sec in enumerate([0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0])
+        ]
+
+        beatmap = build_beatmap(events, difficulty="normal", source_path="song.wav", title="Song")
+        times = [note["time_sec"] for note in beatmap["notes"]]
+
+        self.assertGreater(len(times), 2)
+        self.assertLessEqual(max_note_gap(times), 4.0)
+
+    def test_normal_uses_deterministic_taiko_motif_for_ambiguous_events(self):
+        events = [
+            {
+                "time_sec": 1.0 + (index * 0.5),
+                "quantized_time_sec": 1.0 + (index * 0.5),
+                "strength": 0.72,
+                "subdivision": 0 if index % 2 == 0 else 2,
+                "beat_index": index // 2,
+                "drum_class": "unknown",
+                "confidence": 0.7,
+                "is_accent": False,
+            }
+            for index in range(9)
+        ]
+
+        beatmap = build_beatmap(events, difficulty="normal", source_path="song.wav", title="Song")
+        lanes = [note["lane"] for note in beatmap["notes"]]
+
+        self.assertEqual(lanes, ["don", "ka", "don", "don", "don", "ka", "don", "ka", "ka"])
+
     def test_write_beatmaps_passes_offsets_to_payload(self):
         with tempfile.TemporaryDirectory() as tmp:
             paths = write_beatmaps(
@@ -158,6 +199,10 @@ def max_same_lane_run(lanes):
         longest = max(longest, current)
         previous = lane
     return longest
+
+
+def max_note_gap(times):
+    return max((later - earlier for earlier, later in zip(times, times[1:])), default=0.0)
 
 
 if __name__ == "__main__":

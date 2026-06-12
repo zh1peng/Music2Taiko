@@ -14,6 +14,12 @@ DIFFICULTY_WINDOW_MS = {"easy": 150, "normal": 110, "hard": 85}
 DIFFICULTY_MIN_GAP_SEC = {"easy": 0.46, "normal": 0.28, "hard": 0.16}
 DIFFICULTY_SCORE_FLOOR = {"easy": 0.62, "normal": 0.42, "hard": 0.24}
 DIFFICULTY_MAX_SAME_LANE_RUN = {"easy": 999, "normal": 12, "hard": 16}
+DIFFICULTY_BACKFILL_GAP_SEC = {"easy": 0.0, "normal": 4.0, "hard": 0.0}
+NORMAL_TAIKO_MOTIFS = (
+    ("don", "ka", "don"),
+    ("don", "don", "ka"),
+    ("don", "ka", "ka"),
+)
 ALGORITHM_VERSION = "drum2taiko_v1"
 
 
@@ -24,25 +30,29 @@ def _drum_class(value: Any) -> str:
 
 def _lane_for(index: int, difficulty: str, event: dict[str, Any]) -> str:
     drum_class = _drum_class(event.get("drum_class", "unknown"))
+    strength = float(event.get("strength", 1.0))
+    confidence = float(event.get("confidence", strength))
+    is_accent = bool(event.get("is_accent", False))
     if difficulty == "easy":
-        confidence = float(event.get("confidence", 0.0))
         if drum_class in {"hat", "cymbal"} and confidence >= 0.4:
             return "ka"
         if drum_class in {"snare", "tom"} and confidence >= 0.55:
             return "ka"
         return "don"
     subdivision = int(event.get("subdivision", 0))
-    is_accent = bool(event.get("is_accent", False))
     if drum_class == "kick":
         return "don"
+    if difficulty == "normal":
+        if is_accent and strength >= 0.82:
+            return "don"
+        if drum_class in {"hat", "cymbal"} and confidence >= 0.72 and strength >= 0.65:
+            return "ka"
+        motif = NORMAL_TAIKO_MOTIFS[(index // 3) % len(NORMAL_TAIKO_MOTIFS)]
+        return motif[index % len(motif)]
     if drum_class in {"hat", "cymbal"}:
         return "ka"
     if drum_class == "tom" and difficulty == "hard":
         return "ka" if index % 2 else "don"
-    if difficulty == "normal":
-        if drum_class == "snare":
-            return "ka" if index % 4 in {1, 2} else "don"
-        return "ka" if subdivision in {2, 3} and index % 3 == 2 else "don"
     if drum_class == "snare":
         return "ka" if subdivision in {1, 2, 3} or index % 3 == 1 else "don"
     return "ka" if subdivision in {1, 3} or (is_accent and index % 4 == 1) else "don"
@@ -109,7 +119,73 @@ def _select_events(events: list[dict[str, Any]], difficulty: str) -> list[dict[s
             continue
         selected.append(event)
         last_time = time_sec
-    return selected
+    return _backfill_long_gaps(events, selected, difficulty)
+
+
+def _backfill_score(event: dict[str, Any], midpoint: float, gap_sec: float) -> float:
+    strength = float(event.get("strength", 1.0))
+    confidence = float(event.get("confidence", strength))
+    subdivision = int(event.get("subdivision", 0))
+    is_accent = bool(event.get("is_accent", False))
+    center_bonus = 1.0 - min(1.0, abs(float(event["quantized_time_sec"]) - midpoint) / gap_sec)
+    score = (strength * 0.45) + (confidence * 0.25) + (center_bonus * 0.15)
+    if subdivision == 0:
+        score += 0.18
+    elif subdivision == 2:
+        score += 0.08
+    if is_accent:
+        score += 0.1
+    return score
+
+
+def _best_backfill_candidate(
+    events: list[dict[str, Any]],
+    selected_ids: set[int],
+    start_time: float,
+    end_time: float,
+    min_gap: float,
+) -> dict[str, Any] | None:
+    midpoint = (start_time + end_time) / 2.0
+    gap_sec = end_time - start_time
+    candidates = [
+        event
+        for event in events
+        if id(event) not in selected_ids
+        and start_time + min_gap <= float(event["quantized_time_sec"]) <= end_time - min_gap
+    ]
+    if not candidates:
+        return None
+    return max(candidates, key=lambda event: _backfill_score(event, midpoint, gap_sec))
+
+
+def _backfill_long_gaps(
+    events: list[dict[str, Any]],
+    selected: list[dict[str, Any]],
+    difficulty: str,
+) -> list[dict[str, Any]]:
+    max_gap = DIFFICULTY_BACKFILL_GAP_SEC[difficulty]
+    if max_gap <= 0.0 or len(selected) < 2:
+        return selected
+
+    min_gap = DIFFICULTY_MIN_GAP_SEC[difficulty]
+    filled = list(selected)
+    while True:
+        filled.sort(key=lambda event: float(event["quantized_time_sec"]))
+        selected_ids = {id(event) for event in filled}
+        inserted = False
+        for previous, current in zip(filled, filled[1:]):
+            start_time = float(previous["quantized_time_sec"])
+            end_time = float(current["quantized_time_sec"])
+            if end_time - start_time <= max_gap:
+                continue
+            candidate = _best_backfill_candidate(events, selected_ids, start_time, end_time, min_gap)
+            if candidate is None:
+                continue
+            filled.append(candidate)
+            inserted = True
+            break
+        if not inserted:
+            return filled
 
 
 def _opposite_lane(lane: str) -> str:

@@ -71,8 +71,36 @@ class ReviewTests(unittest.TestCase):
         self.assertTrue(report["difficulties"]["hard"]["density_10s"])
         self.assertIn("switch_rate", report["difficulties"]["hard"]["lane_motif"])
         self.assertGreaterEqual(report["difficulties"]["hard"]["lane_motif"]["max_same_lane_run"], 1)
+        self.assertEqual(report["difficulties"]["hard"]["largest_note_gap_sec"], 0.25)
+        self.assertEqual(report["difficulties"]["hard"]["long_note_gaps"], [])
         self.assertEqual(report["offset_calibration"]["suggested_chart_offset_ms"], 20.0)
         self.assertEqual(report["offset_calibration"]["source_difficulty"], "hard")
+
+    def test_summarize_beatmaps_reports_long_note_gaps(self):
+        events = [
+            {
+                "time_sec": time_sec,
+                "quantized_time_sec": time_sec,
+                "strength": 0.9,
+                "subdivision": 0,
+                "beat_index": index,
+                "drum_class": "kick",
+                "confidence": 0.9,
+                "is_accent": True,
+            }
+            for index, time_sec in enumerate([1.0, 2.0, 9.0])
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = write_beatmaps(events, Path(tmp), source_path="song.mp3", title="Song")
+
+            report = summarize_beatmaps(paths)
+
+        hard_summary = report["difficulties"]["hard"]
+        self.assertEqual(hard_summary["largest_note_gap_sec"], 7.0)
+        self.assertEqual(
+            hard_summary["long_note_gaps"],
+            [{"start_sec": 2.0, "end_sec": 9.0, "duration_sec": 7.0}],
+        )
 
     def test_write_review_report_outputs_json(self):
         with tempfile.TemporaryDirectory() as tmp:

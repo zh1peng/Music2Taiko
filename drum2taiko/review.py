@@ -7,6 +7,9 @@ from statistics import mean, median
 from typing import Any
 
 
+LONG_NOTE_GAP_SEC = 4.0
+
+
 def _peak_nps(times: list[float], window_sec: float = 5.0) -> float:
     if not times:
         return 0.0
@@ -24,6 +27,27 @@ def _min_gap_ms(times: list[float]) -> float:
         return 0.0
     gaps = [later - earlier for earlier, later in zip(times, times[1:])]
     return round(min(gaps) * 1000.0, 3)
+
+
+def _largest_gap_sec(times: list[float]) -> float:
+    if len(times) < 2:
+        return 0.0
+    return round(max(later - earlier for earlier, later in zip(times, times[1:])), 3)
+
+
+def _long_note_gaps(times: list[float], threshold_sec: float = LONG_NOTE_GAP_SEC) -> list[dict[str, float]]:
+    gaps = []
+    for earlier, later in zip(times, times[1:]):
+        duration = later - earlier
+        if duration > threshold_sec:
+            gaps.append(
+                {
+                    "start_sec": round(earlier, 3),
+                    "end_sec": round(later, 3),
+                    "duration_sec": round(duration, 3),
+                }
+            )
+    return gaps
 
 
 def _density_windows(times: list[float], window_sec: float = 10.0) -> list[dict[str, Any]]:
@@ -111,6 +135,8 @@ def _warnings(summary: dict[str, Any]) -> list[str]:
         warnings.append("no ka notes")
     if summary["lane_motif"]["max_same_lane_run"] >= 24:
         warnings.append("long same-lane run")
+    if summary["long_note_gaps"]:
+        warnings.append("long note gap")
     return warnings
 
 
@@ -141,6 +167,8 @@ def summarize_beatmap(path: str | Path) -> dict[str, Any]:
         "avg_nps": round(len(notes) / duration, 4) if duration else 0.0,
         "peak_5s_nps": _peak_nps(times),
         "min_gap_ms": _min_gap_ms(times),
+        "largest_note_gap_sec": _largest_gap_sec(times),
+        "long_note_gaps": _long_note_gaps(times),
         "lanes": dict(sorted(lanes.items())),
         "drum_classes": dict(sorted(drum_classes.items())),
         "confidence": _confidence_summary(events),
