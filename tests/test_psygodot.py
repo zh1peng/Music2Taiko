@@ -13,6 +13,10 @@ class PsyGodotTests(unittest.TestCase):
             {
                 "time_sec": 1.0,
                 "quantized_time_sec": 1.0,
+                "source_time_sec": 1.02,
+                "timing_error_ms": -20.0,
+                "band_strengths": {"low": 0.9, "mid": 0.2, "high": 0.1},
+                "classification_margin": 0.7,
                 "strength": 0.92,
                 "subdivision": 0,
                 "beat_index": 1,
@@ -44,8 +48,89 @@ class PsyGodotTests(unittest.TestCase):
         self.assertEqual(beatmap["audio_offset_ms"], 12.0)
         self.assertEqual(beatmap["chart_offset_ms"], 25.0)
         self.assertEqual([event["drum_class"] for event in beatmap["drum_events"]], ["kick", "hat"])
+        self.assertEqual(beatmap["drum_events"][0]["source_time_sec"], 1.02)
+        self.assertEqual(beatmap["drum_events"][0]["timing_error_ms"], -20.0)
+        self.assertEqual(beatmap["drum_events"][0]["band_strengths"]["low"], 0.9)
+        self.assertEqual(beatmap["drum_events"][0]["classification_margin"], 0.7)
         self.assertEqual([note["lane"] for note in beatmap["notes"]], ["don", "ka"])
         self.assertTrue(math.isclose(beatmap["notes"][0]["time_sec"], 1.025, abs_tol=0.0001))
+
+    def test_easy_uses_ka_for_clear_cymbal_or_hat_contrast(self):
+        events = [
+            {
+                "time_sec": 1.0,
+                "quantized_time_sec": 1.0,
+                "strength": 0.9,
+                "subdivision": 0,
+                "beat_index": 1,
+                "drum_class": "kick",
+                "confidence": 0.9,
+                "is_accent": True,
+            },
+            {
+                "time_sec": 2.0,
+                "quantized_time_sec": 2.0,
+                "strength": 0.88,
+                "subdivision": 0,
+                "beat_index": 2,
+                "drum_class": "cymbal",
+                "confidence": 0.82,
+                "is_accent": True,
+            },
+        ]
+
+        beatmap = build_beatmap(events, difficulty="easy", source_path="song.wav", title="Song")
+
+        self.assertEqual([note["lane"] for note in beatmap["notes"]], ["don", "ka"])
+
+    def test_easy_uses_snare_as_controlled_ka_contrast(self):
+        events = [
+            {
+                "time_sec": 1.0,
+                "quantized_time_sec": 1.0,
+                "strength": 0.9,
+                "subdivision": 0,
+                "beat_index": 1,
+                "drum_class": "kick",
+                "confidence": 0.9,
+                "is_accent": True,
+            },
+            {
+                "time_sec": 2.0,
+                "quantized_time_sec": 2.0,
+                "strength": 0.82,
+                "subdivision": 0,
+                "beat_index": 2,
+                "drum_class": "snare",
+                "confidence": 0.7,
+                "is_accent": True,
+            },
+        ]
+
+        beatmap = build_beatmap(events, difficulty="easy", source_path="song.wav", title="Song")
+
+        self.assertEqual([note["lane"] for note in beatmap["notes"]], ["don", "ka"])
+
+    def test_hard_breaks_excessively_long_same_lane_runs(self):
+        events = [
+            {
+                "time_sec": 1.0 + (index * 0.2),
+                "quantized_time_sec": 1.0 + (index * 0.2),
+                "strength": 0.9,
+                "subdivision": index % 4,
+                "beat_index": index // 4,
+                "drum_class": "hat",
+                "confidence": 0.8,
+                "is_accent": False,
+            }
+            for index in range(20)
+        ]
+
+        beatmap = build_beatmap(events, difficulty="hard", source_path="song.wav", title="Song")
+        lanes = [note["lane"] for note in beatmap["notes"]]
+
+        self.assertIn("don", lanes)
+        self.assertLessEqual(max_same_lane_run(lanes), 16)
 
     def test_write_beatmaps_passes_offsets_to_payload(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -62,6 +147,17 @@ class PsyGodotTests(unittest.TestCase):
         self.assertEqual(payload["audio_offset_ms"], 10.0)
         self.assertEqual(payload["chart_offset_ms"], -20.0)
         self.assertTrue(payload["drum_events"])
+
+
+def max_same_lane_run(lanes):
+    longest = 0
+    current = 0
+    previous = None
+    for lane in lanes:
+        current = current + 1 if lane == previous else 1
+        longest = max(longest, current)
+        previous = lane
+    return longest
 
 
 if __name__ == "__main__":

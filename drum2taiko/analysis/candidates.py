@@ -76,15 +76,20 @@ def _quantize_time(time_sec: float, anchor: float, step: float) -> tuple[float, 
 def candidate_from_time(time_sec: float, strength: float = 1.0, grid_index: int = 0) -> dict[str, Any]:
     subdivision = grid_index % 4
     is_accent = subdivision == 0 or strength >= 0.72
+    rounded_time = round(float(time_sec), 4)
     return {
-        "time_sec": round(float(time_sec), 4),
-        "quantized_time_sec": round(float(time_sec), 4),
+        "time_sec": rounded_time,
+        "source_time_sec": rounded_time,
+        "quantized_time_sec": rounded_time,
+        "timing_error_ms": 0.0,
         "strength": round(float(strength), 6),
         "subdivision": subdivision,
         "beat_index": grid_index // 4,
         "drum_class": "unknown",
         "confidence": round(float(strength), 6),
         "is_accent": is_accent,
+        "band_strengths": {"low": 0.0, "mid": 0.0, "high": 0.0},
+        "classification_margin": 0.0,
     }
 
 
@@ -141,6 +146,14 @@ def _classify_drum_event(
     if is_accent and full_strength >= 0.72:
         return "cymbal", round(confidence, 4)
     return "hat", round(confidence, 4)
+
+
+def _classification_margin(low_strength: float, mid_strength: float, high_strength: float) -> float:
+    values = sorted(
+        [max(0.0, float(low_strength)), max(0.0, float(mid_strength)), max(0.0, float(high_strength))],
+        reverse=True,
+    )
+    return round(values[0] - values[1], 4)
 
 
 def extract_drum_events(
@@ -212,10 +225,18 @@ def extract_drum_events(
                     continue
                 candidate = candidate_from_time(quantized, strength, grid_index)
                 candidate["time_sec"] = round(float(time_sec), 4)
+                candidate["source_time_sec"] = round(float(time_sec), 4)
                 candidate["quantized_time_sec"] = quantized
+                candidate["timing_error_ms"] = round((quantized - float(time_sec)) * 1000.0, 3)
                 low = _safe_ratio(_frame_strength(band_envelopes["low"], int(frame)), max_band_strengths["low"])
                 mid = _safe_ratio(_frame_strength(band_envelopes["mid"], int(frame)), max_band_strengths["mid"])
                 high = _safe_ratio(_frame_strength(band_envelopes["high"], int(frame)), max_band_strengths["high"])
+                candidate["band_strengths"] = {
+                    "low": round(low, 4),
+                    "mid": round(mid, 4),
+                    "high": round(high, 4),
+                }
+                candidate["classification_margin"] = _classification_margin(low, mid, high)
                 drum_class, confidence = _classify_drum_event(
                     low,
                     mid,
@@ -236,7 +257,9 @@ def extract_drum_events(
                 strength = max(0.45, _frame_strength(onset_envelope, int(frame)) / max_strength)
                 candidate = candidate_from_time(quantized, strength, grid_index)
                 candidate["time_sec"] = round(float(time_sec), 4)
+                candidate["source_time_sec"] = round(float(time_sec), 4)
                 candidate["quantized_time_sec"] = quantized
+                candidate["timing_error_ms"] = round((quantized - float(time_sec)) * 1000.0, 3)
                 candidate["drum_event_source"] = drum_event_source
                 event_key = candidate["quantized_time_sec"]
                 existing = by_time.get(event_key)

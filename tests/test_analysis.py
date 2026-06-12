@@ -5,10 +5,18 @@ import unittest
 import wave
 from pathlib import Path
 
-from drum2taiko.analysis.candidates import extract_drum_events
+from drum2taiko.analysis.candidates import candidate_from_time, extract_drum_events
 
 
 class AnalysisTests(unittest.TestCase):
+    def test_candidate_from_time_includes_diagnostic_fields(self):
+        event = candidate_from_time(1.25, strength=0.8, grid_index=4)
+
+        self.assertEqual(event["source_time_sec"], 1.25)
+        self.assertEqual(event["timing_error_ms"], 0.0)
+        self.assertEqual(event["band_strengths"], {"low": 0.0, "mid": 0.0, "high": 0.0})
+        self.assertEqual(event["classification_margin"], 0.0)
+
     def test_extract_drum_events_uses_16_bit_pcm_wav_fallback(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "impulses.wav"

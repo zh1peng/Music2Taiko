@@ -13,6 +13,7 @@ DIFFICULTIES = ("easy", "normal", "hard")
 DIFFICULTY_WINDOW_MS = {"easy": 150, "normal": 110, "hard": 85}
 DIFFICULTY_MIN_GAP_SEC = {"easy": 0.46, "normal": 0.28, "hard": 0.16}
 DIFFICULTY_SCORE_FLOOR = {"easy": 0.62, "normal": 0.42, "hard": 0.24}
+DIFFICULTY_MAX_SAME_LANE_RUN = {"easy": 999, "normal": 12, "hard": 16}
 ALGORITHM_VERSION = "drum2taiko_v1"
 
 
@@ -24,6 +25,11 @@ def _drum_class(value: Any) -> str:
 def _lane_for(index: int, difficulty: str, event: dict[str, Any]) -> str:
     drum_class = _drum_class(event.get("drum_class", "unknown"))
     if difficulty == "easy":
+        confidence = float(event.get("confidence", 0.0))
+        if drum_class in {"hat", "cymbal"} and confidence >= 0.4:
+            return "ka"
+        if drum_class in {"snare", "tom"} and confidence >= 0.55:
+            return "ka"
         return "don"
     subdivision = int(event.get("subdivision", 0))
     is_accent = bool(event.get("is_accent", False))
@@ -59,6 +65,15 @@ def _normalize_event(item: float | dict[str, Any], fallback_index: int, chart_of
         event["is_accent"] = bool(event.get("is_accent", event["subdivision"] == 0 or event["strength"] >= 0.72))
         event["drum_class"] = _drum_class(event.get("drum_class", "unknown"))
         event["confidence"] = round(float(event.get("confidence", event["strength"])), 4)
+        event["source_time_sec"] = round(float(event.get("source_time_sec", raw_time)), 4)
+        event["timing_error_ms"] = round(float(event.get("timing_error_ms", 0.0)), 3)
+        bands = event.get("band_strengths", {})
+        event["band_strengths"] = {
+            "low": round(float(bands.get("low", 0.0)), 4) if isinstance(bands, dict) else 0.0,
+            "mid": round(float(bands.get("mid", 0.0)), 4) if isinstance(bands, dict) else 0.0,
+            "high": round(float(bands.get("high", 0.0)), 4) if isinstance(bands, dict) else 0.0,
+        }
+        event["classification_margin"] = round(float(event.get("classification_margin", 0.0)), 4)
         return event
     event = candidate_from_time(float(item), 1.0, fallback_index)
     event["quantized_time_sec"] = round(float(event["quantized_time_sec"]) + chart_offset_sec, 4)
@@ -97,6 +112,27 @@ def _select_events(events: list[dict[str, Any]], difficulty: str) -> list[dict[s
     return selected
 
 
+def _opposite_lane(lane: str) -> str:
+    return "ka" if lane == "don" else "don"
+
+
+def _apply_lane_motif_limit(notes: list[dict[str, Any]], difficulty: str) -> None:
+    max_run = DIFFICULTY_MAX_SAME_LANE_RUN[difficulty]
+    previous_lane = ""
+    run_length = 0
+    for note in notes:
+        lane = str(note["lane"])
+        if lane == previous_lane:
+            run_length += 1
+        else:
+            previous_lane = lane
+            run_length = 1
+        if run_length > max_run:
+            note["lane"] = _opposite_lane(lane)
+            previous_lane = str(note["lane"])
+            run_length = 1
+
+
 def build_beatmap(
     drum_events: Iterable[float | dict[str, Any]],
     *,
@@ -129,6 +165,7 @@ def build_beatmap(
         }
         for index, event in enumerate(selected)
     ]
+    _apply_lane_motif_limit(notes, difficulty)
     duration = max((note["time_sec"] for note in notes), default=0.0)
     tempo_values = [event.get("tempo_bpm") for event in clean_events if event.get("tempo_bpm")]
     tempo_bpm = round(sum(tempo_values) / len(tempo_values), 3) if tempo_values else 0.0
@@ -160,6 +197,14 @@ def build_beatmap(
                 "drum_class": _drum_class(event.get("drum_class", "unknown")),
                 "confidence": round(float(event.get("confidence", event.get("strength", 1.0))), 4),
                 "is_accent": bool(event.get("is_accent", False)),
+                "source_time_sec": round(float(event.get("source_time_sec", event["time_sec"])), 4),
+                "timing_error_ms": round(float(event.get("timing_error_ms", 0.0)), 3),
+                "band_strengths": {
+                    "low": round(float(event.get("band_strengths", {}).get("low", 0.0)), 4),
+                    "mid": round(float(event.get("band_strengths", {}).get("mid", 0.0)), 4),
+                    "high": round(float(event.get("band_strengths", {}).get("high", 0.0)), 4),
+                },
+                "classification_margin": round(float(event.get("classification_margin", 0.0)), 4),
             }
             for event in selected
         ],
