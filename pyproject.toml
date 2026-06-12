@@ -10,7 +10,7 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.optional-dependencies]
-audio = ["librosa>=0.10", "numpy>=1.24"]
+analysis = ["librosa>=0.10", "numpy>=1.24"]
 demucs = ["demucs"]
 
 [project.scripts]
