@@ -54,6 +54,7 @@ class PipelineTests(unittest.TestCase):
                 self.assertEqual(config.model, "htdemucs_ft")
                 self.assertEqual(config.device, "cuda")
                 self.assertEqual(config.segment, 7)
+                self.assertEqual(config.output_format, "mp3")
                 stem = output_dir / "htdemucs" / source.stem / "drums.wav"
                 stem.parent.mkdir(parents=True)
                 stem.write_bytes(b"fake drums")
@@ -71,6 +72,7 @@ class PipelineTests(unittest.TestCase):
                 demucs_model="htdemucs_ft",
                 demucs_device="cuda",
                 demucs_segment=7,
+                demucs_format="mp3",
                 separator=fake_separator,
                 extractor=fake_extractor,
             )

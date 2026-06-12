@@ -26,6 +26,7 @@ def generate_beatmaps(
     demucs_model: str = "htdemucs",
     demucs_device: str = "",
     demucs_segment: int | None = None,
+    demucs_format: str = "wav",
     extractor: Extractor = extract_drum_events,
     separator: Separator = separate_drums,
 ) -> dict[str, Path]:
@@ -35,7 +36,12 @@ def generate_beatmaps(
 
     if use_demucs:
         stem_output = Path(stems_dir) if stems_dir else Path(output_dir) / "stems"
-        config = DemucsConfig(model=demucs_model, device=demucs_device, segment=demucs_segment)
+        config = DemucsConfig(
+            model=demucs_model,
+            device=demucs_device,
+            segment=demucs_segment,
+            output_format=demucs_format,
+        )
         resolved_stem = separator(source, stem_output, config=config)
         event_source = "demucs_drums"
 

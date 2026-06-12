@@ -15,6 +15,7 @@ class DemucsConfig:
     model: str = "htdemucs"
     device: str = ""
     segment: int | None = None
+    output_format: str = "wav"
 
 
 def build_demucs_command(audio_path: str | Path, output_dir: str | Path, config: DemucsConfig | None = None) -> list[str]:
@@ -33,13 +34,17 @@ def build_demucs_command(audio_path: str | Path, output_dir: str | Path, config:
         command.extend(["-d", resolved_config.device])
     if resolved_config.segment is not None:
         command.extend(["--segment", str(resolved_config.segment)])
+    if resolved_config.output_format == "mp3":
+        command.append("--mp3")
+    elif resolved_config.output_format != "wav":
+        raise ValueError(f"unsupported Demucs output format: {resolved_config.output_format}")
     command.append(str(audio_path))
     return command
 
 
 def expected_drums_path(audio_path: str | Path, output_dir: str | Path, config: DemucsConfig | None = None) -> Path:
     resolved_config = config or DemucsConfig()
-    return Path(output_dir) / resolved_config.model / Path(audio_path).stem / "drums.wav"
+    return Path(output_dir) / resolved_config.model / Path(audio_path).stem / f"drums.{resolved_config.output_format}"
 
 
 def separate_drums(

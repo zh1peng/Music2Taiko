@@ -17,6 +17,7 @@ def main(argv: list[str] | None = None) -> int:
     separate_parser.add_argument("--demucs-model", default="htdemucs", help="Demucs model name")
     separate_parser.add_argument("--demucs-device", default="", help="Demucs device, for example cuda or cpu")
     separate_parser.add_argument("--demucs-segment", type=int, default=None, help="Demucs segment length in seconds")
+    separate_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="wav", help="Demucs stem output format")
 
     generate_parser = subparsers.add_parser("generate", help="Generate PsyGodot beatmap JSON files.")
     generate_parser.add_argument("audio", help="Input MP3/WAV file")
@@ -31,10 +32,16 @@ def main(argv: list[str] | None = None) -> int:
     generate_parser.add_argument("--demucs-model", default="htdemucs", help="Demucs model name")
     generate_parser.add_argument("--demucs-device", default="", help="Demucs device, for example cuda or cpu")
     generate_parser.add_argument("--demucs-segment", type=int, default=None, help="Demucs segment length in seconds")
+    generate_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="wav", help="Demucs stem output format")
 
     args = parser.parse_args(argv)
     if args.command == "separate":
-        config = DemucsConfig(model=args.demucs_model, device=args.demucs_device, segment=args.demucs_segment)
+        config = DemucsConfig(
+            model=args.demucs_model,
+            device=args.demucs_device,
+            segment=args.demucs_segment,
+            output_format=args.demucs_format,
+        )
         print(separate_drums(Path(args.audio), Path(args.out), config=config))
         return 0
 
@@ -51,6 +58,7 @@ def main(argv: list[str] | None = None) -> int:
         demucs_model=args.demucs_model,
         demucs_device=args.demucs_device,
         demucs_segment=args.demucs_segment,
+        demucs_format=args.demucs_format,
     )
     for difficulty in ("easy", "normal", "hard"):
         print(paths[difficulty])

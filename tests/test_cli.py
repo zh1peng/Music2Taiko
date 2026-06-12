@@ -76,6 +76,8 @@ class CliTests(unittest.TestCase):
                         "cuda",
                         "--demucs-segment",
                         "7",
+                        "--demucs-format",
+                        "mp3",
                     ]
                 )
 
@@ -84,6 +86,7 @@ class CliTests(unittest.TestCase):
         self.assertEqual(kwargs["demucs_model"], "htdemucs_ft")
         self.assertEqual(kwargs["demucs_device"], "cuda")
         self.assertEqual(kwargs["demucs_segment"], 7)
+        self.assertEqual(kwargs["demucs_format"], "mp3")
 
 
 if __name__ == "__main__":

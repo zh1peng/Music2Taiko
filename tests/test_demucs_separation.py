@@ -30,6 +30,13 @@ class DemucsSeparationTests(unittest.TestCase):
         self.assertIn("--segment", command)
         self.assertIn("7", command)
 
+    def test_build_demucs_command_can_write_mp3_stem(self):
+        config = DemucsConfig(output_format="mp3")
+
+        command = build_demucs_command(Path("song.mp3"), Path("work/stems"), config)
+
+        self.assertIn("--mp3", command)
+
     def test_separate_drums_returns_generated_drums_wav(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -46,6 +53,22 @@ class DemucsSeparationTests(unittest.TestCase):
 
         self.assertEqual(drums.name, "drums.wav")
         self.assertEqual(drums.parent.name, "song")
+
+    def test_separate_drums_returns_generated_drums_mp3(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audio = root / "song.mp3"
+            output = root / "stems"
+            audio.write_bytes(b"fake audio")
+
+            def fake_runner(command):
+                expected = output / "htdemucs" / "song" / "drums.mp3"
+                expected.parent.mkdir(parents=True)
+                expected.write_bytes(b"fake drums")
+
+            drums = separate_drums(audio, output, config=DemucsConfig(output_format="mp3"), runner=fake_runner)
+
+        self.assertEqual(drums.name, "drums.mp3")
 
 
 if __name__ == "__main__":

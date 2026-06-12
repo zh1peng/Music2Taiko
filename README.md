@@ -61,6 +61,12 @@ Run Demucs with an explicit GPU device and model:
 python -m drum2taiko generate path\to\song.mp3 --out output\beatmaps --use-demucs --demucs-device cuda --demucs-model htdemucs_ft --demucs-segment 7
 ```
 
+On Windows, `--demucs-format mp3` avoids the TorchCodec/shared-FFmpeg WAV save path:
+
+```powershell
+python -m drum2taiko generate path\to\song.mp3 --out output\beatmaps --use-demucs --demucs-device cuda --demucs-model htdemucs --demucs-segment 7 --demucs-format mp3
+```
+
 Use an existing drum stem:
 
 ```powershell
