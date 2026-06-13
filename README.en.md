@@ -2,7 +2,7 @@
 
 [中文](README.md) | English
 
-Drum2Taiko is a Python package for turning MP3/WAV music into approximate Taiko-style beatmaps. It generates an inspectable `drum_events[]` layer first, then maps those events into `don` / `ka` notes and exports PsyGodot `examples/rhythm_drum` compatible JSON.
+Drum2Taiko is a Python package for turning MP3/WAV music into approximate Taiko-style beatmaps. It generates an inspectable `drum_events[]` layer first, then maps those events into `don` / `ka` notes and exports OpenTaiko/TJA packages. PsyGodot JSON is still available for debugging and compatibility.
 
 The project is experimental. The goal is not to produce final charts in one click, but to create a useful draft that can be reviewed, tested in Godot, and iterated on.
 
@@ -14,7 +14,7 @@ MP3/WAV audio
   -> librosa onset/drum analysis
   -> drum_events[]
   -> Taiko notes[]
-  -> PsyGodot rhythm_drum JSON
+  -> OpenTaiko TJA + OGG
 ```
 
 ## Features
@@ -25,7 +25,8 @@ MP3/WAV audio
 - `easy` / `normal` / `hard` chart generation.
 - Normal-difficulty long-gap backfill.
 - Deterministic short Taiko motifs for normal `don` / `ka` mapping.
-- PsyGodot rhythm_drum JSON export.
+- OpenTaiko/TJA package export with `.tja` chart and `.ogg` audio.
+- PsyGodot rhythm_drum JSON export for debugging.
 - `review_report.json` with offset, density, note-gap, lane distribution, and warning diagnostics.
 
 ## Install
@@ -46,7 +47,25 @@ For CUDA Demucs, install a CUDA-enabled PyTorch build for your hardware before i
 
 ## Usage
 
-Run the full build workflow:
+Run the full OpenTaiko/TJA package workflow:
+
+```powershell
+python -m drum2taiko build-opentaiko ".\song.mp3" --out opentaiko_out --title "Song"
+```
+
+Output:
+
+```text
+opentaiko_out/
+  Song/
+    Song.tja
+    Song.ogg
+    review_report.json
+    debug_json/
+    stems/
+```
+
+Run the PsyGodot JSON workflow:
 
 ```powershell
 python -m drum2taiko build ".\song.mp3" --out godot_out --title "Song"

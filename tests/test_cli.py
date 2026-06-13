@@ -110,6 +110,31 @@ class CliTests(unittest.TestCase):
         self.assertEqual(kwargs["demucs_device"], "cuda")
         self.assertEqual(kwargs["demucs_format"], "mp3")
 
+    def test_build_opentaiko_command_uses_tja_package_workflow(self):
+        from drum2taiko import cli
+
+        with patch("drum2taiko.cli.build_opentaiko_package") as build:
+            build.return_value = {
+                "package_dir": Path("opentaiko_out") / "Song",
+                "tja": Path("opentaiko_out") / "Song" / "Song.tja",
+                "audio": Path("opentaiko_out") / "Song" / "Song.ogg",
+                "beatmaps": {
+                    "easy": Path("easy.json"),
+                    "normal": Path("normal.json"),
+                    "hard": Path("hard.json"),
+                },
+                "report": Path("review_report.json"),
+            }
+
+            with redirect_stdout(StringIO()):
+                exit_code = cli.main(["build-opentaiko", "song.mp3", "--out", "opentaiko_out", "--title", "Song"])
+
+        self.assertEqual(exit_code, 0)
+        _, kwargs = build.call_args
+        self.assertEqual(kwargs["title"], "Song")
+        self.assertEqual(kwargs["demucs_device"], "cuda")
+        self.assertEqual(kwargs["demucs_format"], "mp3")
+
 
 if __name__ == "__main__":
     unittest.main()

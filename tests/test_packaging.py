@@ -14,7 +14,7 @@ class PackagingTests(unittest.TestCase):
 
         self.assertEqual(
             metadata["project"]["dependencies"],
-            ["librosa>=0.10", "numpy>=1.24", "demucs"],
+            ["librosa>=0.10", "numpy>=1.24", "soundfile>=0.13", "demucs"],
         )
 
 

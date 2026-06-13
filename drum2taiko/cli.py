@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from drum2taiko.pipeline import build_beatmap_package, generate_beatmaps
+from drum2taiko.pipeline import build_beatmap_package, build_opentaiko_package, generate_beatmaps
 from drum2taiko.separation.demucs import DemucsConfig, separate_drums
 
 
@@ -47,6 +47,19 @@ def main(argv: list[str] | None = None) -> int:
     build_parser.add_argument("--demucs-segment", type=int, default=7, help="Demucs segment length in seconds")
     build_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="mp3", help="Demucs stem output format")
 
+    opentaiko_parser = subparsers.add_parser("build-opentaiko", help="Run the full workflow and export TJA + OGG.")
+    opentaiko_parser.add_argument("audio", help="Input MP3/WAV file")
+    opentaiko_parser.add_argument("--out", required=True, help="Directory for OpenTaiko-ready package output")
+    opentaiko_parser.add_argument("--title", default="", help="Display title; defaults to input filename")
+    opentaiko_parser.add_argument("--output-prefix", default="", help="Folder and filename prefix for TJA/OGG output")
+    opentaiko_parser.add_argument("--audio-offset-ms", type=float, default=0.0, help="Metadata for song-level audio offset")
+    opentaiko_parser.add_argument("--chart-offset-ms", type=float, default=0.0, help="Shift generated chart note times")
+    opentaiko_parser.add_argument("--stems-dir", default="", help="Directory for Demucs output")
+    opentaiko_parser.add_argument("--demucs-model", default="htdemucs", help="Demucs model name")
+    opentaiko_parser.add_argument("--demucs-device", default="cuda", help="Demucs device, for example cuda or cpu")
+    opentaiko_parser.add_argument("--demucs-segment", type=int, default=7, help="Demucs segment length in seconds")
+    opentaiko_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="mp3", help="Demucs stem output format")
+
     args = parser.parse_args(argv)
     if args.command == "separate":
         config = DemucsConfig(
@@ -74,6 +87,26 @@ def main(argv: list[str] | None = None) -> int:
         )
         for difficulty in ("easy", "normal", "hard"):
             print(result["beatmaps"][difficulty])
+        print(result["report"])
+        return 0
+
+    if args.command == "build-opentaiko":
+        result = build_opentaiko_package(
+            Path(args.audio),
+            Path(args.out),
+            title=args.title or None,
+            output_prefix=args.output_prefix or None,
+            audio_offset_ms=args.audio_offset_ms,
+            chart_offset_ms=args.chart_offset_ms,
+            stems_dir=args.stems_dir or None,
+            demucs_model=args.demucs_model,
+            demucs_device=args.demucs_device,
+            demucs_segment=args.demucs_segment,
+            demucs_format=args.demucs_format,
+        )
+        print(result["package_dir"])
+        print(result["tja"])
+        print(result["audio"])
         print(result["report"])
         return 0
 

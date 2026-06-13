@@ -2,7 +2,7 @@
 
 中文 | [English](README.en.md)
 
-Drum2Taiko 是一个 Python 工具包，用来把 MP3/WAV 音乐转换成近似可玩的 Taiko 风格鼓面。它不是完整的“自动扒鼓谱”系统，而是先生成一个可检查的 `drum_events[]` 中间层，再把鼓点事件映射成 `don` / `ka` 谱面，并导出 PsyGodot `examples/rhythm_drum` 可以读取的 JSON。
+Drum2Taiko 是一个 Python 工具包，用来把 MP3/WAV 音乐转换成近似可玩的 Taiko 风格鼓面。它不是完整的“自动扒鼓谱”系统，而是先生成一个可检查的 `drum_events[]` 中间层，再把鼓点事件映射成 `don` / `ka` 谱面，并导出 OpenTaiko/TJA package。PsyGodot JSON 仍然保留，主要用于调试和算法验证。
 
 当前项目还处于实验阶段，目标是给谱面作者一个可迭代的起点：自动生成初稿、查看报告、进 Godot 听手感，然后继续调 offset、鼓点质量、don/ka pattern 和难度密度。
 
@@ -14,7 +14,7 @@ MP3/WAV 音频
   -> librosa 鼓点/瞬态分析
   -> drum_events[] 中间层
   -> Taiko notes[]，包含 don/ka 和难度塑形
-  -> PsyGodot rhythm_drum JSON
+  -> OpenTaiko TJA + OGG
 ```
 
 核心原则：
@@ -22,7 +22,7 @@ MP3/WAV 音频
 - 不直接把 full-mix onset 映射成 `don` / `ka`。
 - `drum_events[]` 是音频分析和太鼓谱面之间的中间层。
 - Demucs 是优先的 drum stem 来源，但谱面生成逻辑仍然属于 Drum2Taiko。
-- PsyGodot JSON 是导出格式，不是包内部的数据中心。
+- TJA + OGG 是太鼓模式的标准输出；PsyGodot JSON 是调试和兼容导出。
 
 ## 当前能力
 
@@ -32,7 +32,8 @@ MP3/WAV 音频
 - 生成 `easy` / `normal` / `hard` 三档 Taiko notes。
 - normal 难度会回填过长空窗，避免中间长时间没有 note。
 - normal 的 `don` / `ka` 使用固定短句 motif，而不是随机 shuffle。
-- 导出 PsyGodot `rhythm_drum` 兼容 JSON。
+- 导出 OpenTaiko/TJA package：`.tja` 谱面和 `.ogg` 音乐。
+- 继续导出 PsyGodot `rhythm_drum` 兼容 JSON，作为 debug JSON。
 - 生成 `review_report.json`，用于检查 offset、密度、最大空窗、don/ka 分布和 warning。
 
 ## 安装
@@ -55,7 +56,36 @@ demucs
 
 ## 使用
 
-完整生成流程，推荐用于 Godot 验证：
+完整生成 OpenTaiko/TJA package，推荐用于太鼓模式：
+
+```powershell
+python -m drum2taiko build-opentaiko ".\song.mp3" --out opentaiko_out --title "Song"
+```
+
+输出结构：
+
+```text
+opentaiko_out/
+  Song/
+    Song.tja
+    Song.ogg
+    review_report.json
+    debug_json/
+      Song_easy.json
+      Song_normal.json
+      Song_hard.json
+    stems/
+```
+
+`Song.tja` 目前包含 `Easy` / `Normal` / `Hard` 三个 course，使用 4/4、16 分格输出：
+
+```text
+don -> 1
+ka  -> 2
+empty -> 0
+```
+
+生成 PsyGodot JSON，用于 Godot 验证或调试：
 
 ```powershell
 python -m drum2taiko build ".\song.mp3" --out godot_out --title "Song"
@@ -102,7 +132,17 @@ python -m drum2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" 
 
 ## 输出文件
 
-`build` 默认会生成：
+`build-opentaiko` 默认会生成：
+
+```text
+<title>.tja
+<title>.ogg
+review_report.json
+debug_json/
+stems/
+```
+
+`build` 默认会生成 PsyGodot JSON：
 
 ```text
 godot_out/
@@ -147,7 +187,7 @@ godot_out/
 
 ## 放进 PsyGodot
 
-如果要把生成结果放进 PsyGodot 的示例工程，可以把生成的三档 JSON 复制到：
+PsyGodot JSON 仍然可以用来调试。如果要把生成结果放进 PsyGodot 的示例工程，可以把生成的三档 JSON 复制到：
 
 ```text
 E:\03_tools\psygodot\examples\rhythm_drum\beatmaps

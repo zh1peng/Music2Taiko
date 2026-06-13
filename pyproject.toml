@@ -7,7 +7,7 @@ name = "drum2taiko"
 version = "0.1.0"
 description = "Generate Taiko-style PsyGodot beatmaps from drum-event analysis."
 requires-python = ">=3.10"
-dependencies = ["librosa>=0.10", "numpy>=1.24", "demucs"]
+dependencies = ["librosa>=0.10", "numpy>=1.24", "soundfile>=0.13", "demucs"]
 
 [project.scripts]
 drum2taiko = "drum2taiko.cli:main"
