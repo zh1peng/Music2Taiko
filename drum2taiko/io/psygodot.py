@@ -11,10 +11,15 @@ from drum2taiko.analysis.candidates import DRUM_CLASSES, candidate_from_time
 SCHEMA_VERSION = "psygodot.beatmap.v1"
 DIFFICULTIES = ("easy", "normal", "hard")
 DIFFICULTY_WINDOW_MS = {"easy": 150, "normal": 110, "hard": 85}
-DIFFICULTY_MIN_GAP_SEC = {"easy": 0.46, "normal": 0.28, "hard": 0.16}
-DIFFICULTY_SCORE_FLOOR = {"easy": 0.62, "normal": 0.42, "hard": 0.24}
+DIFFICULTY_MIN_GAP_SEC = {"easy": 0.34, "normal": 0.28, "hard": 0.16}
+DIFFICULTY_SCORE_FLOOR = {"easy": 0.46, "normal": 0.42, "hard": 0.24}
 DIFFICULTY_MAX_SAME_LANE_RUN = {"easy": 999, "normal": 12, "hard": 16}
-DIFFICULTY_BACKFILL_GAP_SEC = {"easy": 0.0, "normal": 4.0, "hard": 0.0}
+DIFFICULTY_BACKFILL_GAP_SEC = {"easy": 4.0, "normal": 4.0, "hard": 0.0}
+EASY_TAIKO_MOTIFS = (
+    ("don", "don", "ka", "don"),
+    ("don", "ka", "don", "don"),
+    ("don", "don", "don", "ka"),
+)
 NORMAL_TAIKO_MOTIFS = (
     ("don", "ka", "don"),
     ("don", "don", "ka"),
@@ -34,11 +39,14 @@ def _lane_for(index: int, difficulty: str, event: dict[str, Any]) -> str:
     confidence = float(event.get("confidence", strength))
     is_accent = bool(event.get("is_accent", False))
     if difficulty == "easy":
+        if drum_class == "kick":
+            return "don"
         if drum_class in {"hat", "cymbal"} and confidence >= 0.4:
             return "ka"
         if drum_class in {"snare", "tom"} and confidence >= 0.55:
             return "ka"
-        return "don"
+        motif = EASY_TAIKO_MOTIFS[(index // 4) % len(EASY_TAIKO_MOTIFS)]
+        return motif[index % len(motif)]
     subdivision = int(event.get("subdivision", 0))
     if drum_class == "kick":
         return "don"
@@ -103,15 +111,21 @@ def _select_events(events: list[dict[str, Any]], difficulty: str) -> list[dict[s
         subdivision = int(event.get("subdivision", 0))
         drum_class = _drum_class(event.get("drum_class", "unknown"))
         is_downbeat = subdivision == 0
+        is_backbeat = subdivision == 2
+        score = (strength * 0.72) + (confidence * 0.28)
 
-        if difficulty == "easy" and not is_downbeat:
-            continue
-        if difficulty != "hard" and drum_class in {"hat", "cymbal"} and not is_downbeat and strength < 0.78:
-            continue
-        if difficulty == "normal" and subdivision not in {0, 2} and strength < 0.65:
-            continue
-        if (strength * 0.72) + (confidence * 0.28) < score_floor and not is_downbeat:
-            continue
+        if difficulty == "easy":
+            if not (is_downbeat or is_backbeat or score >= 0.72):
+                continue
+            if score < score_floor and not is_downbeat:
+                continue
+        else:
+            if difficulty != "hard" and drum_class in {"hat", "cymbal"} and not is_downbeat and strength < 0.78:
+                continue
+            if difficulty == "normal" and subdivision not in {0, 2} and strength < 0.65:
+                continue
+            if score < score_floor and not is_downbeat:
+                continue
         if time_sec - last_time < min_gap:
             if selected and strength > float(selected[-1].get("strength", 0.0)) + 0.18:
                 selected[-1] = event

@@ -111,6 +111,57 @@ class PsyGodotTests(unittest.TestCase):
 
         self.assertEqual([note["lane"] for note in beatmap["notes"]], ["don", "ka"])
 
+    def test_easy_keeps_simple_backbeat_and_backfills_long_gaps(self):
+        events = [
+            {
+                "time_sec": time_sec,
+                "quantized_time_sec": time_sec,
+                "strength": 0.86 if subdivision == 0 else 0.5,
+                "subdivision": subdivision,
+                "beat_index": index // 2,
+                "drum_class": "kick" if subdivision == 0 else "unknown",
+                "confidence": 0.82 if subdivision == 0 else 0.5,
+                "is_accent": subdivision == 0,
+            }
+            for index, (time_sec, subdivision) in enumerate(
+                [
+                    (0.0, 0),
+                    (2.0, 2),
+                    (4.0, 2),
+                    (6.0, 2),
+                    (8.0, 2),
+                    (10.0, 2),
+                    (12.0, 0),
+                ]
+            )
+        ]
+
+        beatmap = build_beatmap(events, difficulty="easy", source_path="song.wav", title="Song")
+        times = [note["time_sec"] for note in beatmap["notes"]]
+
+        self.assertGreater(len(times), 2)
+        self.assertLessEqual(max_note_gap(times), 4.0)
+
+    def test_easy_uses_simple_taiko_motif_for_ambiguous_events(self):
+        events = [
+            {
+                "time_sec": 1.0 + (index * 0.5),
+                "quantized_time_sec": 1.0 + (index * 0.5),
+                "strength": 0.66,
+                "subdivision": 0 if index % 2 == 0 else 2,
+                "beat_index": index // 2,
+                "drum_class": "unknown",
+                "confidence": 0.64,
+                "is_accent": False,
+            }
+            for index in range(8)
+        ]
+
+        beatmap = build_beatmap(events, difficulty="easy", source_path="song.wav", title="Song")
+        lanes = [note["lane"] for note in beatmap["notes"]]
+
+        self.assertEqual(lanes, ["don", "don", "ka", "don", "don", "ka", "don", "don"])
+
     def test_hard_breaks_excessively_long_same_lane_runs(self):
         events = [
             {
