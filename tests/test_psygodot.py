@@ -162,6 +162,30 @@ class PsyGodotTests(unittest.TestCase):
 
         self.assertEqual(lanes, ["don", "don", "ka", "don", "don", "ka", "don", "don"])
 
+    def test_easy_adapts_coverage_in_active_drum_passages(self):
+        events = [
+            {
+                "time_sec": index * 0.5,
+                "quantized_time_sec": index * 0.5,
+                "strength": 0.56,
+                "subdivision": index % 4,
+                "beat_index": index // 4,
+                "drum_class": "unknown",
+                "confidence": 0.56,
+                "is_accent": False,
+            }
+            for index in range(16)
+        ]
+
+        beatmap = build_beatmap(events, difficulty="easy", source_path="song.wav", title="Song")
+        times = [note["time_sec"] for note in beatmap["notes"]]
+        lanes = [note["lane"] for note in beatmap["notes"]]
+
+        self.assertGreaterEqual(len(times), 11)
+        self.assertLessEqual(max_note_gap(times), 1.0)
+        self.assertIn("ka", lanes)
+        self.assertLessEqual(max_same_lane_run(lanes), 3)
+
     def test_hard_breaks_excessively_long_same_lane_runs(self):
         events = [
             {

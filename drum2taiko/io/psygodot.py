@@ -15,10 +15,14 @@ DIFFICULTY_MIN_GAP_SEC = {"easy": 0.34, "normal": 0.28, "hard": 0.16}
 DIFFICULTY_SCORE_FLOOR = {"easy": 0.46, "normal": 0.42, "hard": 0.24}
 DIFFICULTY_MAX_SAME_LANE_RUN = {"easy": 999, "normal": 12, "hard": 16}
 DIFFICULTY_BACKFILL_GAP_SEC = {"easy": 4.0, "normal": 4.0, "hard": 0.0}
+EASY_ACTIVE_WINDOW_SEC = 4.0
+EASY_ACTIVE_MIN_EVENTS = 6
+EASY_ACTIVE_TARGET_RATIO = 0.68
+EASY_ACTIVE_SCORE_FLOOR = 0.5
 EASY_TAIKO_MOTIFS = (
     ("don", "don", "ka", "don"),
     ("don", "ka", "don", "don"),
-    ("don", "don", "don", "ka"),
+    ("ka", "don", "don", "ka"),
 )
 NORMAL_TAIKO_MOTIFS = (
     ("don", "ka", "don"),
@@ -112,7 +116,7 @@ def _select_events(events: list[dict[str, Any]], difficulty: str) -> list[dict[s
         drum_class = _drum_class(event.get("drum_class", "unknown"))
         is_downbeat = subdivision == 0
         is_backbeat = subdivision == 2
-        score = (strength * 0.72) + (confidence * 0.28)
+        score = _event_score(event)
 
         if difficulty == "easy":
             if not (is_downbeat or is_backbeat or score >= 0.72):
@@ -133,16 +137,23 @@ def _select_events(events: list[dict[str, Any]], difficulty: str) -> list[dict[s
             continue
         selected.append(event)
         last_time = time_sec
-    return _backfill_long_gaps(events, selected, difficulty)
+    filled = _backfill_long_gaps(events, selected, difficulty)
+    if difficulty == "easy":
+        return _adapt_easy_active_coverage(events, filled)
+    return filled
+
+
+def _event_score(event: dict[str, Any]) -> float:
+    strength = float(event.get("strength", 1.0))
+    confidence = float(event.get("confidence", strength))
+    return (strength * 0.72) + (confidence * 0.28)
 
 
 def _backfill_score(event: dict[str, Any], midpoint: float, gap_sec: float) -> float:
-    strength = float(event.get("strength", 1.0))
-    confidence = float(event.get("confidence", strength))
     subdivision = int(event.get("subdivision", 0))
     is_accent = bool(event.get("is_accent", False))
     center_bonus = 1.0 - min(1.0, abs(float(event["quantized_time_sec"]) - midpoint) / gap_sec)
-    score = (strength * 0.45) + (confidence * 0.25) + (center_bonus * 0.15)
+    score = (_event_score(event) * 0.7) + (center_bonus * 0.15)
     if subdivision == 0:
         score += 0.18
     elif subdivision == 2:
@@ -150,6 +161,76 @@ def _backfill_score(event: dict[str, Any], midpoint: float, gap_sec: float) -> f
     if is_accent:
         score += 0.1
     return score
+
+
+def _is_far_enough_from_selected(
+    event: dict[str, Any],
+    selected: list[dict[str, Any]],
+    min_gap: float,
+) -> bool:
+    time_sec = float(event["quantized_time_sec"])
+    return all(abs(time_sec - float(note["quantized_time_sec"])) >= min_gap for note in selected)
+
+
+def _active_window_score(event: dict[str, Any], midpoint: float, window_sec: float) -> float:
+    center_bonus = 1.0 - min(1.0, abs(float(event["quantized_time_sec"]) - midpoint) / window_sec)
+    subdivision = int(event.get("subdivision", 0))
+    subdivision_bonus = 0.08 if subdivision in {0, 2} else 0.0
+    return _event_score(event) + (center_bonus * 0.1) + subdivision_bonus
+
+
+def _adapt_easy_active_coverage(
+    events: list[dict[str, Any]],
+    selected: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    if len(events) < EASY_ACTIVE_MIN_EVENTS:
+        return selected
+
+    min_gap = DIFFICULTY_MIN_GAP_SEC["easy"]
+    filled = sorted(selected, key=lambda event: float(event["quantized_time_sec"]))
+    first_time = float(events[0]["quantized_time_sec"])
+    last_time = float(events[-1]["quantized_time_sec"])
+    window_start = first_time
+
+    while window_start <= last_time:
+        window_end = window_start + EASY_ACTIVE_WINDOW_SEC
+        window_events = [
+            event
+            for event in events
+            if window_start <= float(event["quantized_time_sec"]) < window_end
+            and _event_score(event) >= EASY_ACTIVE_SCORE_FLOOR
+        ]
+        if len(window_events) >= EASY_ACTIVE_MIN_EVENTS:
+            window_selected = [
+                event
+                for event in filled
+                if window_start <= float(event["quantized_time_sec"]) < window_end
+            ]
+            target_count = math.ceil(len(window_events) * EASY_ACTIVE_TARGET_RATIO)
+            needed = max(0, target_count - len(window_selected))
+            if needed:
+                selected_ids = {id(event) for event in filled}
+                midpoint = (window_start + window_end) / 2.0
+                candidates = [
+                    event
+                    for event in window_events
+                    if id(event) not in selected_ids
+                    and _is_far_enough_from_selected(event, filled, min_gap)
+                ]
+                candidates.sort(
+                    key=lambda event: _active_window_score(event, midpoint, EASY_ACTIVE_WINDOW_SEC),
+                    reverse=True,
+                )
+                for candidate in candidates:
+                    if needed <= 0:
+                        break
+                    if not _is_far_enough_from_selected(candidate, filled, min_gap):
+                        continue
+                    filled.append(candidate)
+                    needed -= 1
+        window_start = window_end
+
+    return sorted(filled, key=lambda event: float(event["quantized_time_sec"]))
 
 
 def _best_backfill_candidate(
