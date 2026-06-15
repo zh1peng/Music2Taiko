@@ -137,6 +137,8 @@ def _warnings(summary: dict[str, Any]) -> list[str]:
         warnings.append("long same-lane run")
     if summary["long_note_gaps"]:
         warnings.append("long note gap")
+    if summary["notes"] and summary["lanes"].get("ka", 0) / summary["notes"] > 0.55:
+        warnings.append("high ka ratio")
     return warnings
 
 

@@ -15,6 +15,7 @@ DIFFICULTY_MIN_GAP_SEC = {"easy": 0.34, "normal": 0.28, "hard": 0.16}
 DIFFICULTY_SCORE_FLOOR = {"easy": 0.46, "normal": 0.42, "hard": 0.24}
 DIFFICULTY_MAX_SAME_LANE_RUN = {"easy": 999, "normal": 12, "hard": 16}
 DIFFICULTY_BACKFILL_GAP_SEC = {"easy": 4.0, "normal": 4.0, "hard": 0.0}
+DIFFICULTY_MAX_KA_RATIO = {"easy": 0.56, "normal": 0.52, "hard": 0.45}
 EASY_ACTIVE_WINDOW_SEC = 4.0
 EASY_ACTIVE_MIN_EVENTS = 6
 EASY_ACTIVE_TARGET_RATIO = 0.68
@@ -28,6 +29,11 @@ NORMAL_TAIKO_MOTIFS = (
     ("don", "ka", "don"),
     ("don", "don", "ka"),
     ("don", "ka", "ka"),
+)
+HARD_TAIKO_MOTIFS = (
+    ("don", "ka", "don", "don"),
+    ("don", "don", "ka", "don"),
+    ("don", "ka", "don", "ka"),
 )
 ALGORITHM_VERSION = "drum2taiko_v1"
 
@@ -62,7 +68,10 @@ def _lane_for(index: int, difficulty: str, event: dict[str, Any]) -> str:
         motif = NORMAL_TAIKO_MOTIFS[(index // 3) % len(NORMAL_TAIKO_MOTIFS)]
         return motif[index % len(motif)]
     if drum_class in {"hat", "cymbal"}:
-        return "ka"
+        if is_accent and strength >= 0.86:
+            return "ka"
+        motif = HARD_TAIKO_MOTIFS[(index // 4) % len(HARD_TAIKO_MOTIFS)]
+        return motif[index % len(motif)]
     if drum_class == "tom" and difficulty == "hard":
         return "ka" if index % 2 else "don"
     if drum_class == "snare":
@@ -304,6 +313,32 @@ def _apply_lane_motif_limit(notes: list[dict[str, Any]], difficulty: str) -> Non
             run_length = 1
 
 
+def _apply_lane_balance(notes: list[dict[str, Any]], difficulty: str) -> None:
+    max_ratio = DIFFICULTY_MAX_KA_RATIO[difficulty]
+    if not notes:
+        return
+    current_ka = sum(1 for note in notes if note["lane"] == "ka")
+    max_ka = max(1, math.floor(len(notes) * max_ratio)) if current_ka else 0
+    excess = current_ka - max_ka
+    if excess <= 0:
+        return
+
+    candidates = [
+        (index, note)
+        for index, note in enumerate(notes)
+        if note["lane"] == "ka"
+    ]
+    candidates.sort(
+        key=lambda item: (
+            float(item[1].get("strength", 0.0)),
+            0 if int(item[1].get("subdivision", 0)) in {0, 2} else 1,
+            item[0],
+        )
+    )
+    for _, note in candidates[:excess]:
+        note["lane"] = "don"
+
+
 def build_beatmap(
     drum_events: Iterable[float | dict[str, Any]],
     *,
@@ -337,6 +372,7 @@ def build_beatmap(
         for index, event in enumerate(selected)
     ]
     _apply_lane_motif_limit(notes, difficulty)
+    _apply_lane_balance(notes, difficulty)
     duration = max((note["time_sec"] for note in notes), default=0.0)
     tempo_values = [event.get("tempo_bpm") for event in clean_events if event.get("tempo_bpm")]
     tempo_bpm = round(sum(tempo_values) / len(tempo_values), 3) if tempo_values else 0.0

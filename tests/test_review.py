@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from drum2taiko.io.psygodot import write_beatmaps
-from drum2taiko.review import summarize_beatmaps, write_review_report
+from drum2taiko.review import summarize_beatmap, summarize_beatmaps, write_review_report
 
 
 EVENTS = [
@@ -101,6 +101,27 @@ class ReviewTests(unittest.TestCase):
             hard_summary["long_note_gaps"],
             [{"start_sec": 2.0, "end_sec": 9.0, "duration_sec": 7.0}],
         )
+
+    def test_summarize_beatmaps_warns_when_ka_ratio_is_too_high(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "high_ka.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "difficulty": "hard",
+                        "notes": [
+                            {"time_sec": index * 0.2, "lane": "ka" if index < 8 else "don"}
+                            for index in range(10)
+                        ],
+                        "drum_events": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            report = summarize_beatmap(path)
+
+        self.assertIn("high ka ratio", report["warnings"])
 
     def test_write_review_report_outputs_json(self):
         with tempfile.TemporaryDirectory() as tmp:

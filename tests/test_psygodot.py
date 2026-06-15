@@ -207,6 +207,52 @@ class PsyGodotTests(unittest.TestCase):
         self.assertIn("don", lanes)
         self.assertLessEqual(max_same_lane_run(lanes), 16)
 
+    def test_hard_caps_ka_ratio_for_dense_hat_or_cymbal_passages(self):
+        events = [
+            {
+                "time_sec": 1.0 + (index * 0.2),
+                "quantized_time_sec": 1.0 + (index * 0.2),
+                "strength": 0.72,
+                "subdivision": index % 4,
+                "beat_index": index // 4,
+                "drum_class": "hat",
+                "confidence": 0.78,
+                "is_accent": False,
+            }
+            for index in range(32)
+        ]
+
+        beatmap = build_beatmap(events, difficulty="hard", source_path="song.wav", title="Song")
+        lanes = [note["lane"] for note in beatmap["notes"]]
+        ka_ratio = lanes.count("ka") / len(lanes)
+
+        self.assertLessEqual(ka_ratio, 0.45)
+        self.assertGreater(lanes.count("ka"), 0)
+        self.assertGreater(lanes.count("don"), lanes.count("ka"))
+
+    def test_hard_caps_ka_ratio_after_mixed_drum_mapping(self):
+        classes = ["hat", "snare", "cymbal", "snare"] * 12
+        events = [
+            {
+                "time_sec": 1.0 + (index * 0.18),
+                "quantized_time_sec": 1.0 + (index * 0.18),
+                "strength": 0.74,
+                "subdivision": index % 4,
+                "beat_index": index // 4,
+                "drum_class": drum_class,
+                "confidence": 0.8,
+                "is_accent": False,
+            }
+            for index, drum_class in enumerate(classes)
+        ]
+
+        beatmap = build_beatmap(events, difficulty="hard", source_path="song.wav", title="Song")
+        lanes = [note["lane"] for note in beatmap["notes"]]
+        ka_ratio = lanes.count("ka") / len(lanes)
+
+        self.assertLessEqual(ka_ratio, 0.45)
+        self.assertGreater(lanes.count("ka"), 0)
+
     def test_normal_backfills_long_gaps_from_available_drum_events(self):
         events = [
             {
