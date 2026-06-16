@@ -14,7 +14,7 @@ from music2taiko.separation.demucs import DemucsConfig, separate_drums
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="music2taiko", description="Generate Taiko-style PsyGodot beatmaps.")
+    parser = argparse.ArgumentParser(prog="music2taiko", description="Convert any music to Taiko TJA.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     separate_parser = subparsers.add_parser("separate", help="Create a Demucs drums stem.")

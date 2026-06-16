@@ -1,33 +1,40 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Music2Taiko logo" width="220">
+</p>
+
 # Music2Taiko
 
 [中文](README.md) | English
 
-Music2Taiko is a Python package for turning MP3/WAV music into approximate Taiko-style beatmaps. It generates an inspectable `drum_events[]` layer first, then maps those events into `don` / `ka` notes and exports OpenTaiko/TJA packages. PsyGodot JSON is still available for debugging and compatibility.
+**Convert any music to Taiko TJA.**
 
-The project is experimental. The goal is not to produce final charts in one click, but to create a useful draft that can be reviewed, tested in Godot, and iterated on.
+Music2Taiko is a Python package and chart-authoring workflow for converting MP3/WAV/OGG songs into playable Taiko-style `.tja` drafts. It analyzes the source audio into an inspectable `drum_events[]` layer, retrieves similar charting evidence from `tja-wiki`, builds arrangement context and pattern plans, then exports OpenTaiko-ready TJA packages.
+
+The project is not a one-click final chart replacement. It is designed to give chart authors a strong editable draft: timing anchors from the source song, difficulty shaping across `easy` / `normal` / `hard` / `oni`, and wiki-backed pattern references from existing TJA charts.
+
+## Why It Changed
+
+Earlier versions mostly mapped detected drum events into simple `don` / `ka` charts. The current workflow adds a local TJA knowledge base:
+
+- `tja-wiki/` stores processed reference data from existing TJA + OGG chart packs.
+- Retrieval compares a new song against the corpus using BPM, event density, duration, rhythm features, and pattern evidence.
+- The LLM/skill layer uses the wiki to choose charting patterns instead of copying timing from another song.
+- Python keeps the deterministic parts: audio analysis, drum events, candidate timing anchors, pattern application, TJA export, and aligned sample output.
+- Export supports multi-course TJA with regular notes, big notes, rolls, and balloons.
 
 ## Workflow
 
 ```text
-MP3/WAV audio
-  -> Demucs drum stem, preferred
-  -> librosa onset/drum analysis
-  -> drum_events[]
-  -> Taiko notes[]
-  -> OpenTaiko TJA + OGG
+new song audio
+  -> audio conversion / optional drum analysis
+  -> drum_events[] + timing anchors
+  -> tja-wiki retrieval context
+  -> pattern plan from skill/LLM guidance
+  -> easy / normal / hard / oni TJA courses
+  -> OpenTaiko package: .tja + .ogg + review artifacts
 ```
 
-## Features
-
-- Demucs drum stem separation.
-- Drum-event extraction from drum stems.
-- `drum_events[]` with timing, quantized timing, strength, coarse drum class, confidence, band strengths, and timing error.
-- `easy` / `normal` / `hard` chart generation.
-- Normal-difficulty long-gap backfill.
-- Deterministic short Taiko motifs for normal `don` / `ka` mapping.
-- OpenTaiko/TJA package export with `.tja` chart and `.ogg` audio.
-- PsyGodot rhythm_drum JSON export for debugging.
-- `review_report.json` with offset, density, note-gap, lane distribution, and warning diagnostics.
+The core rule is that generated notes should stay loyal to the source song's drum events. The wiki is used for charting style, density, difficulty progression, and motif design, not for cloning another chart.
 
 ## Install
 
@@ -40,82 +47,127 @@ Dependencies are declared in `pyproject.toml`:
 ```text
 librosa
 numpy
+soundfile
 demucs
 ```
 
-For CUDA Demucs, install a CUDA-enabled PyTorch build for your hardware before installing this package. Do not install the PyPI package named `audio`; it is unrelated to Demucs or this project.
+Demucs is treated as an optional upstream drum-stem provider. The TJA creation pipeline can still run from normal audio input.
 
-## Usage
+## Quick Start
 
-The repository, package distribution, primary CLI, and Python implementation package are all named Music2Taiko / `music2taiko`.
-
-Run the full OpenTaiko/TJA package workflow:
+Create a four-course TJA package:
 
 ```powershell
-python -m music2taiko build-opentaiko ".\song.mp3" --out opentaiko_out --title "Song"
+music2taiko create-tja ".\song.ogg" --out opentaiko_out --difficulties easy,normal,hard,oni
 ```
 
-Output:
+Equivalent module form:
+
+```powershell
+python -m music2taiko create-tja ".\song.ogg" --out opentaiko_out --difficulties easy,normal,hard,oni
+```
+
+Use a stable short output ID when the source title is long:
+
+```powershell
+music2taiko create-tja ".\Very Long Song Name.mp3" --out opentaiko_out --song-id 001 --title "Very Long Song Name"
+```
+
+Reuse an existing arrangement context without re-running audio analysis:
+
+```powershell
+music2taiko create-tja ".\song.ogg" --out opentaiko_out --reuse-context ".\opentaiko_out\song\arrangement_context.json"
+```
+
+Provide an LLM/skill-authored pattern plan:
+
+```powershell
+music2taiko create-tja ".\song.ogg" --out opentaiko_out --pattern-plan ".\pattern_plan.json"
+```
+
+## Output
+
+`create-tja` writes an OpenTaiko-ready package:
 
 ```text
 opentaiko_out/
-  Song/
-    Song.tja
-    Song.ogg
-    review_report.json
-    debug_json/
-    stems/
+  <safe-song-id>/
+    <safe-song-id>.tja
+    <safe-song-id>.ogg
+    retrieval.json
+    arrangement_context.json
+    pattern_plan.json
+    aligned_samples.json
 ```
 
-Run the PsyGodot JSON workflow:
+Important artifacts:
+
+- `retrieval.json`: similar songs and reference evidence selected from `tja-wiki/corpus`.
+- `arrangement_context.json`: BPM, drum-event summary, density windows, anchors, and retrieval context for skill/LLM review.
+- `pattern_plan.json`: the concrete charting plan used for each difficulty.
+- `aligned_samples.json`: note-level links between generated notes and source-song drum events.
+- `.tja`: exported TJA with `Easy`, `Normal`, `Hard`, and `Oni` courses by default.
+
+## TJA Wiki
+
+The checked-in `tja-wiki/` directory is the local knowledge base:
+
+```text
+tja-wiki/
+  corpus/
+    manifest.json
+    pattern_stats.json
+    tja_summary.json
+    audio_drum_event_summary.json
+  01 OpenTaiko Chapter I/
+  02 OpenTaiko Chapter II/
+  03 OpenTaiko Chapter III/
+```
+
+It is intentionally separate from the raw `database/` folder. The wiki contains compact, reusable evidence for retrieval and LLM-readable chart design, while the raw music/chart database can remain local and large.
+
+## Legacy Workflows
+
+Music2Taiko still includes earlier debug/export paths:
 
 ```powershell
+python -m music2taiko build-opentaiko ".\song.mp3" --out opentaiko_out --title "Song"
 python -m music2taiko build ".\song.mp3" --out godot_out --title "Song"
-```
-
-Generate beatmaps without Demucs:
-
-```powershell
 python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song"
 ```
 
-Generate with Demucs:
-
-```powershell
-python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs
-```
-
-On Windows, MP3 stem output can avoid TorchCodec/shared-FFmpeg WAV save issues:
-
-```powershell
-python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs --demucs-device cuda --demucs-model htdemucs --demucs-segment 7 --demucs-format mp3
-```
-
-Use an existing drum stem:
-
-```powershell
-python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --drum-stem ".\drums.mp3"
-```
-
-## Outputs
-
-```text
-godot_out/
-  <title>_easy.json
-  <title>_normal.json
-  <title>_hard.json
-  review_report.json
-  stems/
-```
-
-Each beatmap contains `drum_events[]`, playable `notes[]`, offset metadata, difficulty metadata, and PsyGodot compatibility fields.
+These are useful for PsyGodot JSON debugging, drum-event review, and older experiments. For new TJA authoring, prefer `create-tja`.
 
 ## Development
 
+Run tests:
+
 ```powershell
-python -m unittest discover
+python -m unittest discover -s tests
+```
+
+Validate the chart-authoring skill:
+
+```powershell
+python C:\Users\frued\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\tja-creator
+```
+
+Project layout:
+
+```text
+music2taiko/
+  cli.py
+  pipeline.py
+  creator.py
+  analysis/
+  io/
+  separation/
+skills/tja-creator/
+tja-wiki/
+tests/
+assets/logo.png
 ```
 
 ## Scope
 
-Music2Taiko is not a full drum transcription engine or a final chart authoring replacement. It is a draft generator and analysis pipeline for iterating on drum-event quality, offset, density, difficulty shaping, and Taiko `don` / `ka` mapping.
+Music2Taiko is a draft generator and analysis pipeline. It does not replace human chart authorship, but it gives authors a structured starting point: source-song drum anchors, corpus-backed pattern guidance, four-difficulty progression, TJA export, and review artifacts that make iteration practical.

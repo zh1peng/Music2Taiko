@@ -1,214 +1,156 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Music2Taiko logo" width="220">
+</p>
+
 # Music2Taiko
 
 中文 | [English](README.en.md)
 
-Music2Taiko 是一个 Python 工具包，用来把 MP3/WAV 音乐转换成近似可玩的 Taiko 风格鼓面。它不是完整的“自动扒鼓谱”系统，而是先生成一个可检查的 `drum_events[]` 中间层，再把鼓点事件映射成 `don` / `ka` 谱面，并导出 OpenTaiko/TJA package。PsyGodot JSON 仍然保留，主要用于调试和算法验证。
+**Convert any music to Taiko TJA.**
 
-当前项目还处于实验阶段，目标是给谱面作者一个可迭代的起点：自动生成初稿、查看报告、进 Godot 听手感，然后继续调 offset、鼓点质量、don/ka pattern 和难度密度。
+Music2Taiko 是一个 Python 工具包和谱面制作工作流，用来把 MP3/WAV/OGG 音乐转换成可编辑、可测试的太鼓风格 `.tja` 初稿。它不会直接把全曲 onset 粗暴映射成 note，而是先生成可检查的 `drum_events[]` 中间层，再从 `tja-wiki` 检索相似曲和参考谱面证据，最后生成 OpenTaiko 可用的 TJA package。
+
+这个项目的目标不是“一键生成最终发布谱面”，而是给谱面作者一个更强的起点：源曲鼓点锚点、四档难度设计、相似谱面 pattern 参考、TJA 导出，以及方便复盘的中间产物。
+
+## 为什么现在需要 tja-wiki
+
+早期流程主要是从鼓点事件生成简单的 `don` / `ka`。现在的流程加入了本地 TJA 知识库：
+
+- `tja-wiki/` 保存从已有 TJA + OGG 谱面包中提取出的紧凑知识。
+- 新歌会根据 BPM、事件密度、时长、节奏特征和 pattern 证据检索相似曲。
+- LLM/skill 层使用 wiki 来判断“类似节奏应该如何设计 pattern”，但不会复制其它谱面的时间轴。
+- Python 负责确定性部分：音频分析、`drum_events[]`、候选 timing anchors、pattern 落点、TJA 导出和 `aligned_samples`。
+- TJA 导出支持四档难度，并支持普通音符、大音符、roll、balloon 等 TJA note 类型。
 
 ## 工作流
 
 ```text
-MP3/WAV 音频
-  -> Demucs drum stem，优先使用
-  -> librosa 鼓点/瞬态分析
-  -> drum_events[] 中间层
-  -> Taiko notes[]，包含 don/ka 和难度塑形
-  -> OpenTaiko TJA + OGG
+新歌音频
+  -> 音频转换 / 鼓点分析
+  -> drum_events[] + candidate timing anchors
+  -> 从 tja-wiki 检索相似曲和参考 pattern
+  -> skill/LLM 生成 pattern_plan
+  -> Python 把 pattern 落到源曲 drum_events 上
+  -> 导出 easy / normal / hard / oni 四档 TJA
+  -> OpenTaiko package: .tja + .ogg + 复盘文件
 ```
 
-核心原则：
-
-- 不直接把 full-mix onset 映射成 `don` / `ka`。
-- `drum_events[]` 是音频分析和太鼓谱面之间的中间层。
-- Demucs 是优先的 drum stem 来源，但谱面生成逻辑仍然属于 Music2Taiko。
-- TJA + OGG 是太鼓模式的标准输出；PsyGodot JSON 是调试和兼容导出。
-
-## 当前能力
-
-- 使用 Demucs 分离 drum stem。
-- 使用 librosa 从 drum stem 中提取鼓点候选。
-- 生成 `drum_events[]`，包含时间、量化时间、强度、粗分类、confidence、频段强度和 timing error。
-- 生成 `easy` / `normal` / `hard` 三档 Taiko notes。
-- normal 难度会回填过长空窗，避免中间长时间没有 note。
-- normal 的 `don` / `ka` 使用固定短句 motif，而不是随机 shuffle。
-- 导出 OpenTaiko/TJA package：`.tja` 谱面和 `.ogg` 音乐。
-- 继续导出 PsyGodot `rhythm_drum` 兼容 JSON，作为 debug JSON。
-- 生成 `review_report.json`，用于检查 offset、密度、最大空窗、don/ka 分布和 warning。
+核心原则：note 必须忠于源曲鼓点；wiki 只用来帮助判断谱面语言、密度、难度递进和 pattern 设计。
 
 ## 安装
-
-开发模式安装：
 
 ```powershell
 python -m pip install -e .
 ```
 
-项目依赖写在 `pyproject.toml` 里，目前包括：
+依赖写在 `pyproject.toml`：
 
 ```text
 librosa
 numpy
+soundfile
 demucs
 ```
 
-如果要使用 CUDA 跑 Demucs，请先安装匹配你显卡和 CUDA 的 GPU 版 PyTorch，再安装本包。不要安装名为 `audio` 的 PyPI 包；它和 Demucs/音频分析没有关系，容易造成误解。
+Demucs 是可选的上游 drum stem 工具，不是 TJA 生成流程的硬依赖。
 
-## 使用
+## 快速开始
 
-完整生成 OpenTaiko/TJA package，推荐用于太鼓模式：
-
-```powershell
-python -m music2taiko build-opentaiko ".\song.mp3" --out opentaiko_out --title "Song"
-```
-
-输出结构：
-
-```text
-opentaiko_out/
-  Song/
-    Song.tja
-    Song.ogg
-    review_report.json
-    debug_json/
-      Song_easy.json
-      Song_normal.json
-      Song_hard.json
-    stems/
-```
-
-`Song.tja` 目前包含 `Easy` / `Normal` / `Hard` 三个 course，使用 4/4、16 分格输出：
-
-```text
-don -> 1
-ka  -> 2
-empty -> 0
-```
-
-生成 PsyGodot JSON，用于 Godot 验证或调试：
+生成四档难度 TJA package：
 
 ```powershell
-python -m music2taiko build ".\song.mp3" --out godot_out --title "Song"
+music2taiko create-tja ".\song.ogg" --out opentaiko_out --difficulties easy,normal,hard,oni
 ```
 
-这个命令会：
-
-```text
-1. 调用 Demucs 分离 drums
-2. 从 drum stem 生成 drum_events[]
-3. 生成 easy / normal / hard 三档谱面
-4. 写出 review_report.json
-```
-
-只生成谱面，不主动跑 Demucs：
+也可以用 module 方式运行：
 
 ```powershell
-python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song"
+python -m music2taiko create-tja ".\song.ogg" --out opentaiko_out --difficulties easy,normal,hard,oni
 ```
 
-显式使用 Demucs：
+当歌曲名过长时，使用短 ID，避免游戏加载路径过长：
 
 ```powershell
-python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs
+music2taiko create-tja ".\Very Long Song Name.mp3" --out opentaiko_out --song-id 001 --title "Very Long Song Name"
 ```
 
-Windows 上如果 Demucs 保存 WAV 遇到 TorchCodec/shared-FFmpeg 问题，可以输出 MP3 stem：
+如果已经有 `arrangement_context.json`，可以跳过重新音频分析：
 
 ```powershell
-python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs --demucs-device cuda --demucs-model htdemucs --demucs-segment 7 --demucs-format mp3
+music2taiko create-tja ".\song.ogg" --out opentaiko_out --reuse-context ".\opentaiko_out\song\arrangement_context.json"
 ```
 
-只做 Demucs 分离：
+如果已经由 skill/LLM 写好了 `pattern_plan.json`：
 
 ```powershell
-python -m music2taiko separate ".\song.mp3" --out stems --demucs-device cuda --demucs-model htdemucs --demucs-segment 7 --demucs-format mp3
-```
-
-使用已有 drum stem：
-
-```powershell
-python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --drum-stem ".\drums.mp3"
+music2taiko create-tja ".\song.ogg" --out opentaiko_out --pattern-plan ".\pattern_plan.json"
 ```
 
 ## 输出文件
 
-`build-opentaiko` 默认会生成：
+`create-tja` 会生成 OpenTaiko 可用的目录：
 
 ```text
-<title>.tja
-<title>.ogg
-review_report.json
-debug_json/
-stems/
+opentaiko_out/
+  <safe-song-id>/
+    <safe-song-id>.tja
+    <safe-song-id>.ogg
+    retrieval.json
+    arrangement_context.json
+    pattern_plan.json
+    aligned_samples.json
 ```
 
-`build` 默认会生成 PsyGodot JSON：
+关键文件：
+
+- `retrieval.json`：从 `tja-wiki/corpus` 检索出的相似曲和参考证据。
+- `arrangement_context.json`：BPM、鼓点摘要、密度窗口、候选锚点和检索上下文。
+- `pattern_plan.json`：每个难度实际采用的谱面设计计划。
+- `aligned_samples.json`：逐 note 记录生成 note 与源曲鼓点事件之间的对应关系。
+- `.tja`：默认包含 `Easy`、`Normal`、`Hard`、`Oni` 四个 course。
+
+## tja-wiki
+
+`tja-wiki/` 是项目内的本地知识库：
 
 ```text
-godot_out/
-  <title>_easy.json
-  <title>_normal.json
-  <title>_hard.json
-  review_report.json
-  stems/
+tja-wiki/
+  corpus/
+    manifest.json
+    pattern_stats.json
+    tja_summary.json
+    audio_drum_event_summary.json
+  01 OpenTaiko Chapter I/
+  02 OpenTaiko Chapter II/
+  03 OpenTaiko Chapter III/
 ```
 
-每个 beatmap JSON 包含：
+它和原始 `database/` 分开。`database/` 可以很大、可以只放在本地；`tja-wiki/` 则保存更紧凑、可复用、适合检索和 LLM 阅读的谱面知识。
 
-- `drum_events[]`：可检查的鼓点事件层。
-- `notes[]`：游戏用 note，包含 `time_sec`、`lane`、`window_ms`、`strength`、`subdivision`。
-- `audio_offset_ms` / `chart_offset_ms`：音频和谱面偏移字段。
-- `tempo_bpm`、`difficulty`、`drum_event_source` 等元数据。
+## 旧工作流
 
-## Report 怎么看
+项目仍然保留早期调试和兼容导出命令：
 
-`review_report.json` 是当前最重要的调试入口。
-
-重点字段：
-
-- `offset_calibration`：基于 timing error 给出的全局 offset 参考。
-- `notes`：该难度 note 数量。
-- `avg_nps` / `peak_5s_nps`：平均和局部密度。
-- `largest_note_gap_sec`：最大 note 空窗。
-- `long_note_gaps`：超过阈值的长空窗列表。
-- `lanes`：`don` / `ka` 数量。
-- `lane_motif`：颜色切换率和最长同色 run。
-- `warnings`：高密度、长空窗、没有 ka 等可疑点。
-
-如果 Godot 里感觉“没踩在鼓点上”，优先检查：
-
-```text
-1. chart_offset_ms / audio_offset_ms
-2. review_report.json 里的 timing error
-3. drum_events[] 是否有误检或漏检
-4. normal/hard 是否有过长空窗
-5. don/ka pattern 是否符合手感
+```powershell
+python -m music2taiko build-opentaiko ".\song.mp3" --out opentaiko_out --title "Song"
+python -m music2taiko build ".\song.mp3" --out godot_out --title "Song"
+python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song"
 ```
 
-## 放进 PsyGodot
-
-PsyGodot JSON 仍然可以用来调试。如果要把生成结果放进 PsyGodot 的示例工程，可以把生成的三档 JSON 复制到：
-
-```text
-E:\03_tools\psygodot\examples\rhythm_drum\beatmaps
-```
-
-例如当前《那天下雨了》对应的是 `song_002_*` 系列：
-
-```text
-song_002_easy.json
-song_002_normal.json
-song_002_hard.json
-```
-
-覆盖前建议先备份旧谱面，方便回听和对比。
+这些命令适合 PsyGodot JSON 调试、鼓点层检查和旧实验。新的 TJA 制作流程建议优先使用 `create-tja`。
 
 ## 开发
 
 运行测试：
 
 ```powershell
-python -m unittest discover
+python -m unittest discover -s tests
+```
+
+验证谱面制作 skill：
+
+```powershell
+python C:\Users\frued\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\tja-creator
 ```
 
 项目结构：
@@ -217,29 +159,16 @@ python -m unittest discover
 music2taiko/
   cli.py
   pipeline.py
+  creator.py
   analysis/
-    candidates.py
-  separation/
-    demucs.py
   io/
-    psygodot.py
-  review.py
+  separation/
+skills/tja-creator/
+tja-wiki/
 tests/
-skills/
-pyproject.toml
+assets/logo.png
 ```
 
-## 设计边界
+## 边界
 
-Music2Taiko 当前不是：
-
-- 完整真实鼓谱转写器。
-- osu!/Taiko 官方谱面生成器。
-- 一键生成最终可发布谱面的工具。
-
-Music2Taiko 当前更适合：
-
-- 从音乐生成可编辑的太鼓谱面初稿。
-- 研究 drum-event layer 到 Taiko chart layer 的映射。
-- 给 PsyGodot rhythm game 示例快速生成测试谱面。
-- 迭代 offset、密度、pattern 和难度塑形算法。
+Music2Taiko 是谱面初稿生成和分析工具。它不会替代人工谱师，但会把最耗时的起步工作结构化：提取源曲鼓点、检索相似谱面、生成四档难度、导出 TJA，并保留足够的复盘文件用于继续调整。
