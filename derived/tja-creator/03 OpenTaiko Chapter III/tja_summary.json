@@ -1,0 +1,154 @@
+{
+  "chapter": "03 OpenTaiko Chapter III",
+  "song_count": 34,
+  "status_counts": {
+    "ok": 34
+  },
+  "course_counts": {
+    "Edit": 21,
+    "Oni": 34,
+    "Easy": 34,
+    "Hard": 34,
+    "Normal": 34
+  },
+  "note_type_counts_by_course": {
+    "Edit": {
+      "ka": 11259,
+      "big_don": 594,
+      "don": 11623,
+      "big_ka": 319
+    },
+    "Oni": {
+      "ka": 13332,
+      "big_don": 720,
+      "don": 13838,
+      "big_ka": 448
+    },
+    "Easy": {
+      "big_don": 502,
+      "don": 3237,
+      "ka": 2327,
+      "big_ka": 349
+    },
+    "Hard": {
+      "ka": 7684,
+      "big_don": 686,
+      "don": 9280,
+      "big_ka": 450
+    },
+    "Normal": {
+      "ka": 4564,
+      "big_don": 566,
+      "don": 5510,
+      "big_ka": 406
+    }
+  },
+  "duration_type_counts_by_course": {
+    "Edit": {
+      "special_balloon": 80,
+      "roll": 90,
+      "balloon": 31,
+      "big_roll": 54
+    },
+    "Oni": {
+      "roll": 288,
+      "special_balloon": 14,
+      "balloon": 54,
+      "big_roll": 36
+    },
+    "Easy": {
+      "roll": 325,
+      "special_balloon": 20,
+      "balloon": 50,
+      "big_roll": 98
+    },
+    "Hard": {
+      "roll": 315,
+      "special_balloon": 18,
+      "balloon": 45,
+      "big_roll": 104
+    },
+    "Normal": {
+      "roll": 345,
+      "special_balloon": 18,
+      "balloon": 62,
+      "big_roll": 116
+    }
+  },
+  "bpm_values": [
+    165.0,
+    170.0,
+    205.0,
+    110.0,
+    154.046,
+    165.0,
+    136.307,
+    170.0,
+    210.0,
+    200.0,
+    327.375,
+    253.0,
+    158.586,
+    124.0,
+    180.0,
+    132.0,
+    105.0,
+    100.0,
+    150.0,
+    230.0,
+    150.0,
+    245.0,
+    128.0,
+    134.0,
+    130.0,
+    250.0,
+    160.0,
+    280.0,
+    119.0,
+    147.0,
+    133.0,
+    216.0,
+    185.0,
+    120.0
+  ],
+  "offset_values_sec": [
+    0.0,
+    -2.823,
+    -0.293,
+    -0.273,
+    0.0,
+    -0.454,
+    0.0,
+    0.0,
+    -0.573,
+    -0.065,
+    -0.735,
+    -0.474,
+    0.0,
+    -15.968,
+    -1.375,
+    -1.848,
+    -1.203,
+    -2.4,
+    -0.704,
+    -0.0,
+    -0.4,
+    0.0,
+    0.0,
+    -0.896,
+    -0.011,
+    -0.025,
+    -1.5,
+    0.0,
+    -0.506,
+    -0.0,
+    -0.451,
+    0.0,
+    -0.001,
+    0.032
+  ],
+  "bpm_min": 100.0,
+  "bpm_max": 327.375,
+  "offset_min_sec": -15.968,
+  "offset_max_sec": 0.032
+}

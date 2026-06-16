@@ -15,3 +15,5 @@ stems/
 beatmaps/
 godot_out/
 opentaiko_out/
+database/
+input/

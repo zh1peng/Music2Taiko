@@ -1,0 +1,123 @@
+{
+  "source_collections": [
+    "01 OpenTaiko Chapter I",
+    "02 OpenTaiko Chapter II",
+    "03 OpenTaiko Chapter III"
+  ],
+  "song_count": 107,
+  "status_counts": {
+    "ok": 107
+  },
+  "course_counts": {
+    "Edit": 60,
+    "Oni": 107,
+    "Hard": 107,
+    "Normal": 107,
+    "Easy": 107
+  },
+  "bpm_min": 21.0,
+  "bpm_max": 327.375,
+  "offset_min_sec": -15.968,
+  "offset_max_sec": 0.3,
+  "note_type_counts_by_course": {
+    "Edit": {
+      "big_don": 1215,
+      "don": 33163,
+      "ka": 29262,
+      "big_ka": 835
+    },
+    "Oni": {
+      "big_don": 2131,
+      "ka": 43506,
+      "don": 50850,
+      "big_ka": 1344
+    },
+    "Hard": {
+      "big_don": 1931,
+      "ka": 26028,
+      "don": 33470,
+      "big_ka": 1135
+    },
+    "Normal": {
+      "big_don": 1654,
+      "ka": 15783,
+      "don": 20152,
+      "big_ka": 1111
+    },
+    "Easy": {
+      "big_don": 1449,
+      "ka": 8535,
+      "don": 11140,
+      "big_ka": 902
+    }
+  },
+  "duration_type_counts_by_course": {
+    "Edit": {
+      "balloon": 74,
+      "roll": 201,
+      "big_roll": 68,
+      "special_balloon": 85
+    },
+    "Oni": {
+      "balloon": 174,
+      "roll": 552,
+      "big_roll": 88,
+      "special_balloon": 22
+    },
+    "Hard": {
+      "balloon": 110,
+      "roll": 774,
+      "big_roll": 147,
+      "special_balloon": 30
+    },
+    "Normal": {
+      "balloon": 123,
+      "roll": 809,
+      "big_roll": 157,
+      "special_balloon": 31
+    },
+    "Easy": {
+      "balloon": 152,
+      "roll": 754,
+      "big_roll": 153,
+      "special_balloon": 37
+    }
+  },
+  "course_density": {
+    "Easy": {
+      "songs": 107,
+      "avg_level": 3.364,
+      "hit_notes": 22026,
+      "duration_notes": 1096,
+      "avg_hit_notes_per_sec": 1.346
+    },
+    "Edit": {
+      "songs": 60,
+      "avg_level": 9.55,
+      "hit_notes": 64475,
+      "duration_notes": 428,
+      "avg_hit_notes_per_sec": 7.228
+    },
+    "Hard": {
+      "songs": 107,
+      "avg_level": 6.505,
+      "hit_notes": 62564,
+      "duration_notes": 1061,
+      "avg_hit_notes_per_sec": 3.822
+    },
+    "Normal": {
+      "songs": 107,
+      "avg_level": 5.065,
+      "hit_notes": 38700,
+      "duration_notes": 1120,
+      "avg_hit_notes_per_sec": 2.364
+    },
+    "Oni": {
+      "songs": 107,
+      "avg_level": 8.533,
+      "hit_notes": 97831,
+      "duration_notes": 836,
+      "avg_hit_notes_per_sec": 5.976
+    }
+  }
+}

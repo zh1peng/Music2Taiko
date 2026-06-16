@@ -4,7 +4,13 @@ import unittest
 from pathlib import Path
 
 from drum2taiko.io.psygodot import write_beatmaps
-from drum2taiko.pipeline import build_beatmap_package, build_opentaiko_package, generate_beatmaps
+from drum2taiko.pipeline import (
+    DEFAULT_TJA_DIFFICULTIES,
+    build_beatmap_package,
+    build_opentaiko_package,
+    create_tja_package,
+    generate_beatmaps,
+)
 
 
 EVENTS = [
@@ -160,6 +166,212 @@ class PipelineTests(unittest.TestCase):
         self.assertIn("COURSE:Normal", tja_text)
         self.assertIn("#START", tja_text)
         self.assertEqual(report["title"], "Song")
+
+    def test_create_tja_package_writes_default_four_difficulty_tja_with_retrieval_metadata(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audio = root / "Very Long / Unsafe Song Name.mp3"
+            audio = root / "unsafe song.mp3"
+            audio.write_bytes(b"fake audio")
+            corpus = root / "corpus"
+            corpus.mkdir()
+            (corpus / "manifest.json").write_text(
+                json.dumps(
+                    [
+                        {
+                            "song_id": "001",
+                            "title": "Reference",
+                            "bpm": 120.0,
+                            "audio_duration_sec": 2.0,
+                            "drum_event_count": 2,
+                            "courses": ["Oni"],
+                            "course_summaries": [{"course": "Oni", "level": 8, "note_total": 12}],
+                        }
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            def fake_extractor(source, *, drum_stem_path=None):
+                events = []
+                for event in EVENTS:
+                    copy = event.copy()
+                    copy["tempo_bpm"] = 120.0
+                    events.append(copy)
+                return events
+
+            def fake_audio_converter(source, output):
+                Path(output).write_bytes(b"fake ogg")
+                return Path(output)
+
+            result = create_tja_package(
+                audio,
+                root / "out",
+                title="Unsafe Song Name With Extra Words",
+                song_id="099",
+                corpus_dir=corpus,
+                extractor=fake_extractor,
+                audio_converter=fake_audio_converter,
+                lead_in_sec=0.0,
+            )
+
+            tja_text = result["tja"].read_text(encoding="utf-8-sig")
+            retrieval = json.loads(result["retrieval"].read_text(encoding="utf-8"))
+            aligned = json.loads(result["aligned_samples"].read_text(encoding="utf-8"))
+            context = json.loads(result["arrangement_context"].read_text(encoding="utf-8"))
+            plan = json.loads(result["pattern_plan"].read_text(encoding="utf-8"))
+
+        self.assertEqual(result["package_dir"].name, "099-unsafe-song-name-with-extra-words")
+        self.assertEqual(result["audio"].name, "099-unsafe-song-name-with-extra-words.ogg")
+        self.assertEqual(DEFAULT_TJA_DIFFICULTIES, ("easy", "normal", "hard", "oni"))
+        self.assertIn("COURSE:Easy", tja_text)
+        self.assertIn("COURSE:Normal", tja_text)
+        self.assertIn("COURSE:Hard", tja_text)
+        self.assertIn("COURSE:Oni", tja_text)
+        self.assertIn("WAVE:099-unsafe-song-name-with-extra-words.ogg", tja_text)
+        self.assertEqual(retrieval["matches"][0]["song_id"], "001")
+        self.assertEqual(set(aligned["samples"]), {"easy", "normal", "hard", "oni"})
+        self.assertTrue(aligned["samples"]["oni"])
+        self.assertTrue(context["candidate_timing_anchors"])
+        self.assertEqual(set(plan["difficulties"]), {"easy", "normal", "hard", "oni"})
+
+    def test_create_tja_package_can_write_three_difficulties_and_lead_in_silence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audio = root / "song.mp3"
+            audio.write_bytes(b"fake audio")
+
+            def fake_extractor(source, *, drum_stem_path=None):
+                events = []
+                for time_sec in (1.0, 3.0, 3.5, 4.0):
+                    event = EVENTS[0].copy()
+                    event["time_sec"] = time_sec
+                    event["quantized_time_sec"] = time_sec
+                    event["tempo_bpm"] = 120.0
+                    events.append(event)
+                return events
+
+            def fake_audio_converter(source, output):
+                Path(output).write_bytes(b"fake ogg")
+                return Path(output)
+
+            result = create_tja_package(
+                audio,
+                root / "out",
+                difficulties=["easy", "normal", "oni"],
+                title="Song",
+                extractor=fake_extractor,
+                audio_converter=fake_audio_converter,
+                lead_in_sec=2.5,
+            )
+
+            tja_text = result["tja"].read_text(encoding="utf-8-sig")
+            aligned = json.loads(result["aligned_samples"].read_text(encoding="utf-8"))
+
+        self.assertIn("COURSE:Easy", tja_text)
+        self.assertIn("COURSE:Normal", tja_text)
+        self.assertIn("COURSE:Oni", tja_text)
+        self.assertEqual(set(aligned["samples"]), {"easy", "normal", "oni"})
+        for samples in aligned["samples"].values():
+            self.assertGreaterEqual(samples[0]["time_sec"], 2.5)
+
+    def test_create_tja_package_can_reuse_context_without_audio_analysis(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audio = root / "song.mp3"
+            audio.write_bytes(b"fake audio")
+            context_path = root / "arrangement_context.json"
+            context_path.write_text(
+                json.dumps(
+                    {
+                        "title": "Song",
+                        "difficulty": "oni",
+                        "estimated_bpm": 120.0,
+                        "drum_event_count": 2,
+                        "candidate_timing_anchors": [
+                            {"time_sec": 3.0, "drum_class": "kick", "strength": 1.0, "confidence": 1.0, "is_accent": True},
+                            {"time_sec": 3.5, "drum_class": "hat", "strength": 1.0, "confidence": 1.0, "is_accent": False},
+                        ],
+                        "retrieval_context": {"matches": [{"song_id": "001"}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            def fail_extractor(source, *, drum_stem_path=None):
+                raise AssertionError("extractor should not run")
+
+            def fail_audio_converter(source, output):
+                raise AssertionError("audio converter should not run")
+
+            result = create_tja_package(
+                audio,
+                root / "out",
+                title="Song",
+                output_prefix="song",
+                reuse_context_path=context_path,
+                difficulties=["easy", "normal", "oni"],
+                extractor=fail_extractor,
+                audio_converter=fail_audio_converter,
+            )
+
+            tja_text = result["tja"].read_text(encoding="utf-8-sig")
+
+        self.assertIn("WAVE:song.ogg", tja_text)
+        self.assertIn("COURSE:Easy", tja_text)
+        self.assertIn("COURSE:Oni", tja_text)
+
+    def test_create_tja_package_can_apply_external_llm_pattern_plan(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audio = root / "song.mp3"
+            audio.write_bytes(b"fake audio")
+            plan_path = root / "pattern_plan.json"
+            plan_path.write_text(
+                json.dumps(
+                    {
+                        "difficulty": "oni",
+                        "level": 8,
+                        "sections": [
+                            {
+                                "name": "main",
+                                "start_sec": 0.0,
+                                "end_sec": 2.0,
+                                "pattern": "KKK",
+                                "use_big_on_accents": False,
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            def fake_extractor(source, *, drum_stem_path=None):
+                events = []
+                for event in EVENTS:
+                    copy = event.copy()
+                    copy["tempo_bpm"] = 120.0
+                    events.append(copy)
+                return events
+
+            def fake_audio_converter(source, output):
+                Path(output).write_bytes(b"fake ogg")
+                return Path(output)
+
+            result = create_tja_package(
+                audio,
+                root / "out",
+                difficulty="oni",
+                title="Song",
+                pattern_plan_path=plan_path,
+                extractor=fake_extractor,
+                audio_converter=fake_audio_converter,
+                lead_in_sec=0.0,
+            )
+
+            tja_text = result["tja"].read_text(encoding="utf-8-sig")
+
+        self.assertIn("0000000020002000,", tja_text)
 
 
 if __name__ == "__main__":

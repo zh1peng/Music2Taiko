@@ -11,13 +11,15 @@ Patterns are written on a 16th-note grid per 4/4 bar. Spaces separate beats.
 
 ## Easy
 
-Use sparse, stable phrases:
+Use stable phrases that cover the core groove. Easy is simpler, not necessarily empty; dense songs can still have many Easy notes when the music's basic drum pulse is active.
 
 ```text
 D--- ---- D--- ----
 D--- K--- D--- K---
 D--- ---- ---- K---
 D--- ---- D--- K---
+D-D- D-D- D-D- D-D-
+D-D- K-D- D-D- K-D-
 ```
 
 Rules:
@@ -26,10 +28,11 @@ Rules:
 - Avoid more than two notes per beat.
 - Keep `K` rare and meaningful.
 - Use repeated bars in verse/intro to build confidence.
+- For drum-dense songs, keep the basic pulse but simplify color and variation.
 
 ## Normal
 
-Use readable 8th-note motion and simple color:
+Use readable 8th-note motion, simple color, and light variation:
 
 ```text
 D--- D--- K--- D---

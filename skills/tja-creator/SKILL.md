@@ -1,9 +1,9 @@
 ---
-name: taiko-chart-authoring
-description: Use when creating, improving, evaluating, or rebalancing Taiko-style rhythm game beatmaps/charts for MP3/WAV songs, especially when charts feel off-beat, need drum-event analysis, or target PsyGodot rhythm_drum JSON beatmaps with easy/normal/hard difficulties.
+name: tja-creator
+description: Use when creating, improving, evaluating, or rebalancing TJA/Taiko-style rhythm game beatmaps/charts for MP3/WAV/OGG songs, especially when charts feel off-beat, need TJA parsing, drum-event analysis, or target PsyGodot rhythm_drum JSON beatmaps with easy/normal/hard difficulties.
 ---
 
-# Taiko Chart Authoring
+# TJA Creator
 
 ## Core Principle
 
@@ -29,7 +29,9 @@ Never copy official commercial charts. Use Taiko-like design vocabulary (`D = do
 3. **Plan the difficulty curve**
    - Define section roles: intro, verse, pre-chorus, chorus/drop, bridge/break, outro.
    - Assign target density, rest frequency, burst allowance, color-change rate, and fatigue limits per section.
-   - Low difficulty must preserve groove, not randomly delete notes.
+   - Low difficulty must preserve the source groove, not randomly delete notes.
+   - Do not treat difficulty as note count only. For dense songs, Easy may still contain many notes because it should cover the basic drum pulse. Increase difficulty mainly through pattern complexity: color changes, syncopation, bursts, rolls, big notes, phrase variation, and sustained streams.
+   - Standard TJA exports should include `easy`, `normal`, `hard`, and `oni`. Keep clear progression: Easy covers core drum anchors with simple repeated patterns; Normal adds readable answers; Hard adds bursts and syncopation; Oni uses the richest pattern language and highest sustained complexity.
 
 4. **Choose patterns by musical phrase**
    - Author by half-bar or bar patterns, not note-by-note.
@@ -64,7 +66,7 @@ For `examples/rhythm_drum`, write JSON beatmaps with:
   "source_audio": "song.mp3",
   "audio_offset_ms": 0,
   "difficulty": "normal",
-  "generator": "taiko-chart-authoring",
+  "generator": "tja-creator",
   "algorithm_version": "human_authored_v1",
   "tempo_bpm": 150.0,
   "density_notes_per_sec": 1.5,
@@ -105,3 +107,48 @@ A playable chart should have:
 - review notes explaining remaining risks
 
 If automatic extraction conflicts with playability, prefer playability.
+
+## LLM-Assisted Generation Flow
+
+For new-song TJA generation, use the package as a deterministic toolchain and keep chart design decisions in the skill/LLM layer:
+
+1. Run `drum2taiko create-tja <audio> --out <dir> --difficulties easy,normal,hard,oni` to generate the four standard playable courses by default:
+   - `arrangement_context.json`: source-song drum events, candidate timing anchors, retrieval matches, and pattern-plan schema.
+   - `pattern_plan.json`: default editable pattern plan.
+   - `.tja`, `.ogg`, `retrieval.json`, and `aligned_samples.json`.
+2. Keep a lead-in safety window. Do not place playable notes before `--lead-in-sec` seconds, default `2.5`, unless the user explicitly asks for an instant-start chart.
+3. Review `arrangement_context.json` with `references/retrieval-guide.md`, `references/corpus-patterns.md`, `references/audio-to-chart-mapping.md`, and `references/evaluation-rubric.md`.
+4. If the default plan is too generic, write a revised `pattern_plan.json`. For multiple courses, prefer:
+   ```json
+   {
+     "difficulties": {
+       "easy": {"difficulty": "easy", "level": 3, "sections": []},
+       "normal": {"difficulty": "normal", "level": 5, "sections": []},
+       "hard": {"difficulty": "hard", "level": 6, "sections": []},
+       "oni": {"difficulty": "oni", "level": 8, "sections": []}
+     }
+   }
+   ```
+   Borrow pattern language and density from similar corpus songs, but place notes only on the new song's candidate anchors or clearly justified musical accents.
+   Anchor coverage should follow the song. For a drum-dense song, Easy should still cover the basic groove and may use 60-80% of reliable anchors with simple D-heavy motifs; Normal can use 75-90% with more K answers; Hard/Oni can use most anchors while increasing burst, color, big-note, and roll complexity. For sparse songs, do not invent density just to satisfy a ratio.
+5. Re-run `drum2taiko create-tja ... --difficulties easy,normal,hard,oni --pattern-plan <pattern_plan.json>` to apply the design plan to the source-song anchors.
+6. If audio and context are already generated, skip decoding/analysis and re-render from note generation onward with `--reuse-context <arrangement_context.json>`.
+7. Review the exported TJA and `aligned_samples.json`; revise the plan rather than copying source chart timing.
+
+Pattern plans are design instructions, not timing sources. Python maps the plan onto the new song's drum anchors; the LLM/skill decides motif, density, color flow, and roll/balloon intent.
+
+## Reference Routing
+
+Load references only when relevant:
+
+- Read `references/tja-format.md` when parsing, validating, or writing TJA files, especially when handling `3/4` big notes, `5/6/7/9` duration starts, `8` ends, `BALLOON`, `#BPMCHANGE`, `#MEASURE`, or `#DELAY`.
+- Read `references/corpus-overview.md` when choosing target density, course expectations, note-type ratios, or corpus-level style assumptions.
+- Read `references/song-index.md` when selecting numbered reference songs from the local database.
+- Read `references/corpus-patterns.md` when choosing observed pattern families from the processed corpus.
+- Read `references/retrieval-guide.md` when using the local corpus as retrieval support for a new chart.
+- Read `references/audio-to-chart-mapping.md` when mapping OGG/MP3/WAV audio features and drum events into chart decisions.
+- Read `references/output-compatibility.md` before exporting TJA, PsyGodot JSON, audio copies, folders, or generated chart packs, especially when source titles are long or contain punctuation/Unicode.
+- Read `references/pattern-library.md` when composing or revising playable bar-level motifs.
+- Read `references/evaluation-rubric.md` before calling a draft playable or final.
+
+The processed corpus data lives under `derived/tja-creator/`. Treat the Markdown references as LLM-readable summaries and the JSON files as supporting evidence. Do not load the raw database or all derived JSON into context unless a task specifically needs it.

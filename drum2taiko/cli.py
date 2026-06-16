@@ -3,7 +3,13 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from drum2taiko.pipeline import build_beatmap_package, build_opentaiko_package, generate_beatmaps
+from drum2taiko.pipeline import (
+    DEFAULT_TJA_DIFFICULTIES,
+    build_beatmap_package,
+    build_opentaiko_package,
+    create_tja_package,
+    generate_beatmaps,
+)
 from drum2taiko.separation.demucs import DemucsConfig, separate_drums
 
 
@@ -60,6 +66,24 @@ def main(argv: list[str] | None = None) -> int:
     opentaiko_parser.add_argument("--demucs-segment", type=int, default=7, help="Demucs segment length in seconds")
     opentaiko_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="mp3", help="Demucs stem output format")
 
+    create_tja_parser = subparsers.add_parser("create-tja", help="Create a multi-difficulty TJA draft from a new song.")
+    create_tja_parser.add_argument("audio", help="Input MP3/WAV/OGG file")
+    create_tja_parser.add_argument("--out", required=True, help="Directory for generated TJA package")
+    create_tja_parser.add_argument("--difficulty", default="oni", choices=["easy", "normal", "hard", "oni", "edit"])
+    create_tja_parser.add_argument(
+        "--difficulties",
+        default="",
+        help=f"Comma-separated courses; defaults to --difficulty unless set, for example {','.join(DEFAULT_TJA_DIFFICULTIES)}",
+    )
+    create_tja_parser.add_argument("--title", default="", help="Display title; defaults to input filename")
+    create_tja_parser.add_argument("--song-id", default="", help="Stable short song ID for output filenames")
+    create_tja_parser.add_argument("--output-prefix", default="", help="Safe output prefix; defaults to normalized title")
+    create_tja_parser.add_argument("--corpus-dir", default="", help="Derived corpus directory for retrieval")
+    create_tja_parser.add_argument("--pattern-plan", default="", help="JSON pattern plan produced by LLM/skill")
+    create_tja_parser.add_argument("--reuse-context", default="", help="Existing arrangement_context.json to render without audio analysis")
+    create_tja_parser.add_argument("--lead-in-sec", type=float, default=2.5, help="Do not place notes before this time")
+    create_tja_parser.add_argument("--level", type=int, default=None, help="TJA course level override")
+
     args = parser.parse_args(argv)
     if args.command == "separate":
         config = DemucsConfig(
@@ -108,6 +132,31 @@ def main(argv: list[str] | None = None) -> int:
         print(result["tja"])
         print(result["audio"])
         print(result["report"])
+        return 0
+
+    if args.command == "create-tja":
+        difficulties = [item.strip().lower() for item in args.difficulties.split(",") if item.strip()] or None
+        result = create_tja_package(
+            Path(args.audio),
+            Path(args.out),
+            difficulty=args.difficulty,
+            difficulties=difficulties,
+            title=args.title or None,
+            song_id=args.song_id,
+            output_prefix=args.output_prefix or None,
+            corpus_dir=Path(args.corpus_dir) if args.corpus_dir else None,
+            pattern_plan_path=Path(args.pattern_plan) if args.pattern_plan else None,
+            reuse_context_path=Path(args.reuse_context) if args.reuse_context else None,
+            lead_in_sec=args.lead_in_sec,
+            level=args.level,
+        )
+        print(result["package_dir"])
+        print(result["tja"])
+        print(result["audio"])
+        print(result["retrieval"])
+        print(result["arrangement_context"])
+        print(result["pattern_plan"])
+        print(result["aligned_samples"])
         return 0
 
     paths = generate_beatmaps(

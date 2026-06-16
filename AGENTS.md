@@ -21,7 +21,7 @@ Drum2Taiko is an independent chart-authoring project for converting MP3/WAV musi
 - Demucs wrapper: `drum2taiko/separation/demucs.py`
 - PsyGodot exporter: `drum2taiko/io/psygodot.py`
 - Tests: `tests/`
-- Skill entry, currently secondary documentation: `skills/taiko-chart-authoring/SKILL.md`
+- Skill entry, currently secondary documentation: `skills/tja-creator/SKILL.md`
 
 ## Verification
 
@@ -34,5 +34,5 @@ python -m unittest discover -s tests
 Run skill validation after skill metadata or `SKILL.md` changes when the validator is available:
 
 ```powershell
-python C:\Users\frued\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\taiko-chart-authoring
+python C:\Users\frued\.codex\skills\.system\skill-creator\scripts\quick_validate.py skills\tja-creator
 ```

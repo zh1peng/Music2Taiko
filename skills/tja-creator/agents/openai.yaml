@@ -1,0 +1,4 @@
+interface:
+  display_name: "TJA Creator"
+  short_description: "Create and refine four-difficulty TJA/Taiko charts"
+  default_prompt: "Use this skill to create, parse, or revise playable Easy/Normal/Hard/Oni TJA/Taiko-style rhythm charts from offset-checked TJA data, drum-event analysis, pattern design, difficulty curves, constraints, and review notes."

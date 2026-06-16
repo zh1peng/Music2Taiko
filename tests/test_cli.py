@@ -135,6 +135,84 @@ class CliTests(unittest.TestCase):
         self.assertEqual(kwargs["demucs_device"], "cuda")
         self.assertEqual(kwargs["demucs_format"], "mp3")
 
+    def test_create_tja_command_uses_creator_workflow(self):
+        from drum2taiko import cli
+
+        with patch("drum2taiko.cli.create_tja_package") as create:
+            create.return_value = {
+                "package_dir": Path("out") / "001-song",
+                "tja": Path("out") / "001-song" / "001-song.tja",
+                "audio": Path("out") / "001-song" / "001-song.ogg",
+                "retrieval": Path("out") / "001-song" / "retrieval.json",
+                "aligned_samples": Path("out") / "001-song" / "aligned_samples.json",
+                "arrangement_context": Path("out") / "001-song" / "arrangement_context.json",
+                "pattern_plan": Path("out") / "001-song" / "pattern_plan.json",
+            }
+
+            with redirect_stdout(StringIO()):
+                exit_code = cli.main(
+                    [
+                        "create-tja",
+                        "song.ogg",
+                        "--out",
+                        "out",
+                        "--difficulty",
+                        "oni",
+                        "--title",
+                        "Song",
+                        "--song-id",
+                        "001",
+                        "--corpus-dir",
+                        "derived/tja-creator/corpus",
+                        "--pattern-plan",
+                        "pattern_plan.json",
+                    ]
+                )
+
+        self.assertEqual(exit_code, 0)
+        _, kwargs = create.call_args
+        self.assertEqual(kwargs["difficulty"], "oni")
+        self.assertEqual(kwargs["title"], "Song")
+        self.assertEqual(kwargs["song_id"], "001")
+        self.assertEqual(kwargs["corpus_dir"], Path("derived/tja-creator/corpus"))
+        self.assertEqual(kwargs["pattern_plan_path"], Path("pattern_plan.json"))
+
+    def test_create_tja_command_accepts_multi_course_reuse_context(self):
+        from drum2taiko import cli
+
+        with patch("drum2taiko.cli.create_tja_package") as create:
+            create.return_value = {
+                "package_dir": Path("out") / "song",
+                "tja": Path("out") / "song" / "song.tja",
+                "audio": Path("out") / "song" / "song.ogg",
+                "retrieval": Path("out") / "song" / "retrieval.json",
+                "aligned_samples": Path("out") / "song" / "aligned_samples.json",
+                "arrangement_context": Path("out") / "song" / "arrangement_context.json",
+                "pattern_plan": Path("out") / "song" / "pattern_plan.json",
+            }
+
+            with redirect_stdout(StringIO()):
+                exit_code = cli.main(
+                    [
+                        "create-tja",
+                        "song.mp3",
+                        "--out",
+                        "out",
+                        "--difficulties",
+                        "easy,normal,oni",
+                        "--reuse-context",
+                        "arrangement_context.json",
+                        "--lead-in-sec",
+                        "3.0",
+                    ]
+                )
+
+        self.assertEqual(exit_code, 0)
+        _, kwargs = create.call_args
+        self.assertEqual(kwargs["difficulties"], ["easy", "normal", "oni"])
+        self.assertEqual(kwargs["reuse_context_path"], Path("arrangement_context.json"))
+        self.assertEqual(kwargs["lead_in_sec"], 3.0)
+
 
 if __name__ == "__main__":
     unittest.main()

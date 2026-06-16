@@ -1,0 +1,605 @@
+{
+  "chapter": "01 OpenTaiko Chapter I",
+  "song_count": 35,
+  "songs": [
+    {
+      "song_dir": "001 - CITYSCAPE",
+      "title": "cityscape",
+      "audio": "CITYSCAPE.ogg",
+      "duration_sec": 121.56,
+      "tja_bpm": 135.0,
+      "estimated_tempo_bpm": 135.999,
+      "drum_event_count": 572,
+      "drum_class_counts": {
+        "unknown": 69,
+        "cymbal": 118,
+        "kick": 75,
+        "snare": 30,
+        "hat": 254,
+        "tom": 26
+      }
+    },
+    {
+      "song_dir": "002 - Zerstören",
+      "title": "Zerstören",
+      "audio": "Zerstören.ogg",
+      "duration_sec": 181.706,
+      "tja_bpm": 170.0,
+      "estimated_tempo_bpm": 84.721,
+      "drum_event_count": 781,
+      "drum_class_counts": {
+        "unknown": 170,
+        "hat": 173,
+        "snare": 360,
+        "cymbal": 12,
+        "tom": 62,
+        "kick": 4
+      }
+    },
+    {
+      "song_dir": "003 - Breaking Point",
+      "title": "Breaking Point",
+      "audio": "Breaking Point.ogg",
+      "duration_sec": 134.667,
+      "tja_bpm": 180.0,
+      "estimated_tempo_bpm": 120.185,
+      "drum_event_count": 556,
+      "drum_class_counts": {
+        "tom": 56,
+        "snare": 110,
+        "hat": 134,
+        "unknown": 214,
+        "kick": 33,
+        "cymbal": 9
+      }
+    },
+    {
+      "song_dir": "005 - WTF",
+      "title": "WTF?!",
+      "audio": "MooX - WTF.ogg",
+      "duration_sec": 103.0,
+      "tja_bpm": 100.0,
+      "estimated_tempo_bpm": 99.384,
+      "drum_event_count": 290,
+      "drum_class_counts": {
+        "unknown": 109,
+        "tom": 27,
+        "hat": 104,
+        "cymbal": 24,
+        "snare": 26
+      }
+    },
+    {
+      "song_dir": "006 - Athazagoraphobia",
+      "title": "Athazagoraphobia",
+      "audio": "Athazagoraphobia.ogg",
+      "duration_sec": 158.854,
+      "tja_bpm": 180.0,
+      "estimated_tempo_bpm": 105.469,
+      "drum_event_count": 568,
+      "drum_class_counts": {
+        "unknown": 143,
+        "tom": 129,
+        "kick": 16,
+        "snare": 235,
+        "hat": 34,
+        "cymbal": 11
+      }
+    },
+    {
+      "song_dir": "007 - Gewissenbisse",
+      "title": "Gewissenbisse",
+      "audio": "Gewissenbisse.ogg",
+      "duration_sec": 198.647,
+      "tja_bpm": 170.0,
+      "estimated_tempo_bpm": 84.721,
+      "drum_event_count": 726,
+      "drum_class_counts": {
+        "unknown": 205,
+        "hat": 204,
+        "tom": 105,
+        "kick": 22,
+        "snare": 190
+      }
+    },
+    {
+      "song_dir": "008 - DONT_LOOK_BACK",
+      "title": "DON'T LOOK BACK",
+      "audio": "DON'T LOOK BACK.ogg",
+      "duration_sec": 135.397,
+      "tja_bpm": 200.0,
+      "estimated_tempo_bpm": 112.5,
+      "drum_event_count": 479,
+      "drum_class_counts": {
+        "unknown": 208,
+        "tom": 34,
+        "kick": 17,
+        "hat": 181,
+        "snare": 37,
+        "cymbal": 2
+      }
+    },
+    {
+      "song_dir": "010 - BassBoL",
+      "title": "BassBoL",
+      "audio": "BassBoL.ogg",
+      "duration_sec": 197.509,
+      "tja_bpm": 210.0,
+      "estimated_tempo_bpm": 105.469,
+      "drum_event_count": 848,
+      "drum_class_counts": {
+        "unknown": 195,
+        "tom": 219,
+        "kick": 57,
+        "snare": 112,
+        "hat": 248,
+        "cymbal": 17
+      }
+    },
+    {
+      "song_dir": "011 - Liberation",
+      "title": "Liberation",
+      "audio": "Liberation.ogg",
+      "duration_sec": 144.0,
+      "tja_bpm": 142.0,
+      "estimated_tempo_bpm": 143.555,
+      "drum_event_count": 644,
+      "drum_class_counts": {
+        "unknown": 103,
+        "snare": 25,
+        "tom": 25,
+        "hat": 356,
+        "cymbal": 119,
+        "kick": 16
+      }
+    },
+    {
+      "song_dir": "013 - Corrupted_Angel",
+      "title": "Corrupted Angel",
+      "audio": "Corrupted Angel.ogg",
+      "duration_sec": 148.112,
+      "tja_bpm": 175.0,
+      "estimated_tempo_bpm": 117.187,
+      "drum_event_count": 522,
+      "drum_class_counts": {
+        "unknown": 108,
+        "snare": 76,
+        "tom": 79,
+        "kick": 9,
+        "hat": 212,
+        "cymbal": 38
+      }
+    },
+    {
+      "song_dir": "014 - Startup Parade!",
+      "title": "Startup Parade!",
+      "audio": "Startup Parade!.ogg",
+      "duration_sec": 97.5,
+      "tja_bpm": 128.0,
+      "estimated_tempo_bpm": 127.841,
+      "drum_event_count": 425,
+      "drum_class_counts": {
+        "unknown": 126,
+        "kick": 103,
+        "snare": 37,
+        "cymbal": 6,
+        "tom": 74,
+        "hat": 79
+      }
+    },
+    {
+      "song_dir": "015 - White Heart",
+      "title": "White Heart",
+      "audio": "White Heart.ogg",
+      "duration_sec": 152.579,
+      "tja_bpm": 95.0,
+      "estimated_tempo_bpm": 95.703,
+      "drum_event_count": 281,
+      "drum_class_counts": {
+        "unknown": 227,
+        "cymbal": 2,
+        "snare": 24,
+        "tom": 12,
+        "hat": 13,
+        "kick": 3
+      }
+    },
+    {
+      "song_dir": "016 - Summer Overload!",
+      "title": "Summer Overload!",
+      "audio": "Summer Overload!.ogg",
+      "duration_sec": 145.464,
+      "tja_bpm": 180.0,
+      "estimated_tempo_bpm": 90.666,
+      "drum_event_count": 434,
+      "drum_class_counts": {
+        "snare": 63,
+        "tom": 22,
+        "unknown": 197,
+        "hat": 120,
+        "kick": 28,
+        "cymbal": 4
+      }
+    },
+    {
+      "song_dir": "017 - Halcyon",
+      "title": "Halcyon",
+      "audio": "Halcyon.ogg",
+      "duration_sec": 142.199,
+      "tja_bpm": 200.0,
+      "estimated_tempo_bpm": 132.512,
+      "drum_event_count": 541,
+      "drum_class_counts": {
+        "unknown": 237,
+        "tom": 53,
+        "snare": 172,
+        "cymbal": 23,
+        "hat": 51,
+        "kick": 5
+      }
+    },
+    {
+      "song_dir": "019 - Back Where I'm From",
+      "title": "Back Where I'm From",
+      "audio": "BackWhereImFrom.ogg",
+      "duration_sec": 217.504,
+      "tja_bpm": 190.0,
+      "estimated_tempo_bpm": 95.339,
+      "drum_event_count": 495,
+      "drum_class_counts": {
+        "snare": 84,
+        "unknown": 290,
+        "hat": 66,
+        "kick": 31,
+        "tom": 18,
+        "cymbal": 6
+      }
+    },
+    {
+      "song_dir": "020 - Slayer of",
+      "title": "Slayer of.",
+      "audio": "Slayer of..ogg",
+      "duration_sec": 113.805,
+      "tja_bpm": 230.0,
+      "estimated_tempo_bpm": 114.844,
+      "drum_event_count": 389,
+      "drum_class_counts": {
+        "tom": 30,
+        "unknown": 147,
+        "kick": 52,
+        "hat": 130,
+        "snare": 22,
+        "cymbal": 8
+      }
+    },
+    {
+      "song_dir": "021 - Welcome To The Cafe",
+      "title": "Welcome To The Cafe",
+      "audio": "WelcomeToTheCafe.ogg",
+      "duration_sec": 215.963,
+      "tja_bpm": 150.0,
+      "estimated_tempo_bpm": 151.999,
+      "drum_event_count": 948,
+      "drum_class_counts": {
+        "unknown": 403,
+        "hat": 168,
+        "snare": 296,
+        "cymbal": 11,
+        "tom": 57,
+        "kick": 13
+      }
+    },
+    {
+      "song_dir": "022 - Seismic Shake",
+      "title": "Seismic Shake",
+      "audio": "Seismic Shake.ogg",
+      "duration_sec": 120.774,
+      "tja_bpm": 155.0,
+      "estimated_tempo_bpm": 103.359,
+      "drum_event_count": 569,
+      "drum_class_counts": {
+        "snare": 108,
+        "unknown": 170,
+        "hat": 221,
+        "tom": 55,
+        "kick": 13,
+        "cymbal": 2
+      }
+    },
+    {
+      "song_dir": "023 - Stereotype",
+      "title": "Stereotype",
+      "audio": "Stereotype.ogg",
+      "duration_sec": 153.515,
+      "tja_bpm": 170.0,
+      "estimated_tempo_bpm": 84.721,
+      "drum_event_count": 574,
+      "drum_class_counts": {
+        "unknown": 152,
+        "snare": 213,
+        "tom": 44,
+        "hat": 151,
+        "cymbal": 9,
+        "kick": 5
+      }
+    },
+    {
+      "song_dir": "025 - Fearless",
+      "title": "Fearless",
+      "audio": "Fearless.ogg",
+      "duration_sec": 126.772,
+      "tja_bpm": 128.0,
+      "estimated_tempo_bpm": 129.199,
+      "drum_event_count": 637,
+      "drum_class_counts": {
+        "unknown": 159,
+        "tom": 57,
+        "snare": 225,
+        "hat": 180,
+        "cymbal": 9,
+        "kick": 7
+      }
+    },
+    {
+      "song_dir": "028 - Katharsis",
+      "title": "Katharsis",
+      "audio": "khatarsis.ogg",
+      "duration_sec": 123.4,
+      "tja_bpm": 100.0,
+      "estimated_tempo_bpm": 99.384,
+      "drum_event_count": 315,
+      "drum_class_counts": {
+        "unknown": 116,
+        "snare": 30,
+        "hat": 153,
+        "cymbal": 8,
+        "tom": 8
+      }
+    },
+    {
+      "song_dir": "029 - Two Steppin Love",
+      "title": "2-Steppin' Love",
+      "audio": "2 Steppin Love.ogg",
+      "duration_sec": 102.278,
+      "tja_bpm": 137.0,
+      "estimated_tempo_bpm": 68.906,
+      "drum_event_count": 263,
+      "drum_class_counts": {
+        "unknown": 72,
+        "tom": 51,
+        "kick": 12,
+        "hat": 58,
+        "snare": 66,
+        "cymbal": 4
+      }
+    },
+    {
+      "song_dir": "030 - Yami",
+      "title": "Yami",
+      "audio": "Yami.ogg",
+      "duration_sec": 146.741,
+      "tja_bpm": 87.5,
+      "estimated_tempo_bpm": 175.781,
+      "drum_event_count": 598,
+      "drum_class_counts": {
+        "unknown": 362,
+        "snare": 80,
+        "tom": 29,
+        "hat": 107,
+        "kick": 9,
+        "cymbal": 11
+      }
+    },
+    {
+      "song_dir": "031 - Mischief Madness",
+      "title": "mischief madness",
+      "audio": "Mischief Madness.ogg",
+      "duration_sec": 132.872,
+      "tja_bpm": 180.0,
+      "estimated_tempo_bpm": 178.206,
+      "drum_event_count": 576,
+      "drum_class_counts": {
+        "unknown": 225,
+        "cymbal": 30,
+        "snare": 172,
+        "hat": 63,
+        "tom": 77,
+        "kick": 9
+      }
+    },
+    {
+      "song_dir": "033 - Alonebirthday",
+      "title": "Alonebirthday",
+      "audio": "Alonebirthday.ogg",
+      "duration_sec": 177.795,
+      "tja_bpm": 165.0,
+      "estimated_tempo_bpm": 109.957,
+      "drum_event_count": 696,
+      "drum_class_counts": {
+        "unknown": 236,
+        "snare": 74,
+        "tom": 95,
+        "kick": 92,
+        "hat": 187,
+        "cymbal": 12
+      }
+    },
+    {
+      "song_dir": "034 - The World of Our Past",
+      "title": "The World of Our Past",
+      "audio": "world.ogg",
+      "duration_sec": 181.368,
+      "tja_bpm": 150.0,
+      "estimated_tempo_bpm": 151.999,
+      "drum_event_count": 604,
+      "drum_class_counts": {
+        "unknown": 326,
+        "snare": 166,
+        "hat": 88,
+        "tom": 10,
+        "cymbal": 11,
+        "kick": 3
+      }
+    },
+    {
+      "song_dir": "035 - ENDOMANCER",
+      "title": "ENDOMANCER",
+      "audio": "ENDOMANCER.ogg",
+      "duration_sec": 113.103,
+      "tja_bpm": 174.0,
+      "estimated_tempo_bpm": 87.593,
+      "drum_event_count": 210,
+      "drum_class_counts": {
+        "snare": 9,
+        "tom": 33,
+        "unknown": 146,
+        "hat": 7,
+        "kick": 15
+      }
+    },
+    {
+      "song_dir": "036 - RUiNED GLORY",
+      "title": "RUiNED GLORY",
+      "audio": "RUiNED GLORY.ogg",
+      "duration_sec": 169.0,
+      "tja_bpm": 200.0,
+      "estimated_tempo_bpm": 99.384,
+      "drum_event_count": 543,
+      "drum_class_counts": {
+        "unknown": 258,
+        "snare": 88,
+        "hat": 163,
+        "kick": 6,
+        "tom": 27,
+        "cymbal": 1
+      }
+    },
+    {
+      "song_dir": "037 - Yukianesa ~Azure of Ice~",
+      "title": "Yukianesa ~Azure of Ice~",
+      "audio": "Yukianesa ~Azure of Ice~.ogg",
+      "duration_sec": 176.059,
+      "tja_bpm": 170.0,
+      "estimated_tempo_bpm": 84.721,
+      "drum_event_count": 490,
+      "drum_class_counts": {
+        "unknown": 186,
+        "snare": 128,
+        "cymbal": 14,
+        "hat": 128,
+        "tom": 27,
+        "kick": 7
+      }
+    },
+    {
+      "song_dir": "040 - Every Night",
+      "title": "Every Night",
+      "audio": "Every Night.ogg",
+      "duration_sec": 178.553,
+      "tja_bpm": 175.0,
+      "estimated_tempo_bpm": 87.593,
+      "drum_event_count": 727,
+      "drum_class_counts": {
+        "hat": 83,
+        "tom": 186,
+        "cymbal": 17,
+        "snare": 245,
+        "kick": 38,
+        "unknown": 158
+      }
+    },
+    {
+      "song_dir": "041 - Beyond the Cityscape",
+      "title": "beyond the cityscape",
+      "audio": "Beyond the Cityscape.ogg",
+      "duration_sec": 120.216,
+      "tja_bpm": 142.0,
+      "estimated_tempo_bpm": 143.555,
+      "drum_event_count": 497,
+      "drum_class_counts": {
+        "tom": 19,
+        "snare": 19,
+        "unknown": 101,
+        "kick": 59,
+        "hat": 227,
+        "cymbal": 72
+      }
+    },
+    {
+      "song_dir": "042 - Shockwave",
+      "title": "Shockwave",
+      "audio": "Shockwave.ogg",
+      "duration_sec": 128.0,
+      "tja_bpm": 225.0,
+      "estimated_tempo_bpm": 112.5,
+      "drum_event_count": 413,
+      "drum_class_counts": {
+        "unknown": 198,
+        "tom": 22,
+        "hat": 107,
+        "kick": 10,
+        "snare": 61,
+        "cymbal": 15
+      }
+    },
+    {
+      "song_dir": "043 - TRIPLE HELIX",
+      "title": "TRIPLE HELIX",
+      "audio": "TRIPLE HELIX.ogg",
+      "duration_sec": 150.0,
+      "tja_bpm": 160.0,
+      "estimated_tempo_bpm": 161.499,
+      "drum_event_count": 570,
+      "drum_class_counts": {
+        "unknown": 333,
+        "kick": 10,
+        "hat": 126,
+        "snare": 58,
+        "tom": 38,
+        "cymbal": 5
+      }
+    },
+    {
+      "song_dir": "044 - Memory",
+      "title": "Memory",
+      "audio": "Memory.ogg",
+      "duration_sec": 161.462,
+      "tja_bpm": 165.0,
+      "estimated_tempo_bpm": 109.957,
+      "drum_event_count": 591,
+      "drum_class_counts": {
+        "unknown": 244,
+        "snare": 175,
+        "tom": 79,
+        "hat": 44,
+        "kick": 47,
+        "cymbal": 2
+      }
+    },
+    {
+      "song_dir": "CH1 - WE ARE OPTK",
+      "title": "WE ARE OPTK!!",
+      "audio": "OpTkMedley.ogg",
+      "duration_sec": 291.135,
+      "tja_bpm": 188.0,
+      "estimated_tempo_bpm": 93.963,
+      "drum_event_count": 1175,
+      "drum_class_counts": {
+        "unknown": 262,
+        "tom": 208,
+        "snare": 528,
+        "kick": 24,
+        "hat": 133,
+        "cymbal": 20
+      }
+    }
+  ],
+  "drum_class_counts": {
+    "unknown": 6855,
+    "cymbal": 652,
+    "kick": 850,
+    "snare": 4344,
+    "hat": 4753,
+    "tom": 2093
+  }
+}

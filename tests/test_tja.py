@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from drum2taiko.audio.ogg import convert_to_ogg
-from drum2taiko.io.tja import render_tja, write_tja
+from drum2taiko.io.tja import parse_tja, render_tja, write_tja
 
 
 BEATMAPS = {
@@ -28,6 +28,73 @@ BEATMAPS = {
 
 
 class TjaTests(unittest.TestCase):
+    def test_parse_tja_reads_multiple_courses_and_duration_notes(self):
+        source = "\n".join(
+            [
+                "TITLE:Example",
+                "BPM:120",
+                "WAVE:Example.ogg",
+                "OFFSET:-0.224",
+                "",
+                "COURSE:Oni",
+                "LEVEL:6",
+                "BALLOON:12",
+                "#START",
+                "1000200030004000,",
+                "7008,",
+                "#END",
+                "",
+                "COURSE:Easy",
+                "LEVEL:3",
+                "#START",
+                "12,",
+                "#END",
+            ]
+        )
+
+        chart = parse_tja(source)
+
+        self.assertEqual(chart["title"], "Example")
+        self.assertEqual(chart["wave"], "Example.ogg")
+        self.assertEqual(chart["bpm"], 120.0)
+        self.assertEqual(chart["offset_sec"], -0.224)
+        self.assertEqual([course["course"] for course in chart["courses"]], ["Oni", "Easy"])
+        oni = chart["courses"][0]
+        self.assertEqual(oni["level"], 6)
+        self.assertEqual(oni["balloon"], [12])
+        self.assertEqual([note["type"] for note in oni["notes"][:4]], ["don", "ka", "big_don", "big_ka"])
+        self.assertEqual(oni["duration_notes"][0]["type"], "balloon")
+        self.assertEqual(oni["duration_notes"][0]["required_hits"], 12)
+        self.assertEqual(oni["duration_notes"][0]["start_code"], "7")
+        self.assertEqual(oni["duration_notes"][0]["end_code"], "8")
+        self.assertAlmostEqual(oni["duration_notes"][0]["start_sec"], 2.0)
+        self.assertAlmostEqual(oni["duration_notes"][0]["end_sec"], 3.5)
+
+    def test_render_tja_exports_big_notes_rolls_and_balloons(self):
+        beatmaps = {
+            "oni": {
+                "difficulty": "oni",
+                "level": 8,
+                "tempo_bpm": 120.0,
+                "notes": [
+                    {"time_sec": 0.0, "type": "big_don"},
+                    {"time_sec": 0.5, "type": "big_ka"},
+                ],
+                "duration_notes": [
+                    {"start_sec": 1.0, "end_sec": 1.5, "type": "roll"},
+                    {"start_sec": 2.0, "end_sec": 2.5, "type": "balloon", "required_hits": 12},
+                ],
+            }
+        }
+
+        tja = render_tja(beatmaps, title="Song", audio_filename="song.ogg")
+
+        self.assertIn("COURSE:Oni", tja)
+        self.assertIn("LEVEL:8", tja)
+        self.assertIn("BALLOON:12", tja)
+        self.assertIn("3000400050008000,", tja)
+        self.assertIn("7000800000000000,", tja)
+
     def test_render_tja_writes_metadata_courses_and_16th_grid_notes(self):
         tja = render_tja(BEATMAPS, title="Song", audio_filename="Song.ogg")
 

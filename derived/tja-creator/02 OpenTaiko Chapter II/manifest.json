@@ -1,0 +1,3487 @@
+[
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "045 - Nanja Korya",
+    "title": "nanja korya ?!",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\045 - Nanja Korya\\NanjaKorya.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\045 - Nanja Korya\\NanjaKorya.ogg",
+    "wave": "NanjaKorya.ogg",
+    "bpm": 170.0,
+    "offset_sec": -0.0,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 130.978,
+    "drum_event_count": 605,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 9,
+        "note_counts": {
+          "don": 537,
+          "ka": 304,
+          "big_ka": 20,
+          "big_don": 26
+        },
+        "duration_counts": {
+          "roll": 12,
+          "big_roll": 4
+        },
+        "note_total": 887,
+        "duration_total": 16
+      },
+      {
+        "course": "Oni",
+        "level": 6,
+        "note_counts": {
+          "ka": 201,
+          "don": 257,
+          "big_ka": 4,
+          "big_don": 26
+        },
+        "duration_counts": {
+          "roll": 20,
+          "balloon": 1
+        },
+        "note_total": 488,
+        "duration_total": 21
+      },
+      {
+        "course": "Hard",
+        "level": 5,
+        "note_counts": {
+          "ka": 149,
+          "don": 220,
+          "big_ka": 5,
+          "big_don": 26
+        },
+        "duration_counts": {
+          "roll": 20,
+          "balloon": 1
+        },
+        "note_total": 400,
+        "duration_total": 21
+      },
+      {
+        "course": "Normal",
+        "level": 4,
+        "note_counts": {
+          "don": 127,
+          "ka": 86,
+          "big_ka": 9,
+          "big_don": 14
+        },
+        "duration_counts": {
+          "roll": 19,
+          "balloon": 1
+        },
+        "note_total": 236,
+        "duration_total": 20
+      },
+      {
+        "course": "Easy",
+        "level": 3,
+        "note_counts": {
+          "ka": 64,
+          "don": 60,
+          "big_ka": 5,
+          "big_don": 14
+        },
+        "duration_counts": {
+          "roll": 20,
+          "balloon": 1
+        },
+        "note_total": 143,
+        "duration_total": 21
+      }
+    ],
+    "note_total": 2154,
+    "duration_total": 99
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "046 - Exile",
+    "title": "ΣxilƎ",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\046 - Exile\\Exile.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\046 - Exile\\Exile.ogg",
+    "wave": "Exile.ogg",
+    "bpm": 320.0,
+    "offset_sec": -0.0,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 123.094,
+    "drum_event_count": 603,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 11,
+        "note_counts": {
+          "ka": 459,
+          "don": 753,
+          "big_ka": 29,
+          "big_don": 4
+        },
+        "duration_counts": {
+          "roll": 17
+        },
+        "note_total": 1245,
+        "duration_total": 17
+      },
+      {
+        "course": "Oni",
+        "level": 9,
+        "note_counts": {
+          "ka": 297,
+          "don": 565
+        },
+        "duration_counts": {
+          "balloon": 1,
+          "roll": 17,
+          "big_roll": 1
+        },
+        "note_total": 862,
+        "duration_total": 19
+      },
+      {
+        "course": "Hard",
+        "level": 9,
+        "note_counts": {
+          "ka": 272,
+          "don": 357
+        },
+        "duration_counts": {
+          "balloon": 4,
+          "roll": 63
+        },
+        "note_total": 629,
+        "duration_total": 67
+      },
+      {
+        "course": "Normal",
+        "level": 6,
+        "note_counts": {
+          "ka": 107,
+          "don": 173,
+          "big_don": 21,
+          "big_ka": 9
+        },
+        "duration_counts": {
+          "roll": 20
+        },
+        "note_total": 310,
+        "duration_total": 20
+      },
+      {
+        "course": "Easy",
+        "level": 6,
+        "note_counts": {
+          "ka": 133,
+          "don": 107,
+          "big_don": 30,
+          "big_ka": 11
+        },
+        "duration_counts": {
+          "roll": 18,
+          "balloon": 3
+        },
+        "note_total": 281,
+        "duration_total": 21
+      }
+    ],
+    "note_total": 3327,
+    "duration_total": 144
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "047 - Pixelated Angel",
+    "title": "Pixelated Angel",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\047 - Pixelated Angel\\Pixelated Angel.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\047 - Pixelated Angel\\Pixelated Angel.ogg",
+    "wave": "Pixelated Angel.ogg",
+    "bpm": 135.0,
+    "offset_sec": -0.0,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 173.782,
+    "drum_event_count": 516,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "don": 349,
+          "ka": 558,
+          "big_don": 120,
+          "big_ka": 15
+        },
+        "duration_counts": {
+          "roll": 2,
+          "balloon": 1,
+          "big_roll": 1
+        },
+        "note_total": 1042,
+        "duration_total": 4
+      },
+      {
+        "course": "Hard",
+        "level": 8,
+        "note_counts": {
+          "don": 391,
+          "ka": 253,
+          "big_don": 43,
+          "big_ka": 31
+        },
+        "duration_counts": {
+          "roll": 6,
+          "big_roll": 1
+        },
+        "note_total": 718,
+        "duration_total": 7
+      },
+      {
+        "course": "Normal",
+        "level": 6,
+        "note_counts": {
+          "don": 255,
+          "ka": 183,
+          "big_don": 29,
+          "big_ka": 17
+        },
+        "duration_counts": {
+          "roll": 11,
+          "balloon": 1,
+          "big_roll": 3
+        },
+        "note_total": 484,
+        "duration_total": 15
+      },
+      {
+        "course": "Easy",
+        "level": 4,
+        "note_counts": {
+          "don": 98,
+          "ka": 28,
+          "big_don": 117
+        },
+        "duration_counts": {
+          "roll": 18,
+          "balloon": 2,
+          "big_roll": 8
+        },
+        "note_total": 243,
+        "duration_total": 28
+      }
+    ],
+    "note_total": 2487,
+    "duration_total": 54
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "048 - The Nostalgic Messenger",
+    "title": "The Nostalgic Messenger",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\048 - The Nostalgic Messenger\\TheNostalgicMessenger.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\048 - The Nostalgic Messenger\\TheNostalgicMessenger.ogg",
+    "wave": "TheNostalgicMessenger.ogg",
+    "bpm": 172.0,
+    "offset_sec": -0.0,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 164.256,
+    "drum_event_count": 445,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 9,
+        "note_counts": {
+          "don": 317,
+          "ka": 330,
+          "big_ka": 32,
+          "big_don": 16
+        },
+        "duration_counts": {
+          "roll": 34,
+          "balloon": 1
+        },
+        "note_total": 695,
+        "duration_total": 35
+      },
+      {
+        "course": "Hard",
+        "level": 4,
+        "note_counts": {
+          "don": 137,
+          "ka": 208,
+          "big_ka": 32,
+          "big_don": 16
+        },
+        "duration_counts": {
+          "roll": 114,
+          "balloon": 1
+        },
+        "note_total": 393,
+        "duration_total": 115
+      },
+      {
+        "course": "Normal",
+        "level": 4,
+        "note_counts": {
+          "don": 118,
+          "ka": 128,
+          "big_ka": 32,
+          "big_don": 16
+        },
+        "duration_counts": {
+          "roll": 34,
+          "balloon": 1
+        },
+        "note_total": 294,
+        "duration_total": 35
+      },
+      {
+        "course": "Easy",
+        "level": 4,
+        "note_counts": {
+          "ka": 66,
+          "don": 122,
+          "big_ka": 16
+        },
+        "duration_counts": {
+          "roll": 2,
+          "balloon": 1
+        },
+        "note_total": 204,
+        "duration_total": 3
+      }
+    ],
+    "note_total": 1586,
+    "duration_total": 188
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "049 - Overclocked",
+    "title": "Overclocked (Pocket Size)",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\049 - Overclocked\\Overclocked.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\049 - Overclocked\\Overclocked.ogg",
+    "wave": "Overclocked.ogg",
+    "bpm": 150.0,
+    "offset_sec": 0.0,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 145.0,
+    "drum_event_count": 487,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 8,
+        "note_counts": {
+          "big_don": 1,
+          "ka": 404,
+          "don": 358,
+          "big_ka": 46
+        },
+        "duration_counts": {
+          "big_roll": 2,
+          "balloon": 1
+        },
+        "note_total": 809,
+        "duration_total": 3
+      },
+      {
+        "course": "Oni",
+        "level": 8,
+        "note_counts": {
+          "big_don": 92,
+          "ka": 303,
+          "don": 273
+        },
+        "duration_counts": {
+          "big_roll": 3,
+          "balloon": 4
+        },
+        "note_total": 668,
+        "duration_total": 7
+      },
+      {
+        "course": "Hard",
+        "level": 6,
+        "note_counts": {
+          "big_don": 34,
+          "don": 205,
+          "ka": 196
+        },
+        "duration_counts": {
+          "big_roll": 3,
+          "balloon": 3,
+          "roll": 1
+        },
+        "note_total": 435,
+        "duration_total": 7
+      },
+      {
+        "course": "Normal",
+        "level": 4,
+        "note_counts": {
+          "big_don": 17,
+          "don": 150,
+          "ka": 83
+        },
+        "duration_counts": {
+          "big_roll": 1
+        },
+        "note_total": 250,
+        "duration_total": 1
+      },
+      {
+        "course": "Easy",
+        "level": 2,
+        "note_counts": {
+          "big_don": 13,
+          "don": 52,
+          "ka": 40
+        },
+        "duration_counts": {
+          "big_roll": 1
+        },
+        "note_total": 105,
+        "duration_total": 1
+      }
+    ],
+    "note_total": 2267,
+    "duration_total": 19
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "050 - Annihilation",
+    "title": "Annihilation",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\050 - Annihilation\\Annihilation.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\050 - Annihilation\\Annihilation.ogg",
+    "wave": "Annihilation.ogg",
+    "bpm": 213.0,
+    "offset_sec": -0.0,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 158.322,
+    "drum_event_count": 521,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 10,
+        "note_counts": {
+          "big_don": 14,
+          "big_ka": 24,
+          "don": 727,
+          "ka": 593
+        },
+        "duration_counts": {
+          "big_roll": 1,
+          "balloon": 8,
+          "roll": 1
+        },
+        "note_total": 1358,
+        "duration_total": 10
+      },
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "big_don": 18,
+          "don": 721,
+          "big_ka": 7,
+          "ka": 525
+        },
+        "duration_counts": {
+          "balloon": 5
+        },
+        "note_total": 1271,
+        "duration_total": 5
+      },
+      {
+        "course": "Hard",
+        "level": 8,
+        "note_counts": {
+          "big_don": 19,
+          "big_ka": 9,
+          "don": 300,
+          "ka": 231
+        },
+        "duration_counts": {
+          "roll": 2,
+          "special_balloon": 1
+        },
+        "note_total": 559,
+        "duration_total": 3
+      },
+      {
+        "course": "Normal",
+        "level": 7,
+        "note_counts": {
+          "big_don": 18,
+          "big_ka": 8,
+          "don": 300,
+          "ka": 152
+        },
+        "duration_counts": {
+          "roll": 3,
+          "special_balloon": 1
+        },
+        "note_total": 478,
+        "duration_total": 4
+      },
+      {
+        "course": "Easy",
+        "level": 5,
+        "note_counts": {
+          "big_don": 14,
+          "don": 255,
+          "ka": 79,
+          "big_ka": 3
+        },
+        "duration_counts": {
+          "roll": 3,
+          "special_balloon": 1
+        },
+        "note_total": 351,
+        "duration_total": 4
+      }
+    ],
+    "note_total": 4017,
+    "duration_total": 26
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "051 - 650 HP",
+    "title": "650 HP",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\051 - 650 HP\\650 HP.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\051 - 650 HP\\650 HP.ogg",
+    "wave": "650 HP.ogg",
+    "bpm": 160.0,
+    "offset_sec": -1.505,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 138.004,
+    "drum_event_count": 615,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 8,
+        "note_counts": {
+          "big_don": 8,
+          "ka": 327,
+          "don": 426,
+          "big_ka": 4
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 765,
+        "duration_total": 1
+      },
+      {
+        "course": "Hard",
+        "level": 7,
+        "note_counts": {
+          "big_don": 37,
+          "ka": 189,
+          "don": 303,
+          "big_ka": 20
+        },
+        "duration_counts": {
+          "roll": 2
+        },
+        "note_total": 549,
+        "duration_total": 2
+      },
+      {
+        "course": "Normal",
+        "level": 6,
+        "note_counts": {
+          "big_don": 38,
+          "ka": 112,
+          "don": 246,
+          "big_ka": 20
+        },
+        "duration_counts": {
+          "roll": 2,
+          "balloon": 1
+        },
+        "note_total": 416,
+        "duration_total": 3
+      },
+      {
+        "course": "Easy",
+        "level": 3,
+        "note_counts": {
+          "big_don": 39,
+          "don": 114,
+          "ka": 72,
+          "big_ka": 20
+        },
+        "duration_counts": {
+          "roll": 11
+        },
+        "note_total": 245,
+        "duration_total": 11
+      }
+    ],
+    "note_total": 1975,
+    "duration_total": 17
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "053 - Pyramid",
+    "title": "PYRΔMiD",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\053 - Pyramid\\PYRAMID.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\053 - Pyramid\\PYRAMID.ogg",
+    "wave": "PYRAMID.ogg",
+    "bpm": 200.0,
+    "offset_sec": 0.0,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 139.198,
+    "drum_event_count": 405,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 9,
+        "note_counts": {
+          "don": 396,
+          "ka": 245
+        },
+        "duration_counts": {
+          "balloon": 1
+        },
+        "note_total": 641,
+        "duration_total": 1
+      },
+      {
+        "course": "Hard",
+        "level": 6,
+        "note_counts": {
+          "don": 239,
+          "ka": 161
+        },
+        "duration_counts": {
+          "roll": 13,
+          "balloon": 1,
+          "special_balloon": 1
+        },
+        "note_total": 400,
+        "duration_total": 15
+      },
+      {
+        "course": "Normal",
+        "level": 5,
+        "note_counts": {
+          "don": 129,
+          "ka": 121,
+          "big_don": 1
+        },
+        "duration_counts": {
+          "roll": 10
+        },
+        "note_total": 251,
+        "duration_total": 10
+      },
+      {
+        "course": "Easy",
+        "level": 2,
+        "note_counts": {
+          "don": 67,
+          "ka": 39
+        },
+        "duration_counts": {
+          "roll": 6
+        },
+        "note_total": 106,
+        "duration_total": 6
+      }
+    ],
+    "note_total": 1398,
+    "duration_total": 32
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "054 - Synthsea",
+    "title": "Synthsea",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\054 - Synthsea\\Synthsea.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\054 - Synthsea\\Synthsea.ogg",
+    "wave": "Synthsea.ogg",
+    "bpm": 190.0,
+    "offset_sec": 0.0,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 340.139,
+    "drum_event_count": 1029,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "big_don": 31,
+          "don": 1081,
+          "ka": 878,
+          "big_ka": 32
+        },
+        "duration_counts": {},
+        "note_total": 2022,
+        "duration_total": 0
+      },
+      {
+        "course": "Hard",
+        "level": 9,
+        "note_counts": {
+          "big_don": 30,
+          "don": 957,
+          "big_ka": 31,
+          "ka": 544
+        },
+        "duration_counts": {
+          "balloon": 1,
+          "roll": 2
+        },
+        "note_total": 1562,
+        "duration_total": 3
+      },
+      {
+        "course": "Normal",
+        "level": 7,
+        "note_counts": {
+          "big_don": 49,
+          "don": 548,
+          "big_ka": 41,
+          "ka": 421
+        },
+        "duration_counts": {
+          "balloon": 1,
+          "roll": 2
+        },
+        "note_total": 1059,
+        "duration_total": 3
+      },
+      {
+        "course": "Easy",
+        "level": 2,
+        "note_counts": {
+          "big_don": 15,
+          "don": 88,
+          "ka": 96,
+          "big_ka": 1
+        },
+        "duration_counts": {
+          "roll": 13
+        },
+        "note_total": 200,
+        "duration_total": 13
+      }
+    ],
+    "note_total": 4843,
+    "duration_total": 19
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "055 - NEKROS",
+    "title": "NEKROS",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\055 - NEKROS\\GRYSCL.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\055 - NEKROS\\GRYSCL.ogg",
+    "wave": "GRYSCL.ogg",
+    "bpm": 200.0,
+    "offset_sec": 0.0,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 145.2,
+    "drum_event_count": 412,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 10,
+        "note_counts": {
+          "ka": 428,
+          "don": 590,
+          "big_ka": 6
+        },
+        "duration_counts": {
+          "balloon": 3
+        },
+        "note_total": 1024,
+        "duration_total": 3
+      },
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "don": 538,
+          "ka": 425,
+          "big_don": 8
+        },
+        "duration_counts": {
+          "roll": 1,
+          "big_roll": 1
+        },
+        "note_total": 971,
+        "duration_total": 2
+      },
+      {
+        "course": "Hard",
+        "level": 8,
+        "note_counts": {
+          "don": 443,
+          "big_don": 2,
+          "ka": 152,
+          "big_ka": 19
+        },
+        "duration_counts": {
+          "roll": 1,
+          "big_roll": 1
+        },
+        "note_total": 616,
+        "duration_total": 2
+      },
+      {
+        "course": "Normal",
+        "level": 6,
+        "note_counts": {
+          "don": 178,
+          "ka": 56,
+          "big_ka": 2,
+          "big_don": 1
+        },
+        "duration_counts": {
+          "balloon": 2,
+          "roll": 2,
+          "big_roll": 1
+        },
+        "note_total": 237,
+        "duration_total": 5
+      },
+      {
+        "course": "Easy",
+        "level": 4,
+        "note_counts": {
+          "don": 119,
+          "ka": 56,
+          "big_ka": 2,
+          "big_don": 1
+        },
+        "duration_counts": {
+          "balloon": 2,
+          "roll": 2,
+          "big_roll": 1
+        },
+        "note_total": 178,
+        "duration_total": 5
+      }
+    ],
+    "note_total": 3026,
+    "duration_total": 17
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "058 - pipie",
+    "title": "pipie",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\058 - pipie\\pipie.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\058 - pipie\\pipie.ogg",
+    "wave": "pipie.ogg",
+    "bpm": 314.0,
+    "offset_sec": -0.05,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 193.984,
+    "drum_event_count": 941,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 11,
+        "note_counts": {
+          "don": 3295,
+          "ka": 1933,
+          "big_don": 435,
+          "big_ka": 53
+        },
+        "duration_counts": {
+          "balloon": 17
+        },
+        "note_total": 5716,
+        "duration_total": 17
+      },
+      {
+        "course": "Hard",
+        "level": 8,
+        "note_counts": {
+          "don": 497,
+          "ka": 449,
+          "big_don": 159,
+          "big_ka": 17
+        },
+        "duration_counts": {
+          "balloon": 1
+        },
+        "note_total": 1122,
+        "duration_total": 1
+      },
+      {
+        "course": "Normal",
+        "level": 7,
+        "note_counts": {
+          "don": 314,
+          "ka": 322,
+          "big_don": 80,
+          "big_ka": 22
+        },
+        "duration_counts": {
+          "balloon": 1
+        },
+        "note_total": 738,
+        "duration_total": 1
+      },
+      {
+        "course": "Easy",
+        "level": 5,
+        "note_counts": {
+          "don": 161,
+          "ka": 177,
+          "big_don": 20,
+          "big_ka": 20
+        },
+        "duration_counts": {
+          "balloon": 45
+        },
+        "note_total": 378,
+        "duration_total": 45
+      }
+    ],
+    "note_total": 7954,
+    "duration_total": 64
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "059 - Hero's March",
+    "title": "Hero's March",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\059 - Hero's March\\Hero's March.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\059 - Hero's March\\Hero's March.ogg",
+    "wave": "Hero's March.ogg",
+    "bpm": 120.0,
+    "offset_sec": -0.008,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 150.0,
+    "drum_event_count": 677,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 8,
+        "note_counts": {
+          "don": 282,
+          "ka": 393,
+          "big_don": 3
+        },
+        "duration_counts": {
+          "roll": 2
+        },
+        "note_total": 678,
+        "duration_total": 2
+      },
+      {
+        "course": "Oni",
+        "level": 5,
+        "note_counts": {
+          "don": 195,
+          "ka": 246,
+          "big_don": 2
+        },
+        "duration_counts": {
+          "roll": 4
+        },
+        "note_total": 443,
+        "duration_total": 4
+      },
+      {
+        "course": "Hard",
+        "level": 5,
+        "note_counts": {
+          "don": 115,
+          "ka": 197,
+          "big_don": 2
+        },
+        "duration_counts": {
+          "roll": 2
+        },
+        "note_total": 314,
+        "duration_total": 2
+      },
+      {
+        "course": "Normal",
+        "level": 4,
+        "note_counts": {
+          "don": 60,
+          "ka": 112,
+          "big_ka": 64,
+          "big_don": 2
+        },
+        "duration_counts": {},
+        "note_total": 238,
+        "duration_total": 0
+      },
+      {
+        "course": "Easy",
+        "level": 3,
+        "note_counts": {
+          "don": 64,
+          "ka": 66,
+          "big_ka": 64,
+          "big_don": 2
+        },
+        "duration_counts": {},
+        "note_total": 196,
+        "duration_total": 0
+      }
+    ],
+    "note_total": 1869,
+    "duration_total": 8
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "060 - lost in the cityscape",
+    "title": "lost in the cityscape",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\060 - lost in the cityscape\\lost in the cityscape.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\060 - lost in the cityscape\\lost in the cityscape.ogg",
+    "wave": "lost in the cityscape.ogg",
+    "bpm": 145.0,
+    "offset_sec": -0.225,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 144.994,
+    "drum_event_count": 565,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 9,
+        "note_counts": {
+          "don": 444,
+          "ka": 324,
+          "big_don": 23,
+          "big_ka": 9
+        },
+        "duration_counts": {
+          "balloon": 1,
+          "roll": 3
+        },
+        "note_total": 800,
+        "duration_total": 4
+      },
+      {
+        "course": "Oni",
+        "level": 7,
+        "note_counts": {
+          "don": 362,
+          "ka": 295,
+          "big_don": 23,
+          "big_ka": 9
+        },
+        "duration_counts": {
+          "balloon": 1,
+          "roll": 5
+        },
+        "note_total": 689,
+        "duration_total": 6
+      },
+      {
+        "course": "Hard",
+        "level": 5,
+        "note_counts": {
+          "don": 274,
+          "ka": 213,
+          "big_don": 23,
+          "big_ka": 9
+        },
+        "duration_counts": {
+          "balloon": 1,
+          "roll": 5
+        },
+        "note_total": 519,
+        "duration_total": 6
+      },
+      {
+        "course": "Normal",
+        "level": 5,
+        "note_counts": {
+          "don": 180,
+          "ka": 156,
+          "big_don": 23,
+          "big_ka": 9
+        },
+        "duration_counts": {
+          "balloon": 1,
+          "roll": 5
+        },
+        "note_total": 368,
+        "duration_total": 6
+      },
+      {
+        "course": "Easy",
+        "level": 5,
+        "note_counts": {
+          "don": 129,
+          "ka": 72,
+          "big_don": 23,
+          "big_ka": 5
+        },
+        "duration_counts": {
+          "balloon": 1,
+          "roll": 5
+        },
+        "note_total": 229,
+        "duration_total": 6
+      }
+    ],
+    "note_total": 2605,
+    "duration_total": 28
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "061 - The Abyss",
+    "title": "The Abyss",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\061 - The Abyss\\The Abyss.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\061 - The Abyss\\The Abyss.ogg",
+    "wave": "The Abyss.ogg",
+    "bpm": 160.0,
+    "offset_sec": -6.003,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 144.0,
+    "drum_event_count": 369,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 9,
+        "note_counts": {
+          "don": 380,
+          "ka": 421
+        },
+        "duration_counts": {
+          "balloon": 1
+        },
+        "note_total": 801,
+        "duration_total": 1
+      },
+      {
+        "course": "Hard",
+        "level": 7,
+        "note_counts": {
+          "don": 260,
+          "ka": 285
+        },
+        "duration_counts": {
+          "roll": 5,
+          "balloon": 1
+        },
+        "note_total": 545,
+        "duration_total": 6
+      },
+      {
+        "course": "Normal",
+        "level": 3,
+        "note_counts": {
+          "don": 176,
+          "ka": 58
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 234,
+        "duration_total": 1
+      },
+      {
+        "course": "Easy",
+        "level": 4,
+        "note_counts": {
+          "don": 127,
+          "ka": 49
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 176,
+        "duration_total": 1
+      }
+    ],
+    "note_total": 1756,
+    "duration_total": 9
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "062 - next-level cityscape",
+    "title": "next-level cityscape",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\062 - next-level cityscape\\next-level_cityscape.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\062 - next-level cityscape\\audio.ogg",
+    "wave": "audio.ogg",
+    "bpm": 150.0,
+    "offset_sec": -0.4,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 141.741,
+    "drum_event_count": 650,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 9,
+        "note_counts": {
+          "don": 505,
+          "ka": 393
+        },
+        "duration_counts": {
+          "roll": 17,
+          "big_roll": 2,
+          "balloon": 1
+        },
+        "note_total": 898,
+        "duration_total": 20
+      },
+      {
+        "course": "Oni",
+        "level": 7,
+        "note_counts": {
+          "don": 350,
+          "ka": 298,
+          "big_ka": 3
+        },
+        "duration_counts": {
+          "roll": 20,
+          "big_roll": 2,
+          "balloon": 1
+        },
+        "note_total": 651,
+        "duration_total": 23
+      },
+      {
+        "course": "Hard",
+        "level": 5,
+        "note_counts": {
+          "don": 184,
+          "ka": 282,
+          "big_ka": 3
+        },
+        "duration_counts": {
+          "roll": 3,
+          "balloon": 1,
+          "big_roll": 1
+        },
+        "note_total": 469,
+        "duration_total": 5
+      },
+      {
+        "course": "Normal",
+        "level": 5,
+        "note_counts": {
+          "don": 139,
+          "ka": 151,
+          "big_ka": 4
+        },
+        "duration_counts": {
+          "roll": 3,
+          "balloon": 1,
+          "big_roll": 1
+        },
+        "note_total": 294,
+        "duration_total": 5
+      },
+      {
+        "course": "Easy",
+        "level": 4,
+        "note_counts": {
+          "don": 82,
+          "ka": 89
+        },
+        "duration_counts": {
+          "roll": 4,
+          "balloon": 1
+        },
+        "note_total": 171,
+        "duration_total": 5
+      }
+    ],
+    "note_total": 2483,
+    "duration_total": 58
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "063 - away",
+    "title": "away",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\063 - away\\away.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\063 - away\\away.ogg",
+    "wave": "away.ogg",
+    "bpm": 151.0,
+    "offset_sec": 0.0,
+    "courses": [
+      "Oni",
+      "Easy",
+      "Normal",
+      "Hard"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 152.633,
+    "drum_event_count": 677,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "don": 546,
+          "ka": 385
+        },
+        "duration_counts": {
+          "roll": 4
+        },
+        "note_total": 931,
+        "duration_total": 4
+      },
+      {
+        "course": "Easy",
+        "level": 1,
+        "note_counts": {
+          "don": 59,
+          "ka": 8
+        },
+        "duration_counts": {
+          "roll": 4
+        },
+        "note_total": 67,
+        "duration_total": 4
+      },
+      {
+        "course": "Normal",
+        "level": 4,
+        "note_counts": {
+          "don": 169,
+          "ka": 14
+        },
+        "duration_counts": {
+          "roll": 17,
+          "balloon": 4
+        },
+        "note_total": 183,
+        "duration_total": 21
+      },
+      {
+        "course": "Hard",
+        "level": 7,
+        "note_counts": {
+          "ka": 127,
+          "don": 258
+        },
+        "duration_counts": {
+          "balloon": 4,
+          "roll": 4
+        },
+        "note_total": 385,
+        "duration_total": 8
+      }
+    ],
+    "note_total": 1566,
+    "duration_total": 37
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "064 - PLANETES",
+    "title": "PLANETES",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\064 - PLANETES\\PLANETES.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\064 - PLANETES\\audio.ogg",
+    "wave": "audio.ogg",
+    "bpm": 200.0,
+    "offset_sec": -2.4,
+    "courses": [
+      "Oni",
+      "Edit",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 148.8,
+    "drum_event_count": 561,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 7,
+        "note_counts": {
+          "ka": 321,
+          "don": 358,
+          "big_ka": 34
+        },
+        "duration_counts": {},
+        "note_total": 713,
+        "duration_total": 0
+      },
+      {
+        "course": "Edit",
+        "level": 10,
+        "note_counts": {
+          "ka": 437,
+          "don": 468,
+          "big_ka": 31
+        },
+        "duration_counts": {},
+        "note_total": 936,
+        "duration_total": 0
+      },
+      {
+        "course": "Hard",
+        "level": 6,
+        "note_counts": {
+          "ka": 212,
+          "don": 306,
+          "big_ka": 28
+        },
+        "duration_counts": {},
+        "note_total": 546,
+        "duration_total": 0
+      },
+      {
+        "course": "Normal",
+        "level": 4,
+        "note_counts": {
+          "don": 151,
+          "ka": 100,
+          "big_ka": 22
+        },
+        "duration_counts": {
+          "roll": 4
+        },
+        "note_total": 273,
+        "duration_total": 4
+      },
+      {
+        "course": "Easy",
+        "level": 2,
+        "note_counts": {
+          "don": 74,
+          "ka": 53,
+          "big_ka": 9
+        },
+        "duration_counts": {},
+        "note_total": 136,
+        "duration_total": 0
+      }
+    ],
+    "note_total": 2604,
+    "duration_total": 4
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "065 - Bounded Quietude",
+    "title": "Bounded Quietude",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\065 - Bounded Quietude\\Bounded Quietude.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\065 - Bounded Quietude\\Bounded Quietude.ogg",
+    "wave": "Bounded Quietude.ogg",
+    "bpm": 280.0,
+    "offset_sec": -1.179,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 151.074,
+    "drum_event_count": 423,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 11,
+        "note_counts": {
+          "big_don": 78,
+          "big_ka": 35,
+          "don": 672,
+          "ka": 542
+        },
+        "duration_counts": {
+          "roll": 1,
+          "special_balloon": 1,
+          "big_roll": 1
+        },
+        "note_total": 1327,
+        "duration_total": 3
+      },
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "don": 486,
+          "ka": 435,
+          "big_don": 26
+        },
+        "duration_counts": {
+          "special_balloon": 1,
+          "roll": 3
+        },
+        "note_total": 947,
+        "duration_total": 4
+      },
+      {
+        "course": "Hard",
+        "level": 9,
+        "note_counts": {
+          "don": 409,
+          "ka": 391,
+          "big_don": 37,
+          "big_ka": 8
+        },
+        "duration_counts": {
+          "roll": 5,
+          "special_balloon": 1
+        },
+        "note_total": 845,
+        "duration_total": 6
+      },
+      {
+        "course": "Normal",
+        "level": 8,
+        "note_counts": {
+          "don": 284,
+          "ka": 309,
+          "big_don": 36,
+          "big_ka": 21
+        },
+        "duration_counts": {
+          "roll": 8,
+          "special_balloon": 2,
+          "big_roll": 1,
+          "balloon": 1
+        },
+        "note_total": 650,
+        "duration_total": 12
+      },
+      {
+        "course": "Easy",
+        "level": 7,
+        "note_counts": {
+          "don": 156,
+          "ka": 176,
+          "big_don": 39,
+          "big_ka": 22
+        },
+        "duration_counts": {
+          "big_roll": 3,
+          "roll": 10,
+          "balloon": 1,
+          "special_balloon": 2
+        },
+        "note_total": 393,
+        "duration_total": 16
+      }
+    ],
+    "note_total": 4162,
+    "duration_total": 41
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "066 - Heating up",
+    "title": "Heating Up",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\066 - Heating up\\Heating Up.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\066 - Heating up\\Heating Up.ogg",
+    "wave": "Heating Up.ogg",
+    "bpm": 140.0,
+    "offset_sec": 0.0,
+    "courses": [
+      "Easy",
+      "Normal",
+      "Hard",
+      "Oni"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 123.429,
+    "drum_event_count": 424,
+    "course_summaries": [
+      {
+        "course": "Easy",
+        "level": 4,
+        "note_counts": {
+          "ka": 47,
+          "don": 96,
+          "big_don": 22,
+          "big_ka": 7
+        },
+        "duration_counts": {
+          "roll": 3
+        },
+        "note_total": 172,
+        "duration_total": 3
+      },
+      {
+        "course": "Normal",
+        "level": 5,
+        "note_counts": {
+          "don": 137,
+          "ka": 87,
+          "big_don": 19
+        },
+        "duration_counts": {
+          "roll": 1,
+          "balloon": 1
+        },
+        "note_total": 243,
+        "duration_total": 2
+      },
+      {
+        "course": "Hard",
+        "level": 6,
+        "note_counts": {
+          "don": 195,
+          "ka": 222,
+          "big_don": 4
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 421,
+        "duration_total": 1
+      },
+      {
+        "course": "Oni",
+        "level": 8,
+        "note_counts": {
+          "don": 264,
+          "ka": 412,
+          "big_don": 2
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 678,
+        "duration_total": 1
+      }
+    ],
+    "note_total": 1514,
+    "duration_total": 7
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "067 - Liar Prison",
+    "title": "Liar Prison",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\067 - Liar Prison\\Liar Prison.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\067 - Liar Prison\\Liar Prison.ogg",
+    "wave": "Liar Prison.ogg",
+    "bpm": 160.0,
+    "offset_sec": -1.5,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Easy",
+      "Normal"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 168.0,
+    "drum_event_count": 503,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 10,
+        "note_counts": {
+          "big_don": 28,
+          "big_ka": 18,
+          "ka": 492,
+          "don": 570
+        },
+        "duration_counts": {},
+        "note_total": 1108,
+        "duration_total": 0
+      },
+      {
+        "course": "Oni",
+        "level": 8,
+        "note_counts": {
+          "big_don": 49,
+          "big_ka": 16,
+          "ka": 256,
+          "don": 351
+        },
+        "duration_counts": {
+          "balloon": 4,
+          "roll": 9
+        },
+        "note_total": 672,
+        "duration_total": 13
+      },
+      {
+        "course": "Hard",
+        "level": 6,
+        "note_counts": {
+          "don": 290,
+          "ka": 198,
+          "big_don": 12,
+          "big_ka": 3
+        },
+        "duration_counts": {
+          "roll": 17,
+          "special_balloon": 1
+        },
+        "note_total": 503,
+        "duration_total": 18
+      },
+      {
+        "course": "Easy",
+        "level": 2,
+        "note_counts": {
+          "don": 98,
+          "ka": 53,
+          "big_ka": 4
+        },
+        "duration_counts": {
+          "roll": 3,
+          "special_balloon": 1
+        },
+        "note_total": 155,
+        "duration_total": 4
+      },
+      {
+        "course": "Normal",
+        "level": 4,
+        "note_counts": {
+          "don": 196,
+          "ka": 111,
+          "big_ka": 6,
+          "big_don": 1
+        },
+        "duration_counts": {
+          "roll": 13,
+          "special_balloon": 1
+        },
+        "note_total": 314,
+        "duration_total": 14
+      }
+    ],
+    "note_total": 2752,
+    "duration_total": 49
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "069 - Vanaheimr",
+    "title": "Vanaheimr",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\069 - Vanaheimr\\Vanaheimr.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\069 - Vanaheimr\\Vanaheimr.ogg",
+    "wave": "Vanaheimr.ogg",
+    "bpm": 169.0,
+    "offset_sec": -2.17,
+    "courses": [
+      "Edit",
+      "Hard",
+      "Normal",
+      "Easy",
+      "Oni"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 146.933,
+    "drum_event_count": 430,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 11,
+        "note_counts": {
+          "don": 725,
+          "ka": 631,
+          "big_don": 29
+        },
+        "duration_counts": {
+          "roll": 1,
+          "special_balloon": 2
+        },
+        "note_total": 1385,
+        "duration_total": 3
+      },
+      {
+        "course": "Hard",
+        "level": 9,
+        "note_counts": {
+          "don": 312,
+          "ka": 357,
+          "big_don": 60,
+          "big_ka": 6
+        },
+        "duration_counts": {
+          "roll": 5,
+          "special_balloon": 2
+        },
+        "note_total": 735,
+        "duration_total": 7
+      },
+      {
+        "course": "Normal",
+        "level": 7,
+        "note_counts": {
+          "don": 170,
+          "ka": 239,
+          "big_don": 85,
+          "big_ka": 14
+        },
+        "duration_counts": {
+          "balloon": 2,
+          "roll": 7,
+          "big_roll": 3,
+          "special_balloon": 2
+        },
+        "note_total": 508,
+        "duration_total": 14
+      },
+      {
+        "course": "Easy",
+        "level": 4,
+        "note_counts": {
+          "don": 121,
+          "ka": 83,
+          "big_don": 79,
+          "big_ka": 13
+        },
+        "duration_counts": {
+          "balloon": 2,
+          "big_roll": 5,
+          "roll": 4,
+          "special_balloon": 2
+        },
+        "note_total": 296,
+        "duration_total": 13
+      },
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "don": 597,
+          "ka": 517,
+          "big_don": 29,
+          "big_ka": 3
+        },
+        "duration_counts": {
+          "balloon": 8,
+          "roll": 2,
+          "special_balloon": 2
+        },
+        "note_total": 1146,
+        "duration_total": 12
+      }
+    ],
+    "note_total": 4070,
+    "duration_total": 49
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "070 - Kernschmelze 256",
+    "title": "Kernschmelze 256",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\070 - Kernschmelze 256\\Kernschmelze_256.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\070 - Kernschmelze 256\\Kernschmelze 256.ogg",
+    "wave": "Kernschmelze 256.ogg",
+    "bpm": 193.003,
+    "offset_sec": -0.003,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 116.112,
+    "drum_event_count": 576,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 9,
+        "note_counts": {
+          "ka": 407,
+          "don": 557,
+          "big_don": 20
+        },
+        "duration_counts": {
+          "roll": 6,
+          "special_balloon": 1
+        },
+        "note_total": 984,
+        "duration_total": 7
+      },
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "don": 505,
+          "ka": 456,
+          "big_don": 30,
+          "big_ka": 9
+        },
+        "duration_counts": {
+          "balloon": 2
+        },
+        "note_total": 1000,
+        "duration_total": 2
+      },
+      {
+        "course": "Hard",
+        "level": 8,
+        "note_counts": {
+          "don": 345,
+          "ka": 215,
+          "big_don": 49,
+          "big_ka": 6
+        },
+        "duration_counts": {
+          "big_roll": 1,
+          "balloon": 1
+        },
+        "note_total": 615,
+        "duration_total": 2
+      },
+      {
+        "course": "Normal",
+        "level": 7,
+        "note_counts": {
+          "don": 231,
+          "ka": 133,
+          "big_don": 43,
+          "big_ka": 5
+        },
+        "duration_counts": {
+          "big_roll": 3,
+          "balloon": 2
+        },
+        "note_total": 412,
+        "duration_total": 5
+      },
+      {
+        "course": "Easy",
+        "level": 5,
+        "note_counts": {
+          "big_don": 33,
+          "don": 149,
+          "big_ka": 7,
+          "ka": 65
+        },
+        "duration_counts": {
+          "big_roll": 3,
+          "balloon": 2,
+          "roll": 1
+        },
+        "note_total": 254,
+        "duration_total": 6
+      }
+    ],
+    "note_total": 3265,
+    "duration_total": 22
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "072 - Scarlet Soul",
+    "title": "Scarlet Soul",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\072 - Scarlet Soul\\Scarlet Soul.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\072 - Scarlet Soul\\Scarlet Soul.ogg",
+    "wave": "Scarlet Soul.ogg",
+    "bpm": 100.0,
+    "offset_sec": 0.3,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 160.5,
+    "drum_event_count": 444,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 11,
+        "note_counts": {
+          "don": 632,
+          "ka": 528,
+          "big_don": 26,
+          "big_ka": 105
+        },
+        "duration_counts": {
+          "balloon": 3,
+          "roll": 3
+        },
+        "note_total": 1291,
+        "duration_total": 6
+      },
+      {
+        "course": "Hard",
+        "level": 9,
+        "note_counts": {
+          "don": 435,
+          "ka": 340,
+          "big_don": 19,
+          "big_ka": 69
+        },
+        "duration_counts": {
+          "big_roll": 7,
+          "balloon": 1
+        },
+        "note_total": 863,
+        "duration_total": 8
+      },
+      {
+        "course": "Normal",
+        "level": 8,
+        "note_counts": {
+          "don": 262,
+          "ka": 222,
+          "big_don": 23,
+          "big_ka": 75
+        },
+        "duration_counts": {
+          "roll": 4,
+          "balloon": 2,
+          "big_roll": 7
+        },
+        "note_total": 582,
+        "duration_total": 13
+      },
+      {
+        "course": "Easy",
+        "level": 6,
+        "note_counts": {
+          "don": 86,
+          "ka": 112,
+          "big_don": 17,
+          "big_ka": 70
+        },
+        "duration_counts": {
+          "balloon": 4,
+          "big_roll": 9,
+          "roll": 2,
+          "special_balloon": 1
+        },
+        "note_total": 285,
+        "duration_total": 16
+      }
+    ],
+    "note_total": 3021,
+    "duration_total": 43
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "074 - Spatium Cursu",
+    "title": "Spatium Cursu",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\074 - Spatium Cursu\\Spatium Cursu.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\074 - Spatium Cursu\\audio.ogg",
+    "wave": "audio.ogg",
+    "bpm": 170.0,
+    "offset_sec": -0.0,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 136.375,
+    "drum_event_count": 386,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 7,
+        "note_counts": {
+          "ka": 246,
+          "don": 350,
+          "big_ka": 4
+        },
+        "duration_counts": {
+          "roll": 10,
+          "big_roll": 3
+        },
+        "note_total": 600,
+        "duration_total": 13
+      },
+      {
+        "course": "Hard",
+        "level": 5,
+        "note_counts": {
+          "ka": 157,
+          "don": 251,
+          "big_ka": 4
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 412,
+        "duration_total": 1
+      },
+      {
+        "course": "Normal",
+        "level": 3,
+        "note_counts": {
+          "ka": 85,
+          "don": 144,
+          "big_ka": 4
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 233,
+        "duration_total": 1
+      },
+      {
+        "course": "Easy",
+        "level": 1,
+        "note_counts": {
+          "don": 61,
+          "ka": 47
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 108,
+        "duration_total": 1
+      }
+    ],
+    "note_total": 1353,
+    "duration_total": 16
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "075 - 640x480",
+    "title": "640x480",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\075 - 640x480\\640x480.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\075 - 640x480\\640x480.ogg",
+    "wave": "640x480.ogg",
+    "bpm": 140.0,
+    "offset_sec": -0.04,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 125.193,
+    "drum_event_count": 528,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 7,
+        "note_counts": {
+          "don": 392,
+          "ka": 247
+        },
+        "duration_counts": {
+          "roll": 2
+        },
+        "note_total": 639,
+        "duration_total": 2
+      },
+      {
+        "course": "Oni",
+        "level": 9,
+        "note_counts": {
+          "ka": 365,
+          "don": 410
+        },
+        "duration_counts": {},
+        "note_total": 775,
+        "duration_total": 0
+      },
+      {
+        "course": "Hard",
+        "level": 6,
+        "note_counts": {
+          "ka": 258,
+          "don": 222
+        },
+        "duration_counts": {},
+        "note_total": 480,
+        "duration_total": 0
+      },
+      {
+        "course": "Normal",
+        "level": 4,
+        "note_counts": {
+          "ka": 82,
+          "don": 188,
+          "big_ka": 1
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 271,
+        "duration_total": 1
+      },
+      {
+        "course": "Easy",
+        "level": 2,
+        "note_counts": {
+          "ka": 36,
+          "don": 77,
+          "big_ka": 1
+        },
+        "duration_counts": {
+          "balloon": 2
+        },
+        "note_total": 114,
+        "duration_total": 2
+      }
+    ],
+    "note_total": 2279,
+    "duration_total": 5
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "077 - Meowmetic",
+    "title": "Meowmetic",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\077 - Meowmetic\\Meowmetic.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\077 - Meowmetic\\Meowmetic.ogg",
+    "wave": "Meowmetic.ogg",
+    "bpm": 125.0,
+    "offset_sec": -0.145,
+    "courses": [
+      "Easy",
+      "Normal",
+      "Hard",
+      "Oni"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 161.28,
+    "drum_event_count": 525,
+    "course_summaries": [
+      {
+        "course": "Easy",
+        "level": 2,
+        "note_counts": {
+          "don": 64,
+          "ka": 43,
+          "big_don": 1
+        },
+        "duration_counts": {},
+        "note_total": 108,
+        "duration_total": 0
+      },
+      {
+        "course": "Normal",
+        "level": 3,
+        "note_counts": {
+          "don": 99,
+          "ka": 95,
+          "big_don": 1
+        },
+        "duration_counts": {},
+        "note_total": 195,
+        "duration_total": 0
+      },
+      {
+        "course": "Hard",
+        "level": 4,
+        "note_counts": {
+          "don": 209,
+          "ka": 150,
+          "big_don": 2
+        },
+        "duration_counts": {},
+        "note_total": 361,
+        "duration_total": 0
+      },
+      {
+        "course": "Oni",
+        "level": 7,
+        "note_counts": {
+          "don": 448,
+          "ka": 277
+        },
+        "duration_counts": {},
+        "note_total": 725,
+        "duration_total": 0
+      }
+    ],
+    "note_total": 1389,
+    "duration_total": 0
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "078 - the garden",
+    "title": "the garden",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\078 - the garden\\the garden.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\078 - the garden\\the garden.ogg",
+    "wave": "the garden.ogg",
+    "bpm": 130.0,
+    "offset_sec": -0.044,
+    "courses": [
+      "Easy",
+      "Normal",
+      "Hard",
+      "Oni"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 92.907,
+    "drum_event_count": 297,
+    "course_summaries": [
+      {
+        "course": "Easy",
+        "level": 1,
+        "note_counts": {
+          "ka": 18,
+          "don": 15
+        },
+        "duration_counts": {},
+        "note_total": 33,
+        "duration_total": 0
+      },
+      {
+        "course": "Normal",
+        "level": 2,
+        "note_counts": {
+          "don": 70,
+          "ka": 53
+        },
+        "duration_counts": {},
+        "note_total": 123,
+        "duration_total": 0
+      },
+      {
+        "course": "Hard",
+        "level": 4,
+        "note_counts": {
+          "don": 164,
+          "ka": 99
+        },
+        "duration_counts": {},
+        "note_total": 263,
+        "duration_total": 0
+      },
+      {
+        "course": "Oni",
+        "level": 6,
+        "note_counts": {
+          "ka": 104,
+          "don": 105
+        },
+        "duration_counts": {},
+        "note_total": 209,
+        "duration_total": 0
+      }
+    ],
+    "note_total": 628,
+    "duration_total": 0
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "079 - MECHANICAL GOD",
+    "title": "MECHANICAL GOD",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\079 - MECHANICAL GOD\\MECHANICAL GOD.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\079 - MECHANICAL GOD\\MECHANICAL GOD.ogg",
+    "wave": "MECHANICAL GOD.ogg",
+    "bpm": 180.0,
+    "offset_sec": -0.965,
+    "courses": [
+      "Easy",
+      "Normal",
+      "Hard",
+      "Oni",
+      "Edit"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 119.954,
+    "drum_event_count": 588,
+    "course_summaries": [
+      {
+        "course": "Easy",
+        "level": 2,
+        "note_counts": {
+          "ka": 39,
+          "don": 79
+        },
+        "duration_counts": {
+          "roll": 5,
+          "special_balloon": 1
+        },
+        "note_total": 118,
+        "duration_total": 6
+      },
+      {
+        "course": "Normal",
+        "level": 4,
+        "note_counts": {
+          "ka": 90,
+          "don": 110
+        },
+        "duration_counts": {
+          "roll": 4,
+          "special_balloon": 1
+        },
+        "note_total": 200,
+        "duration_total": 5
+      },
+      {
+        "course": "Hard",
+        "level": 6,
+        "note_counts": {
+          "ka": 141,
+          "don": 255
+        },
+        "duration_counts": {
+          "special_balloon": 1
+        },
+        "note_total": 396,
+        "duration_total": 1
+      },
+      {
+        "course": "Oni",
+        "level": 8,
+        "note_counts": {
+          "ka": 288,
+          "don": 308
+        },
+        "duration_counts": {},
+        "note_total": 596,
+        "duration_total": 0
+      },
+      {
+        "course": "Edit",
+        "level": 10,
+        "note_counts": {
+          "ka": 441,
+          "don": 474
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 915,
+        "duration_total": 1
+      }
+    ],
+    "note_total": 2225,
+    "duration_total": 13
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "081 - Taikonitos",
+    "title": "Taikonitos",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\081 - Taikonitos\\Taikonitos.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\081 - Taikonitos\\Taikonitos.ogg",
+    "wave": "Taikonitos.ogg",
+    "bpm": 139.0,
+    "offset_sec": -0.435,
+    "courses": [
+      "Easy",
+      "Normal",
+      "Hard",
+      "Oni"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 130.076,
+    "drum_event_count": 503,
+    "course_summaries": [
+      {
+        "course": "Easy",
+        "level": 3,
+        "note_counts": {
+          "don": 73,
+          "ka": 45,
+          "big_don": 8
+        },
+        "duration_counts": {
+          "roll": 2,
+          "special_balloon": 1
+        },
+        "note_total": 126,
+        "duration_total": 3
+      },
+      {
+        "course": "Normal",
+        "level": 5,
+        "note_counts": {
+          "don": 119,
+          "ka": 119,
+          "big_don": 7
+        },
+        "duration_counts": {
+          "roll": 2,
+          "special_balloon": 1
+        },
+        "note_total": 245,
+        "duration_total": 3
+      },
+      {
+        "course": "Hard",
+        "level": 7,
+        "note_counts": {
+          "don": 250,
+          "ka": 277,
+          "big_ka": 1
+        },
+        "duration_counts": {},
+        "note_total": 528,
+        "duration_total": 0
+      },
+      {
+        "course": "Oni",
+        "level": 8,
+        "note_counts": {
+          "don": 358,
+          "ka": 369,
+          "big_ka": 1
+        },
+        "duration_counts": {},
+        "note_total": 728,
+        "duration_total": 0
+      }
+    ],
+    "note_total": 1627,
+    "duration_total": 6
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "082 - Comma",
+    "title": "Comma, ~ Imi to Kouzou no Bunri",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\082 - Comma\\Comma.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\082 - Comma\\Comma.ogg",
+    "wave": "Comma.ogg",
+    "bpm": 150.0,
+    "offset_sec": -0.108,
+    "courses": [
+      "Easy",
+      "Normal",
+      "Hard",
+      "Oni",
+      "Edit"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 188.729,
+    "drum_event_count": 874,
+    "course_summaries": [
+      {
+        "course": "Easy",
+        "level": 4,
+        "note_counts": {
+          "don": 168,
+          "ka": 121
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 289,
+        "duration_total": 1
+      },
+      {
+        "course": "Normal",
+        "level": 5,
+        "note_counts": {
+          "don": 290,
+          "ka": 160
+        },
+        "duration_counts": {},
+        "note_total": 450,
+        "duration_total": 0
+      },
+      {
+        "course": "Hard",
+        "level": 7,
+        "note_counts": {
+          "big_don": 2,
+          "ka": 387,
+          "don": 440
+        },
+        "duration_counts": {},
+        "note_total": 829,
+        "duration_total": 0
+      },
+      {
+        "course": "Oni",
+        "level": 9,
+        "note_counts": {
+          "big_don": 2,
+          "ka": 602,
+          "don": 621
+        },
+        "duration_counts": {},
+        "note_total": 1225,
+        "duration_total": 0
+      },
+      {
+        "course": "Edit",
+        "level": 10,
+        "note_counts": {
+          "big_don": 2,
+          "ka": 791,
+          "don": 714,
+          "big_ka": 1
+        },
+        "duration_counts": {},
+        "note_total": 1508,
+        "duration_total": 0
+      }
+    ],
+    "note_total": 4301,
+    "duration_total": 1
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "083 - Bracket",
+    "title": "<Bracket> ～Duplicate of Chaos and Destruction～",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\083 - Bracket\\Bracket.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\083 - Bracket\\Bracket.ogg",
+    "wave": "Bracket.ogg",
+    "bpm": 150.0,
+    "offset_sec": -0.047,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 147.252,
+    "drum_event_count": 639,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "don": 569,
+          "ka": 712,
+          "big_ka": 12,
+          "big_don": 2
+        },
+        "duration_counts": {
+          "roll": 1,
+          "big_roll": 1
+        },
+        "note_total": 1295,
+        "duration_total": 2
+      },
+      {
+        "course": "Hard",
+        "level": 8,
+        "note_counts": {
+          "don": 377,
+          "ka": 254,
+          "big_ka": 10
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 641,
+        "duration_total": 1
+      },
+      {
+        "course": "Normal",
+        "level": 7,
+        "note_counts": {
+          "don": 238,
+          "ka": 169,
+          "big_ka": 7
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 414,
+        "duration_total": 1
+      },
+      {
+        "course": "Easy",
+        "level": 5,
+        "note_counts": {
+          "don": 150,
+          "big_ka": 1,
+          "ka": 78
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 229,
+        "duration_total": 1
+      }
+    ],
+    "note_total": 2579,
+    "duration_total": 5
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "084 - Next To You",
+    "title": "Next To You",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\084 - Next To You\\Next To You.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\084 - Next To You\\Next To You.ogg",
+    "wave": "Next To You.ogg",
+    "bpm": 169.0,
+    "offset_sec": -0.078,
+    "courses": [
+      "Edit",
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 317.482,
+    "drum_event_count": 705,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 8,
+        "note_counts": {
+          "don": 853,
+          "ka": 659,
+          "big_don": 29,
+          "big_ka": 49
+        },
+        "duration_counts": {
+          "balloon": 5,
+          "roll": 1
+        },
+        "note_total": 1590,
+        "duration_total": 6
+      },
+      {
+        "course": "Oni",
+        "level": 6,
+        "note_counts": {
+          "don": 609,
+          "ka": 442,
+          "big_ka": 39,
+          "big_don": 26
+        },
+        "duration_counts": {
+          "special_balloon": 1,
+          "balloon": 4,
+          "roll": 1
+        },
+        "note_total": 1116,
+        "duration_total": 6
+      },
+      {
+        "course": "Hard",
+        "level": 5,
+        "note_counts": {
+          "don": 446,
+          "ka": 292,
+          "big_ka": 25,
+          "big_don": 35
+        },
+        "duration_counts": {
+          "special_balloon": 1,
+          "big_roll": 1,
+          "balloon": 4,
+          "roll": 1
+        },
+        "note_total": 798,
+        "duration_total": 7
+      },
+      {
+        "course": "Normal",
+        "level": 3,
+        "note_counts": {
+          "don": 312,
+          "ka": 181,
+          "big_ka": 5,
+          "big_don": 27
+        },
+        "duration_counts": {
+          "roll": 2,
+          "special_balloon": 1,
+          "big_roll": 1,
+          "balloon": 4
+        },
+        "note_total": 525,
+        "duration_total": 8
+      },
+      {
+        "course": "Easy",
+        "level": 3,
+        "note_counts": {
+          "don": 207,
+          "ka": 111,
+          "big_don": 21,
+          "big_ka": 1
+        },
+        "duration_counts": {
+          "roll": 6,
+          "special_balloon": 1,
+          "big_roll": 1,
+          "balloon": 4
+        },
+        "note_total": 340,
+        "duration_total": 12
+      }
+    ],
+    "note_total": 4369,
+    "duration_total": 39
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "085 - Very long title",
+    "title": "i don't want to see the people i love see me in pain so i sometimes just wanna be left alone to cry in the dark",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\085 - Very long title\\leftalone.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\085 - Very long title\\leftalone.ogg",
+    "wave": "leftalone.ogg",
+    "bpm": 21.0,
+    "offset_sec": 0.0,
+    "courses": [
+      "Easy",
+      "Normal",
+      "Hard",
+      "Oni"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 177.429,
+    "drum_event_count": 676,
+    "course_summaries": [
+      {
+        "course": "Easy",
+        "level": 3,
+        "note_counts": {
+          "ka": 81,
+          "don": 104
+        },
+        "duration_counts": {
+          "balloon": 1
+        },
+        "note_total": 185,
+        "duration_total": 1
+      },
+      {
+        "course": "Normal",
+        "level": 5,
+        "note_counts": {
+          "ka": 130,
+          "don": 155
+        },
+        "duration_counts": {},
+        "note_total": 285,
+        "duration_total": 0
+      },
+      {
+        "course": "Hard",
+        "level": 8,
+        "note_counts": {
+          "ka": 384,
+          "don": 230
+        },
+        "duration_counts": {
+          "balloon": 1,
+          "roll": 1
+        },
+        "note_total": 614,
+        "duration_total": 2
+      },
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "ka": 499,
+          "don": 433
+        },
+        "duration_counts": {},
+        "note_total": 932,
+        "duration_total": 0
+      }
+    ],
+    "note_total": 2016,
+    "duration_total": 3
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "086 - Disappearing dreams",
+    "title": "Resentment ~The Whittling of Fragmented Dreams~",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\086 - Disappearing dreams\\Resentment ~The Whittling of Fragmented Dreams~.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\086 - Disappearing dreams\\Resentment ~The Whittling of Fragmented Dreams~.ogg",
+    "wave": "Resentment ~The Whittling of Fragmented Dreams~.ogg",
+    "bpm": 180.0,
+    "offset_sec": -0.001,
+    "courses": [
+      "Edit",
+      "Hard",
+      "Normal",
+      "Easy",
+      "Oni"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 113.981,
+    "drum_event_count": 343,
+    "course_summaries": [
+      {
+        "course": "Edit",
+        "level": 11,
+        "note_counts": {
+          "ka": 490,
+          "don": 687,
+          "big_ka": 65,
+          "big_don": 38
+        },
+        "duration_counts": {
+          "roll": 1
+        },
+        "note_total": 1280,
+        "duration_total": 1
+      },
+      {
+        "course": "Hard",
+        "level": 8,
+        "note_counts": {
+          "ka": 298,
+          "don": 455,
+          "big_don": 10
+        },
+        "duration_counts": {
+          "roll": 3
+        },
+        "note_total": 763,
+        "duration_total": 3
+      },
+      {
+        "course": "Normal",
+        "level": 7,
+        "note_counts": {
+          "don": 280,
+          "ka": 174,
+          "big_ka": 4
+        },
+        "duration_counts": {
+          "roll": 4
+        },
+        "note_total": 458,
+        "duration_total": 4
+      },
+      {
+        "course": "Easy",
+        "level": 5,
+        "note_counts": {
+          "don": 146,
+          "ka": 121,
+          "big_don": 4
+        },
+        "duration_counts": {
+          "roll": 5
+        },
+        "note_total": 271,
+        "duration_total": 5
+      },
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "ka": 412,
+          "don": 504,
+          "big_don": 11
+        },
+        "duration_counts": {
+          "roll": 3
+        },
+        "note_total": 927,
+        "duration_total": 3
+      }
+    ],
+    "note_total": 3699,
+    "duration_total": 16
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "087 - Hero's Treasure",
+    "title": "Hero's Treasure",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\087 - Hero's Treasure\\Hero_s Tresure.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\087 - Hero's Treasure\\Hero_s Tresure.ogg",
+    "wave": "Hero_s Tresure.ogg",
+    "bpm": 140.0,
+    "offset_sec": -0.058,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 150.909,
+    "drum_event_count": 544,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 7,
+        "note_counts": {
+          "don": 250,
+          "ka": 234,
+          "big_don": 1,
+          "big_ka": 2
+        },
+        "duration_counts": {
+          "roll": 7,
+          "big_roll": 2
+        },
+        "note_total": 487,
+        "duration_total": 9
+      },
+      {
+        "course": "Hard",
+        "level": 5,
+        "note_counts": {
+          "don": 196,
+          "ka": 79,
+          "big_don": 1,
+          "big_ka": 3
+        },
+        "duration_counts": {
+          "roll": 13,
+          "big_roll": 1
+        },
+        "note_total": 279,
+        "duration_total": 14
+      },
+      {
+        "course": "Normal",
+        "level": 4,
+        "note_counts": {
+          "don": 122,
+          "ka": 17,
+          "big_don": 3,
+          "big_ka": 1
+        },
+        "duration_counts": {
+          "roll": 13,
+          "big_roll": 1
+        },
+        "note_total": 143,
+        "duration_total": 14
+      },
+      {
+        "course": "Easy",
+        "level": 2,
+        "note_counts": {
+          "don": 75,
+          "ka": 11,
+          "big_don": 3,
+          "big_ka": 1
+        },
+        "duration_counts": {
+          "roll": 13,
+          "big_roll": 1
+        },
+        "note_total": 90,
+        "duration_total": 14
+      }
+    ],
+    "note_total": 999,
+    "duration_total": 51
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "089 - FunkBoi",
+    "title": "FunkBoi",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\089 - FunkBoi\\FunkBoi.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\089 - FunkBoi\\FunkBoi.ogg",
+    "wave": "FunkBoi.ogg",
+    "bpm": 185.0,
+    "offset_sec": 0.0,
+    "courses": [
+      "Easy",
+      "Normal",
+      "Hard",
+      "Oni",
+      "Edit"
+    ],
+    "course_count": 5,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 123.243,
+    "drum_event_count": 570,
+    "course_summaries": [
+      {
+        "course": "Easy",
+        "level": 2,
+        "note_counts": {
+          "big_don": 12,
+          "don": 52,
+          "ka": 33,
+          "big_ka": 5
+        },
+        "duration_counts": {
+          "big_roll": 2,
+          "special_balloon": 2,
+          "balloon": 1,
+          "roll": 1
+        },
+        "note_total": 102,
+        "duration_total": 6
+      },
+      {
+        "course": "Normal",
+        "level": 6,
+        "note_counts": {
+          "ka": 143,
+          "big_ka": 1,
+          "don": 181
+        },
+        "duration_counts": {},
+        "note_total": 325,
+        "duration_total": 0
+      },
+      {
+        "course": "Hard",
+        "level": 7,
+        "note_counts": {
+          "big_don": 49,
+          "don": 270,
+          "ka": 263,
+          "big_ka": 2
+        },
+        "duration_counts": {
+          "balloon": 2,
+          "roll": 2
+        },
+        "note_total": 584,
+        "duration_total": 4
+      },
+      {
+        "course": "Oni",
+        "level": 9,
+        "note_counts": {
+          "big_ka": 25,
+          "don": 446,
+          "ka": 416,
+          "big_don": 8
+        },
+        "duration_counts": {},
+        "note_total": 895,
+        "duration_total": 0
+      },
+      {
+        "course": "Edit",
+        "level": 10,
+        "note_counts": {
+          "big_ka": 50,
+          "don": 473,
+          "ka": 492,
+          "big_don": 2
+        },
+        "duration_counts": {},
+        "note_total": 1017,
+        "duration_total": 0
+      }
+    ],
+    "note_total": 2923,
+    "duration_total": 10
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "090 - The Beat",
+    "title": "The Beat",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\090 - The Beat\\TheBeat.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\090 - The Beat\\TheBeat.ogg",
+    "wave": "TheBeat.ogg",
+    "bpm": 200.0,
+    "offset_sec": 0.0,
+    "courses": [
+      "Easy",
+      "Normal",
+      "Hard",
+      "Oni"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 158.4,
+    "drum_event_count": 660,
+    "course_summaries": [
+      {
+        "course": "Easy",
+        "level": 5,
+        "note_counts": {
+          "don": 150,
+          "ka": 131,
+          "big_don": 8
+        },
+        "duration_counts": {
+          "roll": 2,
+          "balloon": 2
+        },
+        "note_total": 289,
+        "duration_total": 4
+      },
+      {
+        "course": "Normal",
+        "level": 6,
+        "note_counts": {
+          "don": 202,
+          "ka": 299,
+          "big_don": 4
+        },
+        "duration_counts": {
+          "balloon": 2
+        },
+        "note_total": 505,
+        "duration_total": 2
+      },
+      {
+        "course": "Hard",
+        "level": 8,
+        "note_counts": {
+          "don": 380,
+          "ka": 372,
+          "big_don": 8,
+          "big_ka": 5
+        },
+        "duration_counts": {
+          "roll": 1,
+          "balloon": 2
+        },
+        "note_total": 765,
+        "duration_total": 3
+      },
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "don": 773,
+          "ka": 551,
+          "big_ka": 13,
+          "big_don": 4
+        },
+        "duration_counts": {
+          "balloon": 7,
+          "roll": 1
+        },
+        "note_total": 1341,
+        "duration_total": 8
+      }
+    ],
+    "note_total": 2900,
+    "duration_total": 17
+  },
+  {
+    "source_collection": "02 OpenTaiko Chapter II",
+    "song_dir": "091 - thumb wrestling",
+    "title": "thumb wrestling",
+    "tja_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\091 - thumb wrestling\\thumb wrestling.tja",
+    "audio_path": "E:\\03_tools\\Drum2Taiko\\database\\02 OpenTaiko Chapter II\\091 - thumb wrestling\\thumb wrestling.ogg",
+    "wave": "thumb wrestling.ogg",
+    "bpm": 150.0,
+    "offset_sec": -0.008,
+    "courses": [
+      "Oni",
+      "Hard",
+      "Normal",
+      "Easy"
+    ],
+    "course_count": 4,
+    "parse_status": "ok",
+    "audio_status": "ok",
+    "audio_duration_sec": 175.65,
+    "drum_event_count": 582,
+    "course_summaries": [
+      {
+        "course": "Oni",
+        "level": 10,
+        "note_counts": {
+          "ka": 449,
+          "don": 598,
+          "big_don": 20,
+          "big_ka": 23
+        },
+        "duration_counts": {
+          "big_roll": 14,
+          "special_balloon": 2,
+          "balloon": 14
+        },
+        "note_total": 1090,
+        "duration_total": 30
+      },
+      {
+        "course": "Hard",
+        "level": 8,
+        "note_counts": {
+          "ka": 237,
+          "don": 321,
+          "big_don": 35,
+          "big_ka": 23
+        },
+        "duration_counts": {
+          "big_roll": 2,
+          "special_balloon": 2,
+          "roll": 7
+        },
+        "note_total": 616,
+        "duration_total": 11
+      },
+      {
+        "course": "Normal",
+        "level": 6,
+        "note_counts": {
+          "don": 276,
+          "ka": 135,
+          "big_don": 23,
+          "big_ka": 10
+        },
+        "duration_counts": {
+          "big_roll": 2,
+          "special_balloon": 2,
+          "roll": 4
+        },
+        "note_total": 444,
+        "duration_total": 8
+      },
+      {
+        "course": "Easy",
+        "level": 5,
+        "note_counts": {
+          "don": 251,
+          "big_don": 24,
+          "ka": 58,
+          "big_ka": 7
+        },
+        "duration_counts": {
+          "big_roll": 2,
+          "special_balloon": 2,
+          "roll": 4
+        },
+        "note_total": 340,
+        "duration_total": 8
+      }
+    ],
+    "note_total": 2490,
+    "duration_total": 57
+  }
+]
