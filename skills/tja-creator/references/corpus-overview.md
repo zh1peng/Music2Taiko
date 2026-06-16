@@ -1,6 +1,6 @@
 # Corpus Overview
 
-Use this reference for corpus-level style and density guidance. It is an LLM-readable summary of generated data under `derived/tja-creator/corpus/`.
+Use this reference for corpus-level style and density guidance. It is an LLM-readable summary of generated data under `tja-wiki/corpus/`.
 
 ## Current Evidence Scope
 

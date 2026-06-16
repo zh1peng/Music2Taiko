@@ -163,7 +163,7 @@ class CliTests(unittest.TestCase):
                         "--song-id",
                         "001",
                         "--corpus-dir",
-                        "derived/tja-creator/corpus",
+                        "tja-wiki/corpus",
                         "--pattern-plan",
                         "pattern_plan.json",
                     ]
@@ -174,7 +174,7 @@ class CliTests(unittest.TestCase):
         self.assertEqual(kwargs["difficulty"], "oni")
         self.assertEqual(kwargs["title"], "Song")
         self.assertEqual(kwargs["song_id"], "001")
-        self.assertEqual(kwargs["corpus_dir"], Path("derived/tja-creator/corpus"))
+        self.assertEqual(kwargs["corpus_dir"], Path("tja-wiki/corpus"))
         self.assertEqual(kwargs["pattern_plan_path"], Path("pattern_plan.json"))
 
     def test_create_tja_command_accepts_multi_course_reuse_context(self):

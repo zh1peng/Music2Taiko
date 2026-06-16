@@ -78,7 +78,7 @@ def main(argv: list[str] | None = None) -> int:
     create_tja_parser.add_argument("--title", default="", help="Display title; defaults to input filename")
     create_tja_parser.add_argument("--song-id", default="", help="Stable short song ID for output filenames")
     create_tja_parser.add_argument("--output-prefix", default="", help="Safe output prefix; defaults to normalized title")
-    create_tja_parser.add_argument("--corpus-dir", default="", help="Derived corpus directory for retrieval")
+    create_tja_parser.add_argument("--corpus-dir", default="", help="TJA wiki corpus directory for retrieval")
     create_tja_parser.add_argument("--pattern-plan", default="", help="JSON pattern plan produced by LLM/skill")
     create_tja_parser.add_argument("--reuse-context", default="", help="Existing arrangement_context.json to render without audio analysis")
     create_tja_parser.add_argument("--lead-in-sec", type=float, default=2.5, help="Do not place notes before this time")

@@ -151,4 +151,4 @@ Load references only when relevant:
 - Read `references/pattern-library.md` when composing or revising playable bar-level motifs.
 - Read `references/evaluation-rubric.md` before calling a draft playable or final.
 
-The processed corpus data lives under `derived/tja-creator/`. Treat the Markdown references as LLM-readable summaries and the JSON files as supporting evidence. Do not load the raw database or all derived JSON into context unless a task specifically needs it.
+The processed corpus data lives under `tja-wiki/`. Treat the Markdown references as LLM-readable summaries and the JSON files as supporting evidence. Do not load the raw database or all wiki JSON into context unless a task specifically needs it.

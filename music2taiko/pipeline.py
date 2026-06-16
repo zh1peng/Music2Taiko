@@ -243,7 +243,7 @@ def create_tja_package(
         events = extractor(source)
         bpm = _tempo_from_events(events)
         duration_sec = _duration_from_events(events)
-        corpus = Path(corpus_dir) if corpus_dir else Path("derived") / "tja-creator" / "corpus"
+        corpus = Path(corpus_dir) if corpus_dir else Path("tja-wiki") / "corpus"
         matches = retrieve_similar_charts(
             bpm=bpm,
             duration_sec=duration_sec,
