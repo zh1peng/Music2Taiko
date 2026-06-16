@@ -1,4 +1,4 @@
-from drum2taiko.cli import main
+from music2taiko.cli import main
 
 
 if __name__ == "__main__":

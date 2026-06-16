@@ -112,7 +112,7 @@ If automatic extraction conflicts with playability, prefer playability.
 
 For new-song TJA generation, use the package as a deterministic toolchain and keep chart design decisions in the skill/LLM layer:
 
-1. Run `drum2taiko create-tja <audio> --out <dir> --difficulties easy,normal,hard,oni` to generate the four standard playable courses by default:
+1. Run `music2taiko create-tja <audio> --out <dir> --difficulties easy,normal,hard,oni` to generate the four standard playable courses by default:
    - `arrangement_context.json`: source-song drum events, candidate timing anchors, retrieval matches, and pattern-plan schema.
    - `pattern_plan.json`: default editable pattern plan.
    - `.tja`, `.ogg`, `retrieval.json`, and `aligned_samples.json`.
@@ -131,7 +131,7 @@ For new-song TJA generation, use the package as a deterministic toolchain and ke
    ```
    Borrow pattern language and density from similar corpus songs, but place notes only on the new song's candidate anchors or clearly justified musical accents.
    Anchor coverage should follow the song. For a drum-dense song, Easy should still cover the basic groove and may use 60-80% of reliable anchors with simple D-heavy motifs; Normal can use 75-90% with more K answers; Hard/Oni can use most anchors while increasing burst, color, big-note, and roll complexity. For sparse songs, do not invent density just to satisfy a ratio.
-5. Re-run `drum2taiko create-tja ... --difficulties easy,normal,hard,oni --pattern-plan <pattern_plan.json>` to apply the design plan to the source-song anchors.
+5. Re-run `music2taiko create-tja ... --difficulties easy,normal,hard,oni --pattern-plan <pattern_plan.json>` to apply the design plan to the source-song anchors.
 6. If audio and context are already generated, skip decoding/analysis and re-render from note generation onward with `--reuse-context <arrangement_context.json>`.
 7. Review the exported TJA and `aligned_samples.json`; revise the plan rather than copying source chart timing.
 

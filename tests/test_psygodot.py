@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from drum2taiko.io.psygodot import build_beatmap, write_beatmaps
+from music2taiko.io.psygodot import build_beatmap, write_beatmaps
 
 
 class PsyGodotTests(unittest.TestCase):

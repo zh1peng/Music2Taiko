@@ -32,7 +32,7 @@ class CliTests(unittest.TestCase):
                 [
                     sys.executable,
                     "-m",
-                    "drum2taiko",
+                    "music2taiko",
                     "generate",
                     str(audio),
                     "--out",
@@ -53,9 +53,9 @@ class CliTests(unittest.TestCase):
         self.assertTrue(hard["notes"])
 
     def test_generate_accepts_demucs_model_and_device_options(self):
-        from drum2taiko import cli
+        from music2taiko import cli
 
-        with patch("drum2taiko.cli.generate_beatmaps") as generate:
+        with patch("music2taiko.cli.generate_beatmaps") as generate:
             generate.return_value = {
                 "easy": Path("easy.json"),
                 "normal": Path("normal.json"),
@@ -89,9 +89,9 @@ class CliTests(unittest.TestCase):
         self.assertEqual(kwargs["demucs_format"], "mp3")
 
     def test_build_command_uses_one_step_workflow(self):
-        from drum2taiko import cli
+        from music2taiko import cli
 
-        with patch("drum2taiko.cli.build_beatmap_package") as build:
+        with patch("music2taiko.cli.build_beatmap_package") as build:
             build.return_value = {
                 "beatmaps": {
                     "easy": Path("easy.json"),
@@ -111,9 +111,9 @@ class CliTests(unittest.TestCase):
         self.assertEqual(kwargs["demucs_format"], "mp3")
 
     def test_build_opentaiko_command_uses_tja_package_workflow(self):
-        from drum2taiko import cli
+        from music2taiko import cli
 
-        with patch("drum2taiko.cli.build_opentaiko_package") as build:
+        with patch("music2taiko.cli.build_opentaiko_package") as build:
             build.return_value = {
                 "package_dir": Path("opentaiko_out") / "Song",
                 "tja": Path("opentaiko_out") / "Song" / "Song.tja",
@@ -136,9 +136,9 @@ class CliTests(unittest.TestCase):
         self.assertEqual(kwargs["demucs_format"], "mp3")
 
     def test_create_tja_command_uses_creator_workflow(self):
-        from drum2taiko import cli
+        from music2taiko import cli
 
-        with patch("drum2taiko.cli.create_tja_package") as create:
+        with patch("music2taiko.cli.create_tja_package") as create:
             create.return_value = {
                 "package_dir": Path("out") / "001-song",
                 "tja": Path("out") / "001-song" / "001-song.tja",
@@ -178,9 +178,9 @@ class CliTests(unittest.TestCase):
         self.assertEqual(kwargs["pattern_plan_path"], Path("pattern_plan.json"))
 
     def test_create_tja_command_accepts_multi_course_reuse_context(self):
-        from drum2taiko import cli
+        from music2taiko import cli
 
-        with patch("drum2taiko.cli.create_tja_package") as create:
+        with patch("music2taiko.cli.create_tja_package") as create:
             create.return_value = {
                 "package_dir": Path("out") / "song",
                 "tja": Path("out") / "song" / "song.tja",

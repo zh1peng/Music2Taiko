@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from drum2taiko.creator import (
+from music2taiko.creator import (
     apply_pattern_plan_to_anchors,
     build_aligned_samples,
     build_arrangement_context,

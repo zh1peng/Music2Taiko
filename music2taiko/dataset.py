@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from drum2taiko.io.tja import parse_tja
+from music2taiko.io.tja import parse_tja
 
 
 def _read_tja(path: Path) -> str:

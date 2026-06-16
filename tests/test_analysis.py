@@ -5,7 +5,7 @@ import unittest
 import wave
 from pathlib import Path
 
-from drum2taiko.analysis.candidates import candidate_from_time, extract_drum_events
+from music2taiko.analysis.candidates import candidate_from_time, extract_drum_events
 
 
 class AnalysisTests(unittest.TestCase):

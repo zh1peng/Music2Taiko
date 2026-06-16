@@ -2,7 +2,7 @@
 
 ## Project
 
-Drum2Taiko is an independent chart-authoring project for converting MP3/WAV music into an approximate drum-event layer and then into playable Taiko-style `don` / `ka` beatmaps.
+Music2Taiko is an independent chart-authoring project for converting MP3/WAV music into an approximate drum-event layer and then into playable Taiko-style `don` / `ka` beatmaps.
 
 ## Working Rules
 
@@ -15,11 +15,11 @@ Drum2Taiko is an independent chart-authoring project for converting MP3/WAV musi
 
 ## Key Files
 
-- Package CLI: `drum2taiko/cli.py`
-- Pipeline orchestration: `drum2taiko/pipeline.py`
-- Audio/drum-event analysis: `drum2taiko/analysis/candidates.py`
-- Demucs wrapper: `drum2taiko/separation/demucs.py`
-- PsyGodot exporter: `drum2taiko/io/psygodot.py`
+- Package CLI: `music2taiko/cli.py`
+- Pipeline orchestration: `music2taiko/pipeline.py`
+- Audio/drum-event analysis: `music2taiko/analysis/candidates.py`
+- Demucs wrapper: `music2taiko/separation/demucs.py`
+- PsyGodot exporter: `music2taiko/io/psygodot.py`
 - Tests: `tests/`
 - Skill entry, currently secondary documentation: `skills/tja-creator/SKILL.md`
 

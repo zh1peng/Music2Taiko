@@ -3,8 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from drum2taiko.io.psygodot import write_beatmaps
-from drum2taiko.pipeline import (
+from music2taiko.io.psygodot import write_beatmaps
+from music2taiko.pipeline import (
     DEFAULT_TJA_DIFFICULTIES,
     build_beatmap_package,
     build_opentaiko_package,

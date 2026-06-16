@@ -3,18 +3,18 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from drum2taiko.pipeline import (
+from music2taiko.pipeline import (
     DEFAULT_TJA_DIFFICULTIES,
     build_beatmap_package,
     build_opentaiko_package,
     create_tja_package,
     generate_beatmaps,
 )
-from drum2taiko.separation.demucs import DemucsConfig, separate_drums
+from music2taiko.separation.demucs import DemucsConfig, separate_drums
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="drum2taiko", description="Generate Taiko-style PsyGodot beatmaps.")
+    parser = argparse.ArgumentParser(prog="music2taiko", description="Generate Taiko-style PsyGodot beatmaps.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     separate_parser = subparsers.add_parser("separate", help="Create a Demucs drums stem.")
@@ -73,7 +73,7 @@ def main(argv: list[str] | None = None) -> int:
     create_tja_parser.add_argument(
         "--difficulties",
         default="",
-        help=f"Comma-separated courses; defaults to --difficulty unless set, for example {','.join(DEFAULT_TJA_DIFFICULTIES)}",
+        help=f"Comma-separated courses; defaults to {','.join(DEFAULT_TJA_DIFFICULTIES)}",
     )
     create_tja_parser.add_argument("--title", default="", help="Display title; defaults to input filename")
     create_tja_parser.add_argument("--song-id", default="", help="Stable short song ID for output filenames")

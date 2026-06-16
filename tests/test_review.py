@@ -3,8 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from drum2taiko.io.psygodot import write_beatmaps
-from drum2taiko.review import summarize_beatmap, summarize_beatmaps, write_review_report
+from music2taiko.io.psygodot import write_beatmaps
+from music2taiko.review import summarize_beatmap, summarize_beatmaps, write_review_report
 
 
 EVENTS = [
@@ -60,7 +60,7 @@ class ReviewTests(unittest.TestCase):
 
             report = summarize_beatmaps(paths)
 
-        self.assertEqual(report["schema_version"], "drum2taiko.review.v1")
+        self.assertEqual(report["schema_version"], "music2taiko.review.v1")
         self.assertEqual(report["difficulties"]["hard"]["notes"], 3)
         self.assertEqual(report["difficulties"]["hard"]["drum_classes"]["kick"], 1)
         self.assertIn("don", report["difficulties"]["hard"]["lanes"])

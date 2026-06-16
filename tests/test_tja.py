@@ -4,8 +4,8 @@ import wave
 from pathlib import Path
 from unittest.mock import patch
 
-from drum2taiko.audio.ogg import convert_to_ogg
-from drum2taiko.io.tja import parse_tja, render_tja, write_tja
+from music2taiko.audio.ogg import convert_to_ogg
+from music2taiko.io.tja import parse_tja, render_tja, write_tja
 
 
 BEATMAPS = {

@@ -307,7 +307,7 @@ def render_tja(
     offset_sec: float = 0.0,
     demo_start_sec: float = 0.0,
     genre: str = "Generated",
-    maker: str = "Drum2Taiko",
+    maker: str = "Music2Taiko",
 ) -> str:
     bpm = _tempo_bpm(beatmaps)
     lines = [

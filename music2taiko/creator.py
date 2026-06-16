@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from drum2taiko.io.tja import BEATS_PER_MEASURE, SLOTS_PER_MEASURE
+from music2taiko.io.tja import BEATS_PER_MEASURE, SLOTS_PER_MEASURE
 
 
 WINDOWS_RESERVED_NAMES = {

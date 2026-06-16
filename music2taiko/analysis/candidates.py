@@ -274,5 +274,5 @@ def extract_drum_events(
             pass
 
     if audio_path.suffix.lower() != ".wav":
-        raise RuntimeError("MP3 analysis requires librosa. Install Drum2Taiko with audio dependencies.")
+        raise RuntimeError("MP3 analysis requires librosa. Install Music2Taiko with audio dependencies.")
     return [candidate_from_time(time_sec) for time_sec in _fallback_wav_onsets(audio_path)]

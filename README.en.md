@@ -1,8 +1,8 @@
-# Drum2Taiko
+# Music2Taiko
 
 [中文](README.md) | English
 
-Drum2Taiko is a Python package for turning MP3/WAV music into approximate Taiko-style beatmaps. It generates an inspectable `drum_events[]` layer first, then maps those events into `don` / `ka` notes and exports OpenTaiko/TJA packages. PsyGodot JSON is still available for debugging and compatibility.
+Music2Taiko is a Python package for turning MP3/WAV music into approximate Taiko-style beatmaps. It generates an inspectable `drum_events[]` layer first, then maps those events into `don` / `ka` notes and exports OpenTaiko/TJA packages. PsyGodot JSON is still available for debugging and compatibility.
 
 The project is experimental. The goal is not to produce final charts in one click, but to create a useful draft that can be reviewed, tested in Godot, and iterated on.
 
@@ -47,10 +47,12 @@ For CUDA Demucs, install a CUDA-enabled PyTorch build for your hardware before i
 
 ## Usage
 
+The repository, package distribution, primary CLI, and Python implementation package are all named Music2Taiko / `music2taiko`.
+
 Run the full OpenTaiko/TJA package workflow:
 
 ```powershell
-python -m drum2taiko build-opentaiko ".\song.mp3" --out opentaiko_out --title "Song"
+python -m music2taiko build-opentaiko ".\song.mp3" --out opentaiko_out --title "Song"
 ```
 
 Output:
@@ -68,31 +70,31 @@ opentaiko_out/
 Run the PsyGodot JSON workflow:
 
 ```powershell
-python -m drum2taiko build ".\song.mp3" --out godot_out --title "Song"
+python -m music2taiko build ".\song.mp3" --out godot_out --title "Song"
 ```
 
 Generate beatmaps without Demucs:
 
 ```powershell
-python -m drum2taiko generate ".\song.mp3" --out output\beatmaps --title "Song"
+python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song"
 ```
 
 Generate with Demucs:
 
 ```powershell
-python -m drum2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs
+python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs
 ```
 
 On Windows, MP3 stem output can avoid TorchCodec/shared-FFmpeg WAV save issues:
 
 ```powershell
-python -m drum2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs --demucs-device cuda --demucs-model htdemucs --demucs-segment 7 --demucs-format mp3
+python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs --demucs-device cuda --demucs-model htdemucs --demucs-segment 7 --demucs-format mp3
 ```
 
 Use an existing drum stem:
 
 ```powershell
-python -m drum2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --drum-stem ".\drums.mp3"
+python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --drum-stem ".\drums.mp3"
 ```
 
 ## Outputs
@@ -116,4 +118,4 @@ python -m unittest discover
 
 ## Scope
 
-Drum2Taiko is not a full drum transcription engine or a final chart authoring replacement. It is a draft generator and analysis pipeline for iterating on drum-event quality, offset, density, difficulty shaping, and Taiko `don` / `ka` mapping.
+Music2Taiko is not a full drum transcription engine or a final chart authoring replacement. It is a draft generator and analysis pipeline for iterating on drum-event quality, offset, density, difficulty shaping, and Taiko `don` / `ka` mapping.

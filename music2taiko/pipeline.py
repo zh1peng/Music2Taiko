@@ -5,19 +5,19 @@ import re
 from pathlib import Path
 from typing import Any, Callable
 
-from drum2taiko.analysis.candidates import extract_drum_events
-from drum2taiko.audio.ogg import convert_to_ogg
-from drum2taiko.creator import (
+from music2taiko.analysis.candidates import extract_drum_events
+from music2taiko.audio.ogg import convert_to_ogg
+from music2taiko.creator import (
     apply_pattern_plan_to_anchors,
     build_arrangement_context,
     default_pattern_plan,
     normalize_output_id,
     retrieve_similar_charts,
 )
-from drum2taiko.io.psygodot import write_beatmaps
-from drum2taiko.io.tja import write_tja
-from drum2taiko.review import write_review_report
-from drum2taiko.separation.demucs import DemucsConfig, separate_drums
+from music2taiko.io.psygodot import write_beatmaps
+from music2taiko.io.tja import write_tja
+from music2taiko.review import write_review_report
+from music2taiko.separation.demucs import DemucsConfig, separate_drums
 
 
 Extractor = Callable[..., list[dict[str, Any]]]

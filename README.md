@@ -1,8 +1,8 @@
-# Drum2Taiko
+# Music2Taiko
 
 中文 | [English](README.en.md)
 
-Drum2Taiko 是一个 Python 工具包，用来把 MP3/WAV 音乐转换成近似可玩的 Taiko 风格鼓面。它不是完整的“自动扒鼓谱”系统，而是先生成一个可检查的 `drum_events[]` 中间层，再把鼓点事件映射成 `don` / `ka` 谱面，并导出 OpenTaiko/TJA package。PsyGodot JSON 仍然保留，主要用于调试和算法验证。
+Music2Taiko 是一个 Python 工具包，用来把 MP3/WAV 音乐转换成近似可玩的 Taiko 风格鼓面。它不是完整的“自动扒鼓谱”系统，而是先生成一个可检查的 `drum_events[]` 中间层，再把鼓点事件映射成 `don` / `ka` 谱面，并导出 OpenTaiko/TJA package。PsyGodot JSON 仍然保留，主要用于调试和算法验证。
 
 当前项目还处于实验阶段，目标是给谱面作者一个可迭代的起点：自动生成初稿、查看报告、进 Godot 听手感，然后继续调 offset、鼓点质量、don/ka pattern 和难度密度。
 
@@ -21,7 +21,7 @@ MP3/WAV 音频
 
 - 不直接把 full-mix onset 映射成 `don` / `ka`。
 - `drum_events[]` 是音频分析和太鼓谱面之间的中间层。
-- Demucs 是优先的 drum stem 来源，但谱面生成逻辑仍然属于 Drum2Taiko。
+- Demucs 是优先的 drum stem 来源，但谱面生成逻辑仍然属于 Music2Taiko。
 - TJA + OGG 是太鼓模式的标准输出；PsyGodot JSON 是调试和兼容导出。
 
 ## 当前能力
@@ -59,7 +59,7 @@ demucs
 完整生成 OpenTaiko/TJA package，推荐用于太鼓模式：
 
 ```powershell
-python -m drum2taiko build-opentaiko ".\song.mp3" --out opentaiko_out --title "Song"
+python -m music2taiko build-opentaiko ".\song.mp3" --out opentaiko_out --title "Song"
 ```
 
 输出结构：
@@ -88,7 +88,7 @@ empty -> 0
 生成 PsyGodot JSON，用于 Godot 验证或调试：
 
 ```powershell
-python -m drum2taiko build ".\song.mp3" --out godot_out --title "Song"
+python -m music2taiko build ".\song.mp3" --out godot_out --title "Song"
 ```
 
 这个命令会：
@@ -103,31 +103,31 @@ python -m drum2taiko build ".\song.mp3" --out godot_out --title "Song"
 只生成谱面，不主动跑 Demucs：
 
 ```powershell
-python -m drum2taiko generate ".\song.mp3" --out output\beatmaps --title "Song"
+python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song"
 ```
 
 显式使用 Demucs：
 
 ```powershell
-python -m drum2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs
+python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs
 ```
 
 Windows 上如果 Demucs 保存 WAV 遇到 TorchCodec/shared-FFmpeg 问题，可以输出 MP3 stem：
 
 ```powershell
-python -m drum2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs --demucs-device cuda --demucs-model htdemucs --demucs-segment 7 --demucs-format mp3
+python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --use-demucs --demucs-device cuda --demucs-model htdemucs --demucs-segment 7 --demucs-format mp3
 ```
 
 只做 Demucs 分离：
 
 ```powershell
-python -m drum2taiko separate ".\song.mp3" --out stems --demucs-device cuda --demucs-model htdemucs --demucs-segment 7 --demucs-format mp3
+python -m music2taiko separate ".\song.mp3" --out stems --demucs-device cuda --demucs-model htdemucs --demucs-segment 7 --demucs-format mp3
 ```
 
 使用已有 drum stem：
 
 ```powershell
-python -m drum2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --drum-stem ".\drums.mp3"
+python -m music2taiko generate ".\song.mp3" --out output\beatmaps --title "Song" --drum-stem ".\drums.mp3"
 ```
 
 ## 输出文件
@@ -214,7 +214,7 @@ python -m unittest discover
 项目结构：
 
 ```text
-drum2taiko/
+music2taiko/
   cli.py
   pipeline.py
   analysis/
@@ -231,13 +231,13 @@ pyproject.toml
 
 ## 设计边界
 
-Drum2Taiko 当前不是：
+Music2Taiko 当前不是：
 
 - 完整真实鼓谱转写器。
 - osu!/Taiko 官方谱面生成器。
 - 一键生成最终可发布谱面的工具。
 
-Drum2Taiko 当前更适合：
+Music2Taiko 当前更适合：
 
 - 从音乐生成可编辑的太鼓谱面初稿。
 - 研究 drum-event layer 到 Taiko chart layer 的映射。

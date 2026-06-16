@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from drum2taiko.separation.demucs import DemucsConfig, build_demucs_command, separate_drums
+from music2taiko.separation.demucs import DemucsConfig, build_demucs_command, separate_drums
 
 
 class DemucsSeparationTests(unittest.TestCase):

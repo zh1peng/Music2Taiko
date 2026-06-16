@@ -5,7 +5,7 @@ import math
 from pathlib import Path
 from typing import Any, Iterable
 
-from drum2taiko.analysis.candidates import DRUM_CLASSES, candidate_from_time
+from music2taiko.analysis.candidates import DRUM_CLASSES, candidate_from_time
 
 
 SCHEMA_VERSION = "psygodot.beatmap.v1"
@@ -35,7 +35,7 @@ HARD_TAIKO_MOTIFS = (
     ("don", "don", "ka", "don"),
     ("don", "ka", "don", "ka"),
 )
-ALGORITHM_VERSION = "drum2taiko_v1"
+ALGORITHM_VERSION = "music2taiko_v1"
 
 
 def _drum_class(value: Any) -> str:
@@ -389,7 +389,7 @@ def build_beatmap(
         "audio_offset_ms": float(audio_offset_ms),
         "chart_offset_ms": float(chart_offset_ms),
         "difficulty": difficulty,
-        "generator": "drum2taiko",
+        "generator": "music2taiko",
         "algorithm_version": ALGORITHM_VERSION,
         "drum_event_source": resolved_event_source,
         "tempo_bpm": tempo_bpm,

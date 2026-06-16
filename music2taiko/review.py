@@ -198,7 +198,7 @@ def summarize_beatmaps(paths: dict[str, Path]) -> dict[str, Any]:
     )
     offset_source = difficulty_summaries[offset_source_name]
     return {
-        "schema_version": "drum2taiko.review.v1",
+        "schema_version": "music2taiko.review.v1",
         "title": first_payload.get("title", ""),
         "source_audio": first_payload.get("source_audio", ""),
         "drum_event_source": first_payload.get("drum_event_source", ""),

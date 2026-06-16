@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from drum2taiko.dataset import build_song_records, scan_chapter
+from music2taiko.dataset import build_song_records, scan_chapter
 
 
 class DatasetTests(unittest.TestCase):
