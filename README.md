@@ -4,7 +4,7 @@
 
 # Music2Taiko
 
-中文 | [English](README.en.md)
+中文 | [English](README.en.md) | [日本語](README.ja.md)
 
 **Convert any music to Taiko TJA.**
 
