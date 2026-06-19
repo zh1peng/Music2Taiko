@@ -1,6 +1,6 @@
 ---
 name: tja-creator
-description: Use when creating, improving, evaluating, or rebalancing TJA/Taiko-style rhythm game beatmaps/charts for MP3/WAV/OGG songs, especially when charts feel off-beat, need TJA parsing, drum-event analysis, or target PsyGodot rhythm_drum JSON beatmaps with easy/normal/hard difficulties.
+description: Use when creating, improving, evaluating, or rebalancing TJA/Taiko-style rhythm game beatmaps/charts for MP3/WAV/OGG songs or YouTube video URLs, especially when charts feel off-beat, need TJA parsing, drum-event analysis, or target PsyGodot rhythm_drum JSON beatmaps with easy/normal/hard difficulties.
 ---
 
 # TJA Creator
@@ -16,8 +16,9 @@ Never copy official commercial charts. Use Taiko-like design vocabulary (`D = do
 1. **Analyze the song offline**
    - Detect BPM, global offset, beat grid, candidate drum events, and rough sections.
    - Calibrate `audio_offset_ms` or `chart_offset_ms` before changing Don/Ka rules. A 30-80 ms whole-song offset can make a good chart feel wrong.
-   - Prefer a separated drum stem or percussive-enhanced audio over full-mix onset detection. Use Demucs drums output when available; use HPSS/percussive audio only as a fallback.
+   - Use Demucs drums output by default before drum-event extraction. Use HPSS/percussive audio only as a fallback when Demucs is unavailable or explicitly disabled.
    - In this repo, `tools/beatmap_generator/beatmap_generator.py` is only a scaffold generator. Treat its output as timing proposals, not final drum truth.
+   - YouTube URLs are supported as a source acquisition step only: download the audio first, then analyze the downloaded local audio file through the same drum-event workflow.
    - For details, read `references/workflow.md`.
 
 2. **Build the drum-event layer**
@@ -112,7 +113,9 @@ If automatic extraction conflicts with playability, prefer playability.
 
 For new-song TJA generation, use the package as a deterministic toolchain and keep chart design decisions in the skill/LLM layer:
 
-1. Run `music2taiko create-tja <audio> --out <dir> --difficulties easy,normal,hard,oni` to generate the four standard playable courses by default:
+1. Run `music2taiko create-tja <audio-or-youtube-url> --out <dir> --difficulties easy,normal,hard,oni` to generate the four standard playable courses by default:
+   - If the input is a YouTube URL, the CLI downloads audio to `<dir>/source_audio/` with `yt-dlp`, then continues with the downloaded local file.
+   - `create-tja` runs Demucs first by default on CPU (`--demucs-device cpu`) and analyzes the resulting drums stem. The intermediate Demucs stem defaults to MP3 to avoid torchaudio WAV-encoding issues on Windows. Use `--demucs-device cuda` when a working GPU is available, or `--no-demucs` only when explicitly choosing the lower-quality HPSS fallback.
    - `arrangement_context.json`: source-song drum events, candidate timing anchors, retrieval matches, and pattern-plan schema.
    - `pattern_plan.json`: default editable pattern plan.
    - `.tja`, `.ogg`, `retrieval.json`, and `aligned_samples.json`.

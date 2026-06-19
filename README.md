@@ -50,9 +50,13 @@ librosa
 numpy
 soundfile
 demucs
+yt-dlp
+imageio-ffmpeg
+static-ffmpeg
 ```
 
-Demucs 是可选的上游 drum stem 工具，不是 TJA 生成流程的硬依赖。
+`create-tja` 默认先运行 Demucs 并分析分离出的 drums stem；默认使用 CPU（`--demucs-device cpu`），中间 Demucs stem 默认写成 MP3，以避免依赖 torchaudio 的 WAV 编码。只有 Demucs 不可用或显式使用 `--no-demucs` 时才退回 HPSS/percussive 分析。
+YouTube 输入由 `yt-dlp` 支持；CLI 会先把视频音频下载到 `<out>/source_audio/`，再进入普通本地音频分析流程。
 
 ## 快速开始
 
@@ -60,6 +64,18 @@ Demucs 是可选的上游 drum stem 工具，不是 TJA 生成流程的硬依赖
 
 ```powershell
 music2taiko create-tja ".\song.ogg" --out opentaiko_out --difficulties easy,normal,hard,oni
+```
+
+如果本机有可用 GPU，可以让 Demucs 使用 CUDA：
+
+```powershell
+music2taiko create-tja ".\song.ogg" --out opentaiko_out --demucs-device cuda
+```
+
+也可以直接使用 YouTube 视频 URL：
+
+```powershell
+music2taiko create-tja "https://youtu.be/example123" --out opentaiko_out --difficulties easy,normal,hard,oni
 ```
 
 也可以用 module 方式运行：

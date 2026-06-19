@@ -8,7 +8,7 @@
 
 **Convert any music to Taiko TJA.**
 
-Music2Taiko is a Python package and chart-authoring workflow for converting MP3/WAV/OGG songs into playable Taiko-style `.tja` drafts. It analyzes the source audio into an inspectable `drum_events[]` layer, retrieves similar charting evidence from `tja-wiki`, builds arrangement context and pattern plans, then exports OpenTaiko-ready TJA packages.
+Music2Taiko is a Python package and chart-authoring workflow for converting MP3/WAV/OGG songs or YouTube video URLs into playable Taiko-style `.tja` drafts. It analyzes the source audio into an inspectable `drum_events[]` layer, retrieves similar charting evidence from `tja-wiki`, builds arrangement context and pattern plans, then exports OpenTaiko-ready TJA packages.
 
 The project is not a one-click final chart replacement. It is designed to give chart authors a strong editable draft: timing anchors from the source song, difficulty shaping across `easy` / `normal` / `hard` / `oni`, and wiki-backed pattern references from existing TJA charts.
 
@@ -49,9 +49,13 @@ librosa
 numpy
 soundfile
 demucs
+yt-dlp
+imageio-ffmpeg
+static-ffmpeg
 ```
 
-Demucs is treated as an optional upstream drum-stem provider. The TJA creation pipeline can still run from normal audio input.
+`create-tja` runs Demucs first by default and analyzes the separated drums stem. It defaults to CPU (`--demucs-device cpu`) and writes the intermediate Demucs stem as MP3 so the workflow does not depend on torchaudio WAV encoding. It falls back to HPSS/percussive analysis only when Demucs is unavailable or explicitly disabled with `--no-demucs`.
+YouTube input is powered by `yt-dlp`; downloaded audio is cached under `<out>/source_audio/` before the normal local-audio workflow runs.
 
 ## Quick Start
 
@@ -59,6 +63,18 @@ Create a four-course TJA package:
 
 ```powershell
 music2taiko create-tja ".\song.ogg" --out opentaiko_out --difficulties easy,normal,hard,oni
+```
+
+Use a GPU for Demucs when available:
+
+```powershell
+music2taiko create-tja ".\song.ogg" --out opentaiko_out --demucs-device cuda
+```
+
+Create a TJA package from a YouTube video URL:
+
+```powershell
+music2taiko create-tja "https://youtu.be/example123" --out opentaiko_out --difficulties easy,normal,hard,oni
 ```
 
 Equivalent module form:

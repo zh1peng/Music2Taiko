@@ -121,19 +121,31 @@ class TjaTests(unittest.TestCase):
         self.assertIn("TITLE:Song", raw.decode("utf-8-sig"))
 
     def test_convert_to_ogg_writes_vorbis_audio(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            source = Path(tmp) / "source.wav"
-            output = Path(tmp) / "song.ogg"
-            with wave.open(str(source), "wb") as handle:
-                handle.setnchannels(1)
-                handle.setsampwidth(2)
-                handle.setframerate(8000)
-                handle.writeframes((0).to_bytes(2, "little", signed=True) * 800)
+        import numpy as np
 
-            result = convert_to_ogg(source, output)
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "song.ogg"
+
+            class FakeSoundFile:
+                def __enter__(self):
+                    return self
+
+                def __exit__(self, exc_type, exc, traceback):
+                    output.write_bytes(b"fake ogg")
+                    return False
+
+                def write(self, chunk):
+                    pass
+
+            with patch("music2taiko.audio.ogg._load_audio", return_value=(np.zeros(800, dtype=np.float32), 8000)), patch(
+                "music2taiko.audio.ogg._open_sound_file",
+                return_value=FakeSoundFile(),
+            ) as open_sound_file:
+                result = convert_to_ogg("source.wav", output)
 
             self.assertEqual(result, output)
             self.assertGreater(output.stat().st_size, 0)
+            open_sound_file.assert_called_once_with(output, sample_rate=8000, channels=1)
 
     def test_convert_to_ogg_streams_audio_in_chunks(self):
         import numpy as np
@@ -161,7 +173,17 @@ class TjaTests(unittest.TestCase):
         samples = np.zeros((2, 5000), dtype=np.float32)
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp) / "song.ogg"
-            with patch("librosa.load", return_value=(samples, 44100)), patch("soundfile.SoundFile", FakeSoundFile):
+            with patch("music2taiko.audio.ogg._load_audio", return_value=(samples, 44100)), patch(
+                "music2taiko.audio.ogg._open_sound_file",
+                side_effect=lambda path, *, sample_rate, channels: FakeSoundFile(
+                    path,
+                    mode="w",
+                    samplerate=sample_rate,
+                    channels=channels,
+                    format="OGG",
+                    subtype="VORBIS",
+                ),
+            ):
                 result = convert_to_ogg("song.mp3", output, chunk_size=1024)
 
         self.assertEqual(result, output)

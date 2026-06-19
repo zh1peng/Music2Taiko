@@ -7,7 +7,7 @@ name = "music2taiko"
 version = "0.1.0"
 description = "Convert any music to Taiko TJA."
 requires-python = ">=3.10"
-dependencies = ["librosa>=0.10", "numpy>=1.24", "soundfile>=0.13", "demucs"]
+dependencies = ["librosa>=0.10", "numpy>=1.24", "soundfile>=0.13", "demucs", "yt-dlp", "imageio-ffmpeg", "static-ffmpeg"]
 
 [project.scripts]
 music2taiko = "music2taiko.cli:main"

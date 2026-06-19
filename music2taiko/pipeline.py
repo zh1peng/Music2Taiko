@@ -74,7 +74,7 @@ def generate_beatmaps(
     demucs_model: str = "htdemucs",
     demucs_device: str = "",
     demucs_segment: int | None = None,
-    demucs_format: str = "wav",
+    demucs_format: str = "mp3",
     extractor: Extractor = extract_drum_events,
     separator: Separator = separate_drums,
 ) -> dict[str, Path]:
@@ -215,7 +215,14 @@ def create_tja_package(
     reuse_context_path: str | Path | None = None,
     lead_in_sec: float = 2.5,
     level: int | None = None,
+    use_demucs: bool = True,
+    stems_dir: str | Path | None = None,
+    demucs_model: str = "htdemucs",
+    demucs_device: str = "cpu",
+    demucs_segment: int | None = None,
+    demucs_format: str = "mp3",
     extractor: Extractor = extract_drum_events,
+    separator: Separator = separate_drums,
     audio_converter: AudioConverter = convert_to_ogg,
 ) -> dict[str, Any]:
     source = Path(audio_path)
@@ -238,9 +245,29 @@ def create_tja_package(
         bpm = float(context.get("estimated_bpm", 120.0))
         events = []
         matches = context.get("retrieval_context", {}).get("matches", [])
+        drum_event_source = str(context.get("drum_event_source", "reuse_context"))
+        demucs_error = ""
     else:
         audio_path_out = audio_converter(source, audio_output)
-        events = extractor(source)
+        resolved_stem: Path | None = None
+        demucs_error = ""
+        if use_demucs:
+            stem_output = Path(stems_dir) if stems_dir else package_dir / "stems"
+            config = DemucsConfig(
+                model=demucs_model,
+                device=demucs_device,
+                segment=demucs_segment,
+                output_format=demucs_format,
+            )
+            try:
+                resolved_stem = separator(source, stem_output, config=config)
+            except Exception as exc:
+                demucs_error = str(exc)
+
+        events = extractor(source, drum_stem_path=resolved_stem)
+        drum_event_source = "demucs_drums" if resolved_stem else "hpss_percussive"
+        for event in events:
+            event.setdefault("drum_event_source", drum_event_source)
         bpm = _tempo_from_events(events)
         duration_sec = _duration_from_events(events)
         corpus = Path(corpus_dir) if corpus_dir else Path("tja-wiki") / "corpus"
@@ -258,6 +285,9 @@ def create_tja_package(
             drum_events=events,
             retrieval_matches=matches,
         )
+        context["drum_event_source"] = drum_event_source
+        if demucs_error:
+            context["demucs_error"] = demucs_error
 
     source_plan = json.loads(Path(pattern_plan_path).read_text(encoding="utf-8")) if pattern_plan_path else None
     courses: dict[str, dict[str, Any]] = {}
@@ -291,7 +321,9 @@ def create_tja_package(
                 "difficulty": course_keys[0] if len(course_keys) == 1 else course_keys,
                 "estimated_bpm": bpm,
                 "drum_event_count": len(events),
+                "drum_event_source": drum_event_source,
                 "matches": matches,
+                **({"demucs_error": demucs_error} if demucs_error else {}),
             },
             ensure_ascii=False,
             indent=2,

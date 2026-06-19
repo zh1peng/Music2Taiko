@@ -161,6 +161,45 @@ class CreatorTests(unittest.TestCase):
         self.assertEqual([note["type"] for note in course["notes"]], ["don", "ka", "don"])
         self.assertTrue(course["aligned_samples"])
 
+    def test_apply_pattern_plan_resets_pattern_phase_by_measure_grid(self):
+        anchors = [
+            {"time_sec": 0.0, "drum_class": "kick", "strength": 1.0, "confidence": 1.0, "is_accent": False},
+            {"time_sec": 0.25, "drum_class": "hat", "strength": 1.0, "confidence": 1.0, "is_accent": False},
+            {"time_sec": 2.0, "drum_class": "kick", "strength": 1.0, "confidence": 1.0, "is_accent": False},
+            {"time_sec": 2.25, "drum_class": "hat", "strength": 1.0, "confidence": 1.0, "is_accent": False},
+        ]
+        plan = {
+            "difficulty": "normal",
+            "level": 5,
+            "sections": [{"name": "main", "start_sec": 0.0, "end_sec": 3.0, "pattern": "D-K-"}],
+        }
+
+        course = apply_pattern_plan_to_anchors(anchors, plan, bpm=120.0, song_id="song")
+
+        self.assertEqual([note["time_sec"] for note in course["notes"]], [0.0, 0.25, 2.0, 2.25])
+        self.assertEqual([note["type"] for note in course["notes"]], ["don", "ka", "don", "ka"])
+
+    def test_apply_pattern_plan_keeps_ka_as_accent_color_not_sustained_run(self):
+        anchors = [
+            {"time_sec": 0.375, "drum_class": "hat", "strength": 1.0, "confidence": 1.0, "is_accent": False},
+            {"time_sec": 0.875, "drum_class": "hat", "strength": 0.8, "confidence": 0.8, "is_accent": False},
+            {"time_sec": 1.25, "drum_class": "hat", "strength": 0.7, "confidence": 0.7, "is_accent": False},
+            {"time_sec": 2.375, "drum_class": "hat", "strength": 0.65, "confidence": 0.7, "is_accent": False},
+        ]
+        plan = {
+            "difficulty": "hard",
+            "level": 7,
+            "sections": [
+                {"name": "main", "start_sec": 0.0, "end_sec": 3.0, "pattern": "D-DK D-DK D-K- D---"}
+            ],
+        }
+
+        course = apply_pattern_plan_to_anchors(anchors, plan, bpm=120.0, song_id="song")
+        note_types = [note["type"] for note in course["notes"]]
+
+        self.assertLessEqual(note_types.count("ka"), note_types.count("don"))
+        self.assertNotIn(["ka", "ka", "ka"], [note_types[index : index + 3] for index in range(len(note_types) - 2)])
+
     def test_apply_pattern_plan_dedupes_notes_that_share_tja_slots(self):
         anchors = [
             {"time_sec": 0.0, "drum_class": "kick", "strength": 1.0, "confidence": 1.0, "is_accent": True},

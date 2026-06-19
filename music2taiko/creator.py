@@ -18,12 +18,14 @@ WINDOWS_RESERVED_NAMES = {
 }
 DIFFICULTY_LEVELS = {"easy": 3, "normal": 5, "hard": 7, "oni": 8, "edit": 10}
 DIFFICULTY_DENSITY = {"easy": 0.35, "normal": 0.55, "hard": 0.78, "oni": 1.0, "edit": 1.15}
+DIFFICULTY_MAX_KA_RATIO = {"easy": 0.18, "normal": 0.35, "hard": 0.4, "oni": 0.38, "edit": 0.45}
+DIFFICULTY_MAX_KA_RUN = {"easy": 1, "normal": 2, "hard": 2, "oni": 2, "edit": 3}
 DEFAULT_PATTERNS = {
-    "easy": "D-D-",
-    "normal": "D-KD",
-    "hard": "D-KDK",
-    "oni": "DKD",
-    "edit": "DKDK",
+    "easy": "D--- ---- D--- ----",
+    "normal": "D--- D--- K--- D---",
+    "hard": "D-DK D-DK D-K- D---",
+    "oni": "D-DK D-DK D-KD D---",
+    "edit": "D-DK DKDD K-DK DDK-",
 }
 
 
@@ -292,6 +294,11 @@ def _symbol_to_note_type(symbol: str, anchor: dict[str, Any], *, use_big_on_acce
     return None
 
 
+def _pattern_symbol_for_time(symbols: list[str], time_sec: float, bpm: float) -> str:
+    measure_slot = _tja_slot(time_sec, bpm) % SLOTS_PER_MEASURE
+    return symbols[measure_slot % len(symbols)]
+
+
 def _tja_slot(time_sec: float, bpm: float) -> int:
     beat_sec = 60.0 / float(bpm)
     slot_sec = (beat_sec * BEATS_PER_MEASURE) / SLOTS_PER_MEASURE
@@ -322,6 +329,51 @@ def _dedupe_notes_for_tja_grid(
     return deduped
 
 
+def _is_ka_note(note: dict[str, Any]) -> bool:
+    return str(note.get("type", "")).lower() in {"ka", "big_ka"}
+
+
+def _convert_ka_to_don(note: dict[str, Any]) -> None:
+    note["type"] = "big_don" if str(note.get("type", "")).lower() == "big_ka" else "don"
+
+
+def _ka_preservation_score(note: dict[str, Any]) -> tuple[float, float, int]:
+    drum_class = str(note.get("source_drum_class", "")).lower()
+    strength = float(note.get("strength", 0.0) or 0.0)
+    subdivision = int(note.get("subdivision", 0) or 0)
+    class_bonus = 0.25 if drum_class in {"hat", "cymbal"} else 0.0
+    offbeat_bonus = 0.15 if subdivision in {1, 3} else 0.0
+    backbeat_bonus = 0.08 if subdivision == 2 else 0.0
+    big_bonus = 0.1 if str(note.get("type", "")).lower() == "big_ka" else 0.0
+    return (class_bonus + offbeat_bonus + backbeat_bonus + big_bonus + strength, strength, subdivision)
+
+
+def _apply_tja_color_balance(notes: list[dict[str, Any]], difficulty: str) -> None:
+    max_run = DIFFICULTY_MAX_KA_RUN.get(difficulty, 2)
+    run_length = 0
+    for note in notes:
+        if _is_ka_note(note):
+            run_length += 1
+            if run_length > max_run:
+                _convert_ka_to_don(note)
+                run_length = 0
+        else:
+            run_length = 0
+
+    ka_indices = [index for index, note in enumerate(notes) if _is_ka_note(note)]
+    if not ka_indices:
+        return
+    max_ratio = DIFFICULTY_MAX_KA_RATIO.get(difficulty, 0.4)
+    max_ka = max(1, min(len(notes) // 2, max(2, int(len(notes) * max_ratio))))
+    excess = len(ka_indices) - max_ka
+    if excess <= 0:
+        return
+
+    candidates = sorted(ka_indices, key=lambda index: (_ka_preservation_score(notes[index]), index))
+    for index in candidates[:excess]:
+        _convert_ka_to_don(notes[index])
+
+
 def apply_pattern_plan_to_anchors(
     anchors: list[dict[str, Any]],
     pattern_plan: dict[str, Any],
@@ -344,10 +396,8 @@ def apply_pattern_plan_to_anchors(
         use_big = bool(section.get("use_big_on_accents", True))
         section_start = max(start_sec, float(lead_in_sec))
         section_anchors = [anchor for anchor in anchors if section_start <= float(anchor["time_sec"]) <= end_sec]
-        symbol_index = 0
         for anchor in section_anchors:
-            symbol = symbols[symbol_index % len(symbols)]
-            symbol_index += 1
+            symbol = _pattern_symbol_for_time(symbols, float(anchor["time_sec"]), bpm)
             note_type = _symbol_to_note_type(symbol, anchor, use_big_on_accents=use_big)
             if note_type is None:
                 continue
@@ -373,6 +423,7 @@ def apply_pattern_plan_to_anchors(
             )
 
     notes = _dedupe_notes_for_tja_grid(notes, duration_notes, bpm=bpm)
+    _apply_tja_color_balance(notes, difficulty)
     return {
         "title": title,
         "difficulty": difficulty,

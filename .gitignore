@@ -17,3 +17,4 @@ godot_out/
 opentaiko_out/
 database/
 input/
+tmp_*/

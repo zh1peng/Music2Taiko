@@ -61,13 +61,13 @@ class PipelineTests(unittest.TestCase):
                 self.assertEqual(config.device, "cuda")
                 self.assertEqual(config.segment, 7)
                 self.assertEqual(config.output_format, "mp3")
-                stem = output_dir / "htdemucs" / source.stem / "drums.wav"
+                stem = output_dir / "htdemucs" / source.stem / "drums.mp3"
                 stem.parent.mkdir(parents=True)
                 stem.write_bytes(b"fake drums")
                 return stem
 
             def fake_extractor(source, *, drum_stem_path=None):
-                self.assertEqual(Path(drum_stem_path).name, "drums.wav")
+                self.assertEqual(Path(drum_stem_path).name, "drums.mp3")
                 return EVENTS
 
             paths = generate_beatmaps(
@@ -213,6 +213,7 @@ class PipelineTests(unittest.TestCase):
                 extractor=fake_extractor,
                 audio_converter=fake_audio_converter,
                 lead_in_sec=0.0,
+                use_demucs=False,
             )
 
             tja_text = result["tja"].read_text(encoding="utf-8-sig")
@@ -234,6 +235,98 @@ class PipelineTests(unittest.TestCase):
         self.assertTrue(aligned["samples"]["oni"])
         self.assertTrue(context["candidate_timing_anchors"])
         self.assertEqual(set(plan["difficulties"]), {"easy", "normal", "hard", "oni"})
+
+    def test_create_tja_package_uses_demucs_drums_by_default(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audio = root / "song.mp3"
+            audio.write_bytes(b"fake audio")
+            observed = {}
+
+            def fake_separator(source, output_dir, *, config=None):
+                observed["separator_source"] = source
+                observed["separator_output_dir"] = output_dir
+                observed["config"] = config
+                stem = output_dir / config.model / source.stem / "drums.mp3"
+                stem.parent.mkdir(parents=True)
+                stem.write_bytes(b"fake drums")
+                return stem
+
+            def fake_extractor(source, *, drum_stem_path=None):
+                observed["extractor_source"] = source
+                observed["drum_stem_path"] = drum_stem_path
+                events = []
+                for event in EVENTS:
+                    copy = event.copy()
+                    copy["tempo_bpm"] = 120.0
+                    events.append(copy)
+                return events
+
+            def fake_audio_converter(source, output):
+                Path(output).write_bytes(b"fake ogg")
+                return Path(output)
+
+            result = create_tja_package(
+                audio,
+                root / "out",
+                title="Song",
+                output_prefix="song",
+                extractor=fake_extractor,
+                separator=fake_separator,
+                audio_converter=fake_audio_converter,
+                lead_in_sec=0.0,
+            )
+
+            context = json.loads(result["arrangement_context"].read_text(encoding="utf-8"))
+
+        self.assertEqual(observed["separator_source"], audio)
+        self.assertEqual(observed["separator_output_dir"], root / "out" / "song" / "stems")
+        self.assertEqual(observed["config"].model, "htdemucs")
+        self.assertEqual(observed["config"].device, "cpu")
+        self.assertEqual(observed["config"].output_format, "mp3")
+        self.assertEqual(Path(observed["drum_stem_path"]).name, "drums.mp3")
+        self.assertEqual(context["drum_event_source"], "demucs_drums")
+
+    def test_create_tja_package_falls_back_when_demucs_is_unavailable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audio = root / "song.mp3"
+            audio.write_bytes(b"fake audio")
+            observed = {}
+
+            def fail_separator(source, output_dir, *, config=None):
+                raise FileNotFoundError("demucs is unavailable")
+
+            def fake_extractor(source, *, drum_stem_path=None):
+                observed["drum_stem_path"] = drum_stem_path
+                events = []
+                for event in EVENTS:
+                    copy = event.copy()
+                    copy["tempo_bpm"] = 120.0
+                    copy["drum_event_source"] = "hpss_percussive"
+                    events.append(copy)
+                return events
+
+            def fake_audio_converter(source, output):
+                Path(output).write_bytes(b"fake ogg")
+                return Path(output)
+
+            result = create_tja_package(
+                audio,
+                root / "out",
+                title="Song",
+                output_prefix="song",
+                extractor=fake_extractor,
+                separator=fail_separator,
+                audio_converter=fake_audio_converter,
+                lead_in_sec=0.0,
+            )
+
+            retrieval = json.loads(result["retrieval"].read_text(encoding="utf-8"))
+
+        self.assertIsNone(observed["drum_stem_path"])
+        self.assertEqual(retrieval["drum_event_source"], "hpss_percussive")
+        self.assertIn("demucs_error", retrieval)
 
     def test_create_tja_package_can_write_three_difficulties_and_lead_in_silence(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -263,6 +356,7 @@ class PipelineTests(unittest.TestCase):
                 extractor=fake_extractor,
                 audio_converter=fake_audio_converter,
                 lead_in_sec=2.5,
+                use_demucs=False,
             )
 
             tja_text = result["tja"].read_text(encoding="utf-8-sig")
@@ -313,6 +407,7 @@ class PipelineTests(unittest.TestCase):
                 difficulties=["easy", "normal", "oni"],
                 extractor=fail_extractor,
                 audio_converter=fail_audio_converter,
+                use_demucs=False,
             )
 
             tja_text = result["tja"].read_text(encoding="utf-8-sig")
@@ -367,11 +462,12 @@ class PipelineTests(unittest.TestCase):
                 extractor=fake_extractor,
                 audio_converter=fake_audio_converter,
                 lead_in_sec=0.0,
+                use_demucs=False,
             )
 
             tja_text = result["tja"].read_text(encoding="utf-8-sig")
 
-        self.assertIn("0000000020002000,", tja_text)
+        self.assertIn("0000000010002000,", tja_text)
 
 
 if __name__ == "__main__":

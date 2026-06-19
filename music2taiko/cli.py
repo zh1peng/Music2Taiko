@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from music2taiko.audio.source import resolve_audio_source
 from music2taiko.pipeline import (
     DEFAULT_TJA_DIFFICULTIES,
     build_beatmap_package,
@@ -11,6 +12,10 @@ from music2taiko.pipeline import (
     generate_beatmaps,
 )
 from music2taiko.separation.demucs import DemucsConfig, separate_drums
+
+
+def _resolve_cli_audio(audio: str, output_dir: str) -> Path:
+    return resolve_audio_source(audio, Path(output_dir) / "source_audio")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -23,7 +28,7 @@ def main(argv: list[str] | None = None) -> int:
     separate_parser.add_argument("--demucs-model", default="htdemucs", help="Demucs model name")
     separate_parser.add_argument("--demucs-device", default="", help="Demucs device, for example cuda or cpu")
     separate_parser.add_argument("--demucs-segment", type=int, default=None, help="Demucs segment length in seconds")
-    separate_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="wav", help="Demucs stem output format")
+    separate_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="mp3", help="Demucs stem output format")
 
     generate_parser = subparsers.add_parser("generate", help="Generate PsyGodot beatmap JSON files.")
     generate_parser.add_argument("audio", help="Input MP3/WAV file")
@@ -33,12 +38,12 @@ def main(argv: list[str] | None = None) -> int:
     generate_parser.add_argument("--audio-offset-ms", type=float, default=0.0, help="Metadata for song-level audio offset")
     generate_parser.add_argument("--chart-offset-ms", type=float, default=0.0, help="Shift generated chart note times")
     generate_parser.add_argument("--drum-stem", default="", help="Separated drums WAV/MP3 from Demucs or similar")
-    generate_parser.add_argument("--use-demucs", action="store_true", help="Run Demucs first and analyze drums.wav")
+    generate_parser.add_argument("--use-demucs", action="store_true", help="Run Demucs first and analyze a drums stem")
     generate_parser.add_argument("--stems-dir", default="", help="Directory for Demucs output when --use-demucs is set")
     generate_parser.add_argument("--demucs-model", default="htdemucs", help="Demucs model name")
     generate_parser.add_argument("--demucs-device", default="", help="Demucs device, for example cuda or cpu")
     generate_parser.add_argument("--demucs-segment", type=int, default=None, help="Demucs segment length in seconds")
-    generate_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="wav", help="Demucs stem output format")
+    generate_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="mp3", help="Demucs stem output format")
 
     build_parser = subparsers.add_parser("build", help="Run the full MP3/WAV to beatmap draft workflow.")
     build_parser.add_argument("audio", help="Input MP3/WAV file")
@@ -83,21 +88,29 @@ def main(argv: list[str] | None = None) -> int:
     create_tja_parser.add_argument("--reuse-context", default="", help="Existing arrangement_context.json to render without audio analysis")
     create_tja_parser.add_argument("--lead-in-sec", type=float, default=2.5, help="Do not place notes before this time")
     create_tja_parser.add_argument("--level", type=int, default=None, help="TJA course level override")
+    create_tja_parser.add_argument("--no-demucs", action="store_true", help="Skip Demucs and fall back to HPSS/percussive analysis")
+    create_tja_parser.add_argument("--stems-dir", default="", help="Directory for Demucs output")
+    create_tja_parser.add_argument("--demucs-model", default="htdemucs", help="Demucs model name")
+    create_tja_parser.add_argument("--demucs-device", default="cpu", help="Demucs device, for example cpu or cuda")
+    create_tja_parser.add_argument("--demucs-segment", type=int, default=None, help="Demucs segment length in seconds")
+    create_tja_parser.add_argument("--demucs-format", choices=["wav", "mp3"], default="mp3", help="Demucs stem output format")
 
     args = parser.parse_args(argv)
     if args.command == "separate":
+        audio = _resolve_cli_audio(args.audio, args.out)
         config = DemucsConfig(
             model=args.demucs_model,
             device=args.demucs_device,
             segment=args.demucs_segment,
             output_format=args.demucs_format,
         )
-        print(separate_drums(Path(args.audio), Path(args.out), config=config))
+        print(separate_drums(audio, Path(args.out), config=config))
         return 0
 
     if args.command == "build":
+        audio = _resolve_cli_audio(args.audio, args.out)
         result = build_beatmap_package(
-            Path(args.audio),
+            audio,
             Path(args.out),
             title=args.title or None,
             output_prefix=args.output_prefix or None,
@@ -115,8 +128,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "build-opentaiko":
+        audio = _resolve_cli_audio(args.audio, args.out)
         result = build_opentaiko_package(
-            Path(args.audio),
+            audio,
             Path(args.out),
             title=args.title or None,
             output_prefix=args.output_prefix or None,
@@ -135,9 +149,10 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "create-tja":
+        audio = _resolve_cli_audio(args.audio, args.out)
         difficulties = [item.strip().lower() for item in args.difficulties.split(",") if item.strip()] or None
         result = create_tja_package(
-            Path(args.audio),
+            audio,
             Path(args.out),
             difficulty=args.difficulty,
             difficulties=difficulties,
@@ -149,6 +164,12 @@ def main(argv: list[str] | None = None) -> int:
             reuse_context_path=Path(args.reuse_context) if args.reuse_context else None,
             lead_in_sec=args.lead_in_sec,
             level=args.level,
+            use_demucs=not args.no_demucs,
+            stems_dir=Path(args.stems_dir) if args.stems_dir else None,
+            demucs_model=args.demucs_model,
+            demucs_device=args.demucs_device,
+            demucs_segment=args.demucs_segment,
+            demucs_format=args.demucs_format,
         )
         print(result["package_dir"])
         print(result["tja"])
@@ -159,8 +180,9 @@ def main(argv: list[str] | None = None) -> int:
         print(result["aligned_samples"])
         return 0
 
+    audio = _resolve_cli_audio(args.audio, args.out)
     paths = generate_beatmaps(
-        Path(args.audio),
+        audio,
         Path(args.out),
         title=args.title or None,
         output_prefix=args.output_prefix or None,
