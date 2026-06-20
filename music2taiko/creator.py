@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 from pathlib import Path
 from typing import Any
@@ -17,15 +18,14 @@ WINDOWS_RESERVED_NAMES = {
     *(f"lpt{index}" for index in range(1, 10)),
 }
 DIFFICULTY_LEVELS = {"easy": 3, "normal": 5, "hard": 7, "oni": 8, "edit": 10}
-DIFFICULTY_DENSITY = {"easy": 0.35, "normal": 0.55, "hard": 0.78, "oni": 1.0, "edit": 1.15}
-DIFFICULTY_MAX_KA_RATIO = {"easy": 0.18, "normal": 0.35, "hard": 0.4, "oni": 0.38, "edit": 0.45}
+DIFFICULTY_MAX_KA_RATIO = {"easy": 0.25, "normal": 0.5, "hard": 0.72, "oni": 0.72, "edit": 0.8}
 DIFFICULTY_MAX_KA_RUN = {"easy": 1, "normal": 2, "hard": 2, "oni": 2, "edit": 3}
 DEFAULT_PATTERNS = {
-    "easy": "D--- ---- D--- ----",
-    "normal": "D--- D--- K--- D---",
-    "hard": "D-DK D-DK D-K- D---",
-    "oni": "D-DK D-DK D-KD D---",
-    "edit": "D-DK DKDD K-DK DDK-",
+    "easy": "D-D- D-D- D-D- D-D-",
+    "normal": "D-D- D-K- D-D- D-K-",
+    "hard": "D-DK D-DK DDKK D---",
+    "oni": "D-DK D-DK D-KK DDKD",
+    "edit": "D-DK DKDD D-KK DDKD",
 }
 
 
@@ -333,8 +333,16 @@ def _is_ka_note(note: dict[str, Any]) -> bool:
     return str(note.get("type", "")).lower() in {"ka", "big_ka"}
 
 
+def _is_don_note(note: dict[str, Any]) -> bool:
+    return str(note.get("type", "")).lower() in {"don", "big_don"}
+
+
 def _convert_ka_to_don(note: dict[str, Any]) -> None:
     note["type"] = "big_don" if str(note.get("type", "")).lower() == "big_ka" else "don"
+
+
+def _convert_don_to_ka(note: dict[str, Any]) -> None:
+    note["type"] = "big_ka" if str(note.get("type", "")).lower() == "big_don" else "ka"
 
 
 def _ka_preservation_score(note: dict[str, Any]) -> tuple[float, float, int]:
@@ -346,6 +354,66 @@ def _ka_preservation_score(note: dict[str, Any]) -> tuple[float, float, int]:
     backbeat_bonus = 0.08 if subdivision == 2 else 0.0
     big_bonus = 0.1 if str(note.get("type", "")).lower() == "big_ka" else 0.0
     return (class_bonus + offbeat_bonus + backbeat_bonus + big_bonus + strength, strength, subdivision)
+
+
+def _is_clear_ka_lead(note: dict[str, Any]) -> bool:
+    drum_class = str(note.get("source_drum_class", "")).lower()
+    strength = float(note.get("strength", 0.0) or 0.0)
+    confidence = float(note.get("confidence", 0.0) or 0.0)
+    return drum_class in {"hat", "cymbal"} and strength >= 0.85 and confidence >= 0.75
+
+
+def _group_notes_into_motifs(notes: list[dict[str, Any]], *, bpm: float) -> list[list[dict[str, Any]]]:
+    if not notes:
+        return []
+    beat_sec = 60.0 / float(bpm)
+    max_gap = max(beat_sec * 0.75, 0.38)
+    groups: list[list[dict[str, Any]]] = []
+    current = [notes[0]]
+    for note in notes[1:]:
+        gap = float(note["time_sec"]) - float(current[-1]["time_sec"])
+        if gap <= max_gap:
+            current.append(note)
+        else:
+            groups.append(current)
+            current = [note]
+    groups.append(current)
+    return groups
+
+
+def _orient_tja_motifs(notes: list[dict[str, Any]], difficulty: str, *, bpm: float) -> None:
+    if difficulty == "easy":
+        return
+
+    for _ in range(4):
+        changed = False
+        for motif in _group_notes_into_motifs(notes, bpm=bpm):
+            index = 0
+            while index < len(motif) - 1:
+                first = motif[index]
+                second = motif[index + 1]
+                if not _is_ka_note(first) or not _is_don_note(second):
+                    index += 1
+                    continue
+
+                if index + 2 < len(motif) and _is_don_note(motif[index + 2]):
+                    _convert_ka_to_don(first)
+                    _convert_don_to_ka(second)
+                    _convert_don_to_ka(motif[index + 2])
+                    changed = True
+                    index += 3
+                    continue
+
+                if _is_clear_ka_lead(first):
+                    index += 1
+                    continue
+
+                _convert_ka_to_don(first)
+                _convert_don_to_ka(second)
+                changed = True
+                index += 2
+        if not changed:
+            break
 
 
 def _apply_tja_color_balance(notes: list[dict[str, Any]], difficulty: str) -> None:
@@ -364,7 +432,7 @@ def _apply_tja_color_balance(notes: list[dict[str, Any]], difficulty: str) -> No
     if not ka_indices:
         return
     max_ratio = DIFFICULTY_MAX_KA_RATIO.get(difficulty, 0.4)
-    max_ka = max(1, min(len(notes) // 2, max(2, int(len(notes) * max_ratio))))
+    max_ka = max(1, math.ceil(len(notes) * max_ratio))
     excess = len(ka_indices) - max_ka
     if excess <= 0:
         return
@@ -416,6 +484,7 @@ def apply_pattern_plan_to_anchors(
                     "type": note_type,
                     "source_drum_class": anchor.get("drum_class", "unknown"),
                     "strength": anchor.get("strength", 0.0),
+                    "confidence": anchor.get("confidence", 0.0),
                     "beat_index": anchor.get("beat_index"),
                     "subdivision": anchor.get("subdivision"),
                     "pattern_section": section.get("name", "section"),
@@ -424,6 +493,7 @@ def apply_pattern_plan_to_anchors(
 
     notes = _dedupe_notes_for_tja_grid(notes, duration_notes, bpm=bpm)
     _apply_tja_color_balance(notes, difficulty)
+    _orient_tja_motifs(notes, difficulty, bpm=bpm)
     return {
         "title": title,
         "difficulty": difficulty,
@@ -440,6 +510,14 @@ def _event_note_type(event: dict[str, Any], difficulty: str, index: int) -> str:
     drum_class = str(event.get("drum_class", "unknown")).lower()
     strength = float(event.get("strength", 0.0) or 0.0)
     is_accent = bool(event.get("is_accent"))
+    if difficulty == "easy":
+        if drum_class == "cymbal" and is_accent and strength >= 0.9:
+            return "ka"
+        return "don"
+    if difficulty == "normal":
+        if drum_class in {"hat", "cymbal"} and index % 4 in {1, 3}:
+            return "ka"
+        return "don"
     advanced = difficulty in {"hard", "oni", "edit"}
     if drum_class == "kick":
         return "big_don" if advanced and is_accent and strength >= 0.9 else "don"
@@ -462,18 +540,31 @@ def compose_course_from_events(
     song_id: str = "draft",
 ) -> dict[str, Any]:
     difficulty_key = difficulty.lower()
-    density = DIFFICULTY_DENSITY.get(difficulty_key, 1.0)
     ordered = sorted(events, key=lambda event: float(event.get("quantized_time_sec", event.get("time_sec", 0.0))))
     selected: list[dict[str, Any]] = []
-    min_gap = {"easy": 0.42, "normal": 0.28, "hard": 0.18, "oni": 0.12, "edit": 0.1}.get(difficulty_key, 0.12)
+    beat_sec = 60.0 / float(bpm)
+    min_gap = {
+        "easy": beat_sec * 0.5,
+        "normal": beat_sec * 0.25,
+        "hard": beat_sec * 0.25,
+        "oni": beat_sec * 0.125,
+        "edit": beat_sec * 0.125,
+    }.get(difficulty_key, beat_sec * 0.125)
+    strength_floor = {
+        "easy": 0.55,
+        "normal": 0.48,
+        "hard": 0.38,
+        "oni": 0.0,
+        "edit": 0.0,
+    }.get(difficulty_key, 0.0)
     last_time = -999.0
 
     for event in ordered:
         event_time = float(event.get("quantized_time_sec", event.get("time_sec", 0.0)))
         strength = float(event.get("strength", 0.0) or 0.0)
         is_accent = bool(event.get("is_accent"))
-        keep = is_accent or strength >= (0.72 / density)
-        if not keep or event_time - last_time < min_gap:
+        keep = is_accent or strength >= strength_floor
+        if not keep or event_time - last_time + 1e-9 < min_gap:
             continue
         selected.append(event)
         last_time = event_time

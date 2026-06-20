@@ -467,7 +467,7 @@ class PipelineTests(unittest.TestCase):
 
             tja_text = result["tja"].read_text(encoding="utf-8-sig")
 
-        self.assertIn("0000000010002000,", tja_text)
+        self.assertIn("0000000020002000,", tja_text)
 
 
 if __name__ == "__main__":

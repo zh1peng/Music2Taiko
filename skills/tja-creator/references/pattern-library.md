@@ -54,12 +54,12 @@ Rules:
 Use short 16th bursts, syncopation, and motif variation:
 
 ```text
-D-DK D-DK D-K- D---
+D-DK D-DK DDKK D---
 DKDK D-KD DK-- D---
-DDKD KDDK DDKK DKDK
-D-DK DKDD K-DK DDK-
-DD-- K-DD D-KD K---
-D-KD D-KD DKDK D---
+DDKD DDKK DKKD DKDK
+D-DK DKDD D-KK DDKD
+DD-- D-KK DDKD K---
+D-KK D-DK DKDK D---
 ```
 
 Rules:
@@ -95,7 +95,7 @@ D-K- D-K- D--- K---
 Chorus/drop:
 
 ```text
-D-DK D-DK D-K- D---
+D-DK D-DK DDKK D---
 DKDK D-KD DK-- D---
 ```
 
@@ -109,8 +109,8 @@ D--- ---- ---- K---
 Fill:
 
 ```text
-D-DK DKDD K-DK DDK-
-DDKD KDDK DDKK DKDK
+D-DK DKDD D-KK DDKD
+DDKD DDKK DKKD DKDK
 ```
 
 ## Pattern Selection Heuristic
@@ -122,3 +122,4 @@ Choose the pattern that:
 3. continues or varies the previous motif
 4. gives the section a distinct feel
 5. avoids sudden unmotivated hand/color complexity
+6. keeps local motifs red-led unless a blue lead is a clear hat/cymbal answer

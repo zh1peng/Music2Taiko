@@ -45,6 +45,9 @@ Never copy official commercial charts. Use Taiko-like design vocabulary (`D = do
    - Map hi-hat/cymbal-like answers and light off-beats to `K`.
    - Map snare to `D` or `K` depending on the section motif; prefer consistency over literal transcription.
    - Map tom fills to controlled `D/K` alternation only when the difficulty supports it.
+   - Phrase and motif starts should default to red `D`. Use blue-leading motifs only for clear hat/cymbal answer gestures or deliberate section design.
+   - Treat `KDD` / `KD` at a motif start as likely reversed hand-feel; prefer `DKK` / `DK` unless the first hit is a clear hat/cymbal lead.
+   - Use Ka ratio checks only as a safety net against long blue runs or extreme color imbalance, not as the primary pattern-direction rule.
    - Keep ghost notes and dense hat motion for hard charts only, and remove them when they create noise rather than groove.
    - Use `R` only for sustained energy, fills, transitions, or build-ups.
 
